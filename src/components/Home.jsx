@@ -293,7 +293,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
 
             {/* ── Floating Bottom Nav (Mobile Only) — 5 icons ── */}
             <div
-                className="md:hidden fixed left-4 right-4 bg-primary rounded-[2rem] flex items-center justify-around px-4 text-white max-w-sm mx-auto shadow-2xl z-50"
+                className="md:hidden fixed left-4 right-4 bg-primary rounded-[2rem] flex items-center justify-between px-6 text-white max-w-sm mx-auto shadow-2xl z-50"
                 style={{
                     bottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))',
                     height: '60px',
@@ -323,11 +323,11 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
                     )}
                 </button>
 
-                {/* 3. Cart FAB (center — elevated) */}
+                {/* 3. Cart FAB (center — elevated, sobresale por encima de la barra) */}
                 <div
                     onClick={() => onNavigate('cart')}
                     className="absolute left-1/2 -translate-x-1/2 w-14 h-14 bg-accent rounded-full flex items-center justify-center text-black shadow-lg border-4 border-background cursor-pointer hover:scale-105 transition-transform"
-                    style={{ bottom: 'calc(2.5rem + env(safe-area-inset-bottom, 0px))' }}
+                    style={{ bottom: 'calc(50% - 4px)' }}
                 >
                     <CartIcon size={24} />
                     {cartItemCount > 0 && (
@@ -336,6 +336,9 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
                         </span>
                     )}
                 </div>
+
+                {/* Spacer center */}
+                <div className="w-14" />
 
                 {/* 4. Search */}
                 <button
