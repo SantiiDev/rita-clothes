@@ -57,7 +57,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
     });
 
     return (
-        <div className="flex flex-col md:flex-row min-h-[100dvh] bg-background text-textMain relative pb-24 md:pb-0">
+        <div className="flex flex-col md:flex-row min-h-[100dvh] bg-background text-textMain relative pb-32 md:pb-0">
 
             {/* Desktop Sidebar — fixed position so it never scrolls */}
             <aside className="hidden md:flex flex-col w-64 bg-surface border-r border-gray-200 fixed top-0 left-0 h-screen z-30 p-6">
@@ -217,7 +217,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
             </main>
 
             {/* Floating Bottom Nav (Mobile Only) */}
-            <div className="md:hidden fixed bottom-6 left-6 right-6 h-16 bg-primary rounded-[2rem] flex items-center justify-between px-8 text-white max-w-sm mx-auto shadow-2xl z-50">
+            <div className="md:hidden fixed left-6 right-6 h-16 bg-primary rounded-[2rem] flex items-center justify-between px-8 text-white max-w-sm mx-auto shadow-2xl z-50" style={{ bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))' }}>
                 <button className="text-white">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
                 </button>

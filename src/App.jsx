@@ -37,7 +37,7 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-background text-textMain font-heading selection:bg-black selection:text-white w-full mx-auto overflow-hidden">
+    <div className="relative min-h-screen bg-background text-textMain font-heading selection:bg-black selection:text-white w-full mx-auto">
       {currentScreen === 'splash' && <Splash onNavigate={() => navigate('home')} setUserName={setUserName} />}
 
       {currentScreen === 'home' && (
