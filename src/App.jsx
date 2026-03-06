@@ -1,14 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Splash from './components/Splash';
 import Home from './components/Home';
 import ProductDetail from './components/ProductDetail';
 import Cart from './components/Cart';
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('splash');
+  // Inicializar desde localStorage
+  const [userName, setUserName] = useState(() => localStorage.getItem('rita_userName') || '');
+  const [cartItems, setCartItems] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('rita_cartItems')) || []; }
+    catch { return []; }
+  });
+  const [currentScreen, setCurrentScreen] = useState(() =>
+    localStorage.getItem('rita_userName') ? 'home' : 'splash'
+  );
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
-  const [userName, setUserName] = useState('');
+
+  // Persistir userName
+  useEffect(() => {
+    if (userName) localStorage.setItem('rita_userName', userName);
+  }, [userName]);
+
+  // Persistir carrito
+  useEffect(() => {
+    localStorage.setItem('rita_cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const navigate = (screen, product = null) => {
     if (product) setSelectedProduct(product);

@@ -49,7 +49,12 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
     const [toast, setToast] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [favorites, setFavorites] = useState(new Set());
+    const [favorites, setFavorites] = useState(() => {
+        try {
+            const stored = localStorage.getItem('rita_favorites');
+            return stored ? new Set(JSON.parse(stored)) : new Set();
+        } catch { return new Set(); }
+    });
     const [activeNav, setActiveNav] = useState('home'); // 'home' | 'favorites'
 
     const categories = ['All', 'Vestidos', 'Tops', 'Faldas', 'Pantalones', 'Accesorios'];
@@ -61,6 +66,11 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
             return () => clearTimeout(timer);
         }
     }, [toast]);
+
+    // Persistir favoritos
+    useEffect(() => {
+        localStorage.setItem('rita_favorites', JSON.stringify([...favorites]));
+    }, [favorites]);
 
     const handleAddToCart = (prod, e) => {
         e.stopPropagation();
