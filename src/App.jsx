@@ -3,6 +3,8 @@ import Splash from './components/Splash';
 import Home from './components/Home';
 import ProductDetail from './components/ProductDetail';
 import Cart from './components/Cart';
+import AuthModal from './components/AuthModal';
+import DiscountBanner from './components/DiscountBanner';
 
 function App() {
   // Inicializar desde localStorage
@@ -11,10 +13,29 @@ function App() {
     try { return JSON.parse(localStorage.getItem('rita_cartItems')) || []; }
     catch { return []; }
   });
-  const [currentScreen, setCurrentScreen] = useState(() =>
-    localStorage.getItem('rita_userName') ? 'home' : 'splash'
-  );
+  const [authUser, setAuthUser] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('rita_authUser')) || null; }
+    catch { return null; }
+  });
+
+  // Always start at splash
+  const [currentScreen, setCurrentScreen] = useState('splash');
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // Auth modal
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  // Discount banner — show only once per device
+  const [showDiscountBanner, setShowDiscountBanner] = useState(false);
+
+  const isReturningUser = !!localStorage.getItem('rita_userName');
+
+  // Show discount banner when arriving at home for first time (not registered)
+  useEffect(() => {
+    if (currentScreen === 'home' && !authUser && !localStorage.getItem('rita_discountDismissed')) {
+      setShowDiscountBanner(true);
+    }
+  }, [currentScreen, authUser]);
 
   // Persistir userName
   useEffect(() => {
@@ -52,9 +73,36 @@ function App() {
     });
   };
 
+  const handleAuth = (user) => {
+    setAuthUser(user);
+    if (user.name && !userName) setUserName(user.name);
+  };
+
+  const handleLogout = () => {
+    setAuthUser(null);
+    localStorage.removeItem('rita_authUser');
+  };
+
+  const handleDismissDiscount = () => {
+    setShowDiscountBanner(false);
+    localStorage.setItem('rita_discountDismissed', 'true');
+  };
+
+  const handleDiscountRegister = () => {
+    setShowDiscountBanner(false);
+    localStorage.setItem('rita_discountDismissed', 'true');
+    setShowAuthModal(true);
+  };
+
   return (
     <div className="relative min-h-screen bg-background text-textMain font-heading selection:bg-black selection:text-white w-full mx-auto">
-      {currentScreen === 'splash' && <Splash onNavigate={() => navigate('home')} setUserName={setUserName} />}
+      {currentScreen === 'splash' && (
+        <Splash
+          onNavigate={() => navigate('home')}
+          setUserName={setUserName}
+          isReturningUser={isReturningUser}
+        />
+      )}
 
       {currentScreen === 'home' && (
         <Home
@@ -62,6 +110,9 @@ function App() {
           onNavigate={navigate}
           cartItemCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)}
           onAddToCart={handleAddToCart}
+          onOpenAuth={() => setShowAuthModal(true)}
+          authUser={authUser}
+          onLogout={handleLogout}
         />
       )}
 
@@ -81,6 +132,20 @@ function App() {
           onNavigate={navigate}
         />
       )}
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onAuth={handleAuth}
+      />
+
+      {/* Discount Banner */}
+      <DiscountBanner
+        isOpen={showDiscountBanner}
+        onRegister={handleDiscountRegister}
+        onDismiss={handleDismissDiscount}
+      />
     </div>
   );
 }

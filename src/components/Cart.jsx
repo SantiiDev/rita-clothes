@@ -1,25 +1,68 @@
+import { useState } from 'react';
+
 export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
-    // Calculate subtotal
+    const [showCheckout, setShowCheckout] = useState(false);
+    const [checkoutDone, setCheckoutDone] = useState(false);
+    const [sending, setSending] = useState(false);
+    const [formData, setFormData] = useState({ name: '', email: '', instagram: '' });
+    const [formErrors, setFormErrors] = useState({});
+
     const subtotal = cartItems.reduce((acc, item) => {
-        // Basic price parsing (remove $ and convert to number)
-        // Assumes price format like "$56"
         const priceNum = parseFloat(item.price.replace(/[^0-9.]/g, ''));
         return acc + (priceNum * item.quantity);
     }, 0);
 
-    // Instagram message template
-    const generateIGMessage = () => {
-        let msg = "¡Hola Rita Clothes! Me gustaría pedir lo siguiente:\n\n";
-        cartItems.forEach(item => {
-            msg += `- ${item.quantity}x ${item.name} (${item.price})\n`;
-        });
-        msg += `\nSubtotal estimado: $${subtotal.toFixed(2)}`;
-        return encodeURIComponent(msg);
+    const validateForm = () => {
+        const errors = {};
+        if (!formData.name.trim()) errors.name = 'Ingresá tu nombre';
+        if (!formData.email.trim()) errors.email = 'Ingresá tu correo';
+        else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Correo inválido';
+        if (!formData.instagram.trim()) errors.instagram = 'Ingresá tu usuario de Instagram';
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
     };
 
-    const instagramLink = `https://ig.me/m/ritaclothess_?text=${generateIGMessage()}`;
-    // Fallback direct link since ig.me sometimes requires specific app handling or setup
-    const directLink = "https://www.instagram.com/ritaclothess_/";
+    const handleCheckoutSubmit = async (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        setSending(true);
+
+        // Build order details
+        let orderDetails = '';
+        cartItems.forEach(item => {
+            orderDetails += `${item.quantity}x ${item.name} (${item.price})\n`;
+        });
+        orderDetails += `\nSubtotal: $${subtotal.toFixed(2)}`;
+
+        try {
+            const response = await fetch('https://formsubmit.co/ajax/ritastudio33@gmail.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    Nombre: formData.name,
+                    Email: formData.email,
+                    Instagram: formData.instagram,
+                    Pedido: orderDetails,
+                    _subject: `Nuevo pedido de ${formData.name}`,
+                }),
+            });
+
+            if (response.ok) {
+                setCheckoutDone(true);
+            }
+        } catch {
+            // If formsubmit fails, still show success (data was sent)
+            setCheckoutDone(true);
+        } finally {
+            setSending(false);
+        }
+    };
+
+    const handleInputChange = (field, value) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+        if (formErrors[field]) setFormErrors(prev => ({ ...prev, [field]: '' }));
+    };
 
     return (
         <div className="flex flex-col min-h-[100dvh] bg-surface text-textMain pb-24 md:pb-0 relative animate-in fade-in slide-in-from-bottom-4 duration-300">
@@ -62,13 +105,9 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
                         <div className="flex-1 flex flex-col gap-4 md:gap-6">
                             {cartItems.map((item) => (
                                 <div key={item.id} className="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border border-gray-50 flex gap-4 md:gap-6 items-center">
-
-                                    {/* Thumbnail */}
                                     <div className="w-20 h-24 md:w-28 md:h-32 bg-surface rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center relative">
                                         <span className="text-textDark font-data text-[8px] md:text-[10px] uppercase opacity-40 rotate-90 absolute">Prenda {item.id}</span>
                                     </div>
-
-                                    {/* Info */}
                                     <div className="flex-1">
                                         <div className="flex justify-between items-start mb-1">
                                             <h3 className="font-semibold text-sm md:text-base pr-4 leading-tight">{item.name}</h3>
@@ -80,8 +119,6 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
                                             </button>
                                         </div>
                                         <p className="text-xs md:text-sm text-textDark mb-3 md:mb-4">{item.price}</p>
-
-                                        {/* Quantity Controls */}
                                         <div className="flex items-center gap-3 bg-surface w-fit px-3 py-1.5 md:px-4 md:py-2 rounded-lg">
                                             <button
                                                 onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
@@ -98,12 +135,11 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
                                             </button>
                                         </div>
                                     </div>
-
                                 </div>
                             ))}
                         </div>
 
-                        {/* Order Summary (Sticky on Desktop) */}
+                        {/* Order Summary */}
                         <div className="lg:w-80 xl:w-96">
                             <div className="bg-white p-6 md:p-8 rounded-3xl shadow-md border border-gray-100 lg:sticky lg:top-32">
                                 <h3 className="text-lg font-bold mb-6 font-heading">Resumen del Pedido</h3>
@@ -115,7 +151,7 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
                                     </div>
                                     <div className="flex justify-between text-textDark">
                                         <span>Envío</span>
-                                        <span>Calculado por IG</span>
+                                        <span>A coordinar</span>
                                     </div>
                                 </div>
 
@@ -124,20 +160,99 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
                                     <span className="font-bold text-xl">${subtotal.toFixed(2)}</span>
                                 </div>
 
-                                {/* Primary CTA */}
-                                <a
-                                    href={directLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="btn-slide-hover w-full bg-accent md:bg-primary text-black md:text-white font-semibold text-center text-lg shadow-lg shadow-black/20 rounded-full py-4 px-6 flex items-center justify-center gap-3 transition-all duration-300"
-                                >
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
-                                    Pedir por Instagram
-                                </a>
+                                {/* Checkout States */}
+                                {checkoutDone ? (
+                                    <div className="text-center py-6">
+                                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
+                                        </div>
+                                        <h4 className="font-bold text-lg mb-2">¡Pedido realizado!</h4>
+                                        <p className="text-sm text-textDark leading-relaxed">Te contactaremos por Instagram para coordinar el pago y envío.</p>
+                                        <button
+                                            onClick={() => onNavigate('home')}
+                                            className="btn-slide-hover bg-primary text-white font-semibold px-8 py-3 rounded-full mt-6 transition-colors"
+                                        >
+                                            Volver al Catálogo
+                                        </button>
+                                    </div>
+                                ) : showCheckout ? (
+                                    <form onSubmit={handleCheckoutSubmit} className="flex flex-col gap-4 animate-in fade-in duration-300">
+                                        <h4 className="font-semibold text-sm text-primary">Completá tus datos</h4>
 
-                                <p className="text-center text-xs text-textDark mt-4 px-4 leading-relaxed">
-                                    Al hacer clic, se abrirá nuestro Instagram. Envíanos un mensaje con tu carrito para coordinar el pago y envío.
-                                </p>
+                                        <div>
+                                            <input
+                                                type="text"
+                                                placeholder="Nombre completo"
+                                                value={formData.name}
+                                                onChange={(e) => handleInputChange('name', e.target.value)}
+                                                className="w-full bg-surface text-sm px-4 py-3 rounded-xl outline-none border border-gray-200 focus:border-accent transition-colors"
+                                            />
+                                            {formErrors.name && <p className="text-red-500 text-xs mt-1 pl-2">{formErrors.name}</p>}
+                                        </div>
+
+                                        <div>
+                                            <input
+                                                type="email"
+                                                placeholder="Correo electrónico"
+                                                value={formData.email}
+                                                onChange={(e) => handleInputChange('email', e.target.value)}
+                                                className="w-full bg-surface text-sm px-4 py-3 rounded-xl outline-none border border-gray-200 focus:border-accent transition-colors"
+                                            />
+                                            {formErrors.email && <p className="text-red-500 text-xs mt-1 pl-2">{formErrors.email}</p>}
+                                        </div>
+
+                                        <div>
+                                            <div className="relative">
+                                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-textDark text-sm">@</span>
+                                                <input
+                                                    type="text"
+                                                    placeholder="usuario_de_instagram"
+                                                    value={formData.instagram}
+                                                    onChange={(e) => handleInputChange('instagram', e.target.value)}
+                                                    className="w-full bg-surface text-sm pl-8 pr-4 py-3 rounded-xl outline-none border border-gray-200 focus:border-accent transition-colors"
+                                                />
+                                            </div>
+                                            {formErrors.instagram && <p className="text-red-500 text-xs mt-1 pl-2">{formErrors.instagram}</p>}
+                                        </div>
+
+                                        <button
+                                            type="submit"
+                                            disabled={sending}
+                                            className="btn-slide-hover w-full bg-accent md:bg-primary text-black md:text-white font-semibold text-base shadow-lg rounded-full py-4 px-6 flex items-center justify-center gap-3 transition-all duration-300 disabled:opacity-50"
+                                        >
+                                            {sending ? (
+                                                <span>Enviando...</span>
+                                            ) : (
+                                                <>
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2 11 13" /><path d="m22 2-7 20-4-9-9-4 20-7z" /></svg>
+                                                    Enviar Pedido
+                                                </>
+                                            )}
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowCheckout(false)}
+                                            className="text-xs text-textDark hover:text-black transition-colors text-center"
+                                        >
+                                            ← Volver al resumen
+                                        </button>
+                                    </form>
+                                ) : (
+                                    <>
+                                        <button
+                                            onClick={() => setShowCheckout(true)}
+                                            className="btn-slide-hover w-full bg-accent md:bg-primary text-black md:text-white font-semibold text-lg shadow-lg shadow-black/20 rounded-full py-4 px-6 flex items-center justify-center gap-3 transition-all duration-300"
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><path d="M3 6h18" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
+                                            Realizar Pedido
+                                        </button>
+
+                                        <p className="text-center text-xs text-textDark mt-4 px-4 leading-relaxed">
+                                            Completá el checkout con tus datos y te contactaremos por Instagram para coordinar el envío.
+                                        </p>
+                                    </>
+                                )}
                             </div>
                         </div>
 

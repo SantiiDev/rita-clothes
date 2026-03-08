@@ -54,7 +54,7 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
 
                     {/* Vertical Text */}
                     <div className="absolute right-0 bottom-10 text-black font-data text-[10px] md:text-xs uppercase font-bold tracking-widest rotate-90 mb-10 mr-4 md:mr-10 opacity-50">
-                        Rita Clothes
+                        Rita
                     </div>
                 </div>
             </div>
@@ -69,14 +69,14 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
 
                 <div className="flex items-center gap-3 mb-8 md:mb-12">
                     <div className="w-6 h-6 rounded-full bg-black flex items-center justify-center text-[10px] font-bold text-white shadow-md">R</div>
-                    <span className="text-sm text-textDark font-medium">Rita Clothes Oficial</span>
+                    <span className="text-sm text-textDark font-medium">Rita Oficial</span>
                 </div>
 
                 <h3 className="font-semibold text-lg md:text-xl mb-4 text-primary">Descripción:</h3>
                 <p className="text-sm md:text-base text-textDark leading-relaxed mb-12">
                     Prenda exclusiva diseñada para deslumbrar en tus eventos de noche.
                     Combina cortes modernos con acabados premium. Ya sea para expresar
-                    tu estado de ánimo, promocionar tu estilo personal o simplemente para destacar — Rita Clothes te permite dominar la noche con elegancia absoluta.
+                    tu estado de ánimo, promocionar tu estilo personal o simplemente para destacar — Rita te permite dominar la noche con elegancia absoluta.
                 </p>
 
                 {/* Action Bar - Inline on Desktop, Fixed bottom on Mobile */}

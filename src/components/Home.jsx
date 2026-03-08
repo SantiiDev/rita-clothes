@@ -20,13 +20,6 @@ const CartIcon = ({ size = 16 }) => (
     </svg>
 );
 
-// Heart icon SVG
-const HeartIcon = ({ size = 16, filled = false }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-    </svg>
-);
-
 // Search icon SVG
 const SearchIcon = ({ size = 18 }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -44,18 +37,23 @@ const InstagramIcon = ({ size = 18 }) => (
     </svg>
 );
 
-export default function Home({ userName, onNavigate, cartItemCount, onAddToCart }) {
+// Info/Guide icon SVG
+const GuideIcon = ({ size = 20, filled = false }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" x2="8" y1="13" y2="13" />
+        <line x1="16" x2="8" y1="17" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+    </svg>
+);
+
+export default function Home({ userName, onNavigate, cartItemCount, onAddToCart, onOpenAuth, authUser, onLogout }) {
     const [activeTab, setActiveTab] = useState('All');
     const [toast, setToast] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [favorites, setFavorites] = useState(() => {
-        try {
-            const stored = localStorage.getItem('rita_favorites');
-            return stored ? new Set(JSON.parse(stored)) : new Set();
-        } catch { return new Set(); }
-    });
-    const [activeNav, setActiveNav] = useState('home'); // 'home' | 'favorites'
+    const [activeNav, setActiveNav] = useState('home'); // 'home' | 'howToBuy'
 
     const categories = ['All', 'Vestidos', 'Tops', 'Faldas', 'Pantalones', 'Accesorios'];
 
@@ -67,30 +65,10 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
         }
     }, [toast]);
 
-    // Persistir favoritos
-    useEffect(() => {
-        localStorage.setItem('rita_favorites', JSON.stringify([...favorites]));
-    }, [favorites]);
-
     const handleAddToCart = (prod, e) => {
         e.stopPropagation();
         onAddToCart(prod);
         setToast({ type: 'cart', name: prod.name });
-    };
-
-    const toggleFavorite = (prod, e) => {
-        e.stopPropagation();
-        setFavorites(prev => {
-            const next = new Set(prev);
-            if (next.has(prod.id)) {
-                next.delete(prod.id);
-                setToast({ type: 'unfav', name: prod.name });
-            } else {
-                next.add(prod.id);
-                setToast({ type: 'fav', name: prod.name });
-            }
-            return next;
-        });
     };
 
     const handleSearchToggle = () => {
@@ -98,13 +76,8 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
         if (isSearchOpen) setSearchQuery('');
     };
 
-    // Products filtered by tab + search + favorites view
-    const baseProducts = activeNav === 'favorites'
-        ? DUMMY_PRODUCTS.filter(p => favorites.has(p.id))
-        : DUMMY_PRODUCTS;
-
-    const filteredProducts = baseProducts.filter(prod => {
-        const matchTab = activeNav === 'favorites' || activeTab === 'All' || prod.category === activeTab;
+    const filteredProducts = DUMMY_PRODUCTS.filter(prod => {
+        const matchTab = activeTab === 'All' || prod.category === activeTab;
         const query = searchQuery.toLowerCase();
         const matchSearch = query === '' ||
             prod.name.toLowerCase().includes(query) ||
@@ -113,21 +86,23 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
         return matchTab && matchSearch;
     });
 
+    const displayName = authUser?.name || userName || 'Invitado';
+
     return (
         <div className="flex flex-col md:flex-row min-h-[100dvh] bg-background text-textMain relative pb-32 md:pb-0">
 
-            {/* Desktop Sidebar — fixed position so it never scrolls */}
+            {/* Desktop Sidebar */}
             <aside className="hidden md:flex flex-col w-64 bg-surface border-r border-gray-200 fixed top-0 left-0 h-screen z-30 p-6">
-                <h2 className="text-xl font-bold font-heading mb-10 tracking-tight text-primary">Rita Clothes</h2>
+                <h2 className="text-xl font-bold font-heading mb-10 tracking-tight text-primary">Rita</h2>
 
                 <h3 className="text-xs font-semibold text-textDark mb-4 uppercase tracking-wider">Categorías</h3>
                 <ul className="flex flex-col gap-2 mb-auto">
                     {categories.map(tab => (
                         <li key={tab}>
                             <button
-                                onClick={() => setActiveTab(tab)}
+                                onClick={() => { setActiveTab(tab); setActiveNav('home'); }}
                                 className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-colors
-                  ${activeTab === tab ? 'bg-primary text-white' : 'text-textDark hover:bg-gray-200'}
+                  ${activeTab === tab && activeNav === 'home' ? 'bg-primary text-white' : 'text-textDark hover:bg-gray-200'}
                 `}
                             >
                                 {tab}
@@ -137,36 +112,52 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
                 </ul>
 
                 {/* User button in sidebar */}
-                <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200 -mx-2 px-2 py-2 rounded-xl transition-colors">
+                <div
+                    className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200 -mx-2 px-2 py-2 rounded-xl transition-colors cursor-pointer hover:bg-gray-100"
+                    onClick={authUser ? undefined : onOpenAuth}
+                >
                     <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center text-xs text-textDark">
-                        {userName ? userName.charAt(0).toUpperCase() : 'U'}
+                        {displayName.charAt(0).toUpperCase()}
                     </div>
-                    <div className="flex flex-col text-left">
-                        <span className="text-xs text-textDark">Hola, {userName || 'Invitado'} 👋</span>
+                    <div className="flex flex-col text-left flex-1">
+                        <span className="text-xs text-textDark">Hola, {displayName} 👋</span>
+                        {authUser && <span className="text-[10px] text-textDark/60">{authUser.email}</span>}
                     </div>
+                    {authUser && (
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onLogout(); }}
+                            className="text-[10px] text-red-400 hover:text-red-600 transition-colors"
+                            title="Cerrar sesión"
+                        >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
+                        </button>
+                    )}
                 </div>
             </aside>
 
-            {/* Main Content Area — offset by sidebar width on desktop */}
+            {/* Main Content Area */}
             <main className="flex-1 flex flex-col relative w-full md:ml-64">
                 {/* Top Header */}
                 <header className="flex items-center p-6 md:px-10 h-24 relative overflow-hidden">
                     {/* Mobile: user avatar */}
                     <div className={`flex md:hidden items-center gap-3 transition-opacity duration-300 ${isSearchOpen ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100 flex-1'}`}>
-                        <div className="w-10 h-10 rounded-full bg-surface overflow-hidden border border-gray-200 flex items-center justify-center text-xs text-textDark shrink-0">
-                            {userName ? userName.charAt(0).toUpperCase() : 'U'}
+                        <div
+                            className="w-10 h-10 rounded-full bg-surface overflow-hidden border border-gray-200 flex items-center justify-center text-xs text-textDark shrink-0 cursor-pointer"
+                            onClick={onOpenAuth}
+                        >
+                            {displayName.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex flex-col text-left whitespace-nowrap">
                             <span className="text-sm font-semibold text-textMain flex items-center gap-1">
-                                {activeNav === 'favorites' ? '❤️ Mis Favoritos' : `Hola, ${userName || 'Invitado'} `}
-                                {activeNav !== 'favorites' && <span className="text-[10px]">👋</span>}
+                                {activeNav === 'howToBuy' ? '📋 ¿Cómo Comprar?' : `Hola, ${displayName} `}
+                                {activeNav !== 'howToBuy' && <span className="text-[10px]">👋</span>}
                             </span>
                         </div>
                     </div>
 
                     <div className={`hidden md:block transition-opacity duration-300 ${isSearchOpen ? 'opacity-0 w-0' : 'opacity-100 flex-1'}`}>
                         <h1 className="text-2xl font-bold font-heading">
-                            {activeNav === 'favorites' ? '❤️ Mis Favoritos' : 'Descubrir'}
+                            {activeNav === 'howToBuy' ? '📋 ¿Cómo Comprar?' : 'Descubrir'}
                         </h1>
                     </div>
 
@@ -178,7 +169,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
                                 placeholder="Buscar prenda, color..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className={`w-full bg-transparent text-sm outline-none text-textMain`}
+                                className="w-full bg-transparent text-sm outline-none text-textMain"
                             />
                         </div>
 
@@ -248,57 +239,81 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
                     </div>
                 )}
 
-                {/* Empty favorites state */}
-                {activeNav === 'favorites' && filteredProducts.length === 0 && (
-                    <div className="px-6 md:px-10 py-16 flex flex-col items-center gap-4 text-center">
-                        <div className="w-16 h-16 rounded-full bg-surface flex items-center justify-center text-textDark">
-                            <HeartIcon size={28} />
+                {/* How to Buy Section */}
+                {activeNav === 'howToBuy' && (
+                    <div className="px-6 md:px-10 py-8 max-w-2xl mx-auto w-full">
+                        <div className="flex flex-col gap-6">
+                            {/* Step 1 */}
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-start">
+                                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm shrink-0">1</div>
+                                <div>
+                                    <h4 className="font-semibold text-sm mb-1">Elegí tus prendas</h4>
+                                    <p className="text-xs text-textDark leading-relaxed">Explorá el catálogo y encontrá las prendas que más te gusten. Podés buscar por categoría o usar la lupa.</p>
+                                </div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-start">
+                                <div className="w-10 h-10 rounded-full bg-accent/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">2</div>
+                                <div>
+                                    <h4 className="font-semibold text-sm mb-1">Agregalas al carrito</h4>
+                                    <p className="text-xs text-textDark leading-relaxed">Tocá "Agregar" en cada prenda que quieras. Podés elegir la cantidad desde el detalle del producto o desde el carrito.</p>
+                                </div>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-start">
+                                <div className="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold text-sm shrink-0">3</div>
+                                <div>
+                                    <h4 className="font-semibold text-sm mb-1">Completá el checkout</h4>
+                                    <p className="text-xs text-textDark leading-relaxed">Hacé clic en "Realizar Pedido", completá tu nombre, correo e Instagram, y nosotros te contactamos para coordinar el pago y envío.</p>
+                                </div>
+                            </div>
                         </div>
-                        <p className="font-semibold text-textMain">Aún no tenés favoritos</p>
-                        <p className="text-xs text-textDark">Tocá el ❤️ en cualquier prenda para guardarla aquí.</p>
+
+                        <button
+                            onClick={() => setActiveNav('home')}
+                            className="btn-slide-hover bg-primary text-white font-semibold px-8 py-3 rounded-full mt-8 mx-auto flex items-center gap-2 transition-colors"
+                        >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6" /></svg>
+                            Volver al Catálogo
+                        </button>
                     </div>
                 )}
 
                 {/* Product Grid */}
-                {filteredProducts.length === 0 && activeNav === 'home' ? (
-                    <div className="px-6 md:px-10 py-12 text-center text-textDark">
-                        <p>No se encontraron prendas para tu búsqueda.</p>
-                    </div>
-                ) : filteredProducts.length > 0 ? (
-                    <div className="px-6 md:px-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-10">
-                        {filteredProducts.map(prod => (
-                            <div key={prod.id} className="flex flex-col cursor-pointer group" onClick={() => onNavigate('productDetail', prod)}>
-                                <div className="bg-surface rounded-2xl aspect-[3/4] mb-3 relative overflow-hidden flex items-center justify-center transition-transform group-hover:-translate-y-1">
-                                    <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Prenda {prod.id}</span>
-
-                                    {/* Favorite Heart button */}
-                                    <button
-                                        onClick={(e) => toggleFavorite(prod, e)}
-                                        className={`absolute top-2.5 right-2.5 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 shadow-sm
-                                            ${favorites.has(prod.id)
-                                                ? 'bg-primary text-white scale-110'
-                                                : 'bg-white/80 text-textDark hover:bg-white hover:text-primary'}`}
-                                    >
-                                        <HeartIcon size={14} filled={favorites.has(prod.id)} />
-                                    </button>
-                                </div>
-                                <div className="flex justify-between items-start mb-1">
-                                    <span className="font-semibold text-xs md:text-sm leading-tight">{prod.name}</span>
-                                </div>
-                                <p className="text-[9px] md:text-xs text-textDark mb-3">Colección de Noche</p>
-                                <div className="flex justify-between items-center mt-auto">
-                                    <span className="font-bold text-sm md:text-base">{prod.price}</span>
-                                    <button
-                                        onClick={(e) => handleAddToCart(prod, e)}
-                                        className="btn-slide-hover bg-accent md:bg-primary text-black md:text-white text-[10px] md:text-xs px-3 md:px-4 py-1.5 rounded-full font-medium transition-colors"
-                                    >
-                                        Add to Cart
-                                    </button>
-                                </div>
+                {activeNav === 'home' && (
+                    <>
+                        {filteredProducts.length === 0 ? (
+                            <div className="px-6 md:px-10 py-12 text-center text-textDark">
+                                <p>No se encontraron prendas para tu búsqueda.</p>
                             </div>
-                        ))}
-                    </div>
-                ) : null}
+                        ) : (
+                            <div className="px-6 md:px-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-10">
+                                {filteredProducts.map(prod => (
+                                    <div key={prod.id} className="flex flex-col cursor-pointer group" onClick={() => onNavigate('productDetail', prod)}>
+                                        <div className="bg-surface rounded-2xl aspect-[3/4] mb-3 relative overflow-hidden flex items-center justify-center transition-transform group-hover:-translate-y-1">
+                                            <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Prenda {prod.id}</span>
+                                        </div>
+                                        <div className="flex justify-between items-start mb-1">
+                                            <span className="font-semibold text-xs md:text-sm leading-tight">{prod.name}</span>
+                                        </div>
+                                        <p className="text-[9px] md:text-xs text-textDark mb-3">Colección de Noche</p>
+                                        <div className="flex justify-between items-center mt-auto">
+                                            <span className="font-bold text-sm md:text-base">{prod.price}</span>
+                                            <button
+                                                onClick={(e) => handleAddToCart(prod, e)}
+                                                className="btn-slide-hover bg-accent md:bg-primary text-black md:text-white text-[10px] md:text-xs px-3 md:px-4 py-1.5 rounded-full font-medium transition-colors"
+                                            >
+                                                Agregar
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </>
+                )}
             </main>
 
             {/* ── Floating Bottom Nav (Mobile Only) — 5 icons ── */}
@@ -320,20 +335,15 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
                     </svg>
                 </button>
 
-                {/* 2. Favorites */}
+                {/* 2. How to Buy (replaces Favorites) */}
                 <button
-                    onClick={() => { setActiveNav('favorites'); setIsSearchOpen(false); }}
-                    className={`flex flex-col items-center justify-center w-10 h-10 rounded-full transition-all duration-200 relative ${activeNav === 'favorites' ? 'text-white' : 'text-white/50'}`}
+                    onClick={() => { setActiveNav('howToBuy'); setIsSearchOpen(false); }}
+                    className={`flex flex-col items-center justify-center w-10 h-10 rounded-full transition-all duration-200 ${activeNav === 'howToBuy' ? 'text-white' : 'text-white/50'}`}
                 >
-                    <HeartIcon size={20} filled={activeNav === 'favorites'} />
-                    {favorites.size > 0 && (
-                        <span className="absolute top-0.5 right-0.5 bg-accent text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                            {favorites.size}
-                        </span>
-                    )}
+                    <GuideIcon size={20} filled={activeNav === 'howToBuy'} />
                 </button>
 
-                {/* 3. Cart FAB (center — elevated, sobresale por encima de la barra) */}
+                {/* 3. Cart FAB (center — elevated) */}
                 <div
                     onClick={() => onNavigate('cart')}
                     className="absolute left-1/2 -translate-x-1/2 w-14 h-14 bg-accent rounded-full flex items-center justify-center text-black shadow-lg border-4 border-background cursor-pointer hover:scale-105 transition-transform"
@@ -375,19 +385,11 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart 
             {/* Toast Notification */}
             {toast && (
                 <div className="fixed top-6 right-6 z-[90] bg-primary text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-right fade-in duration-300 max-w-sm">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${toast.type === 'fav' ? 'bg-accent' : 'bg-white/20'}`}>
-                        {toast.type === 'fav' ? (
-                            <HeartIcon size={14} filled />
-                        ) : toast.type === 'unfav' ? (
-                            <HeartIcon size={14} />
-                        ) : (
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D369CD" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
-                        )}
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-white/20">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D369CD" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
                     </div>
                     <div>
-                        <p className="text-sm font-semibold">
-                            {toast.type === 'fav' ? 'Guardado en favoritos' : toast.type === 'unfav' ? 'Eliminado de favoritos' : 'Agregado al carrito'}
-                        </p>
+                        <p className="text-sm font-semibold">Agregado al carrito</p>
                         <p className="text-xs text-white/60">{toast.name}</p>
                     </div>
                 </div>

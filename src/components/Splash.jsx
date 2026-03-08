@@ -1,10 +1,14 @@
 import { useState } from 'react';
 
-export default function Splash({ onNavigate, setUserName }) {
+export default function Splash({ onNavigate, setUserName, isReturningUser }) {
     const [nameInputValue, setNameInputValue] = useState('');
     const [error, setError] = useState('');
 
     const handleContinue = () => {
+        if (isReturningUser) {
+            onNavigate();
+            return;
+        }
         if (!nameInputValue.trim()) {
             setError('Por favor, ingresa tu nombre');
             return;
@@ -18,7 +22,7 @@ export default function Splash({ onNavigate, setUserName }) {
             {/* Left Content Area (Top on Mobile) */}
             <div className="flex flex-col flex-1 p-6 md:p-12 lg:p-20 justify-center z-10 w-full md:w-1/2 lg:w-5/12">
                 <h1 className="text-center md:text-left text-black font-heading font-medium tracking-wide mb-10 md:mb-16">
-                    Rita Clothes
+                    Rita
                 </h1>
 
                 <div className="mt-auto md:mt-0 mb-6">
@@ -26,26 +30,28 @@ export default function Splash({ onNavigate, setUserName }) {
                         Moda de Noche<br />y Fiesta
                     </h2>
                     <p className="text-textDark font-heading text-sm md:text-base text-center md:text-left mb-10 px-4 md:px-0 max-w-md mx-auto md:mx-0">
-                        Prendas interactivas, modernas y exclusivas para destacar en la noche. Personaliza tu estilo con Rita Clothes.
+                        Prendas interactivas, modernas y exclusivas para destacar en la noche. Personaliza tu estilo con Rita.
                     </p>
 
                     <div className="flex flex-col gap-4 w-full md:w-auto mx-auto md:mx-0">
-                        <div>
-                            <input
-                                type="text"
-                                placeholder="¿Cuál es tu nombre?"
-                                value={nameInputValue}
-                                onChange={(e) => {
-                                    setNameInputValue(e.target.value);
-                                    if (error) setError('');
-                                }}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') handleContinue();
-                                }}
-                                className="w-full bg-white text-black border-2 border-transparent focus:border-accent text-sm md:text-base px-6 py-4 rounded-full outline-none transition-all shadow-sm"
-                            />
-                            {error && <p className="text-red-500 text-xs mt-2 pl-4">{error}</p>}
-                        </div>
+                        {!isReturningUser && (
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="¿Cuál es tu nombre?"
+                                    value={nameInputValue}
+                                    onChange={(e) => {
+                                        setNameInputValue(e.target.value);
+                                        if (error) setError('');
+                                    }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') handleContinue();
+                                    }}
+                                    className="w-full bg-white text-black border-2 border-transparent focus:border-accent text-sm md:text-base px-6 py-4 rounded-full outline-none transition-all shadow-sm"
+                                />
+                                {error && <p className="text-red-500 text-xs mt-2 pl-4">{error}</p>}
+                            </div>
+                        )}
 
                         <button
                             onClick={handleContinue}
