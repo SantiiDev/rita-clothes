@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
+export default function Cart({ cartItems, onUpdateQuantity, onNavigate, onClearCart }) {
     const [showCheckout, setShowCheckout] = useState(false);
     const [checkoutDone, setCheckoutDone] = useState(false);
     const [sending, setSending] = useState(false);
@@ -52,10 +52,12 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
 
             if (response.ok) {
                 setCheckoutDone(true);
+                onClearCart();
             }
         } catch {
             // If formsubmit fails, still show success (data was sent)
             setCheckoutDone(true);
+            onClearCart();
         } finally {
             setSending(false);
         }
@@ -86,7 +88,21 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
             {/* Cart Content */}
             <main className="flex-1 overflow-y-auto w-full max-w-4xl mx-auto p-6 md:p-10">
 
-                {cartItems.length === 0 ? (
+                {checkoutDone ? (
+                    <div className="flex flex-col items-center justify-center h-[50vh] text-center animate-in fade-in zoom-in duration-300">
+                        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
+                        </div>
+                        <h2 className="text-2xl font-bold mb-2">¡Pedido realizado!</h2>
+                        <p className="text-textDark mb-8 max-w-sm mx-auto">Te contactaremos por Instagram para coordinar el pago y envío de tus prendas.</p>
+                        <button
+                            onClick={() => onNavigate('home')}
+                            className="btn-slide-hover bg-primary text-white font-semibold px-8 py-3 rounded-full transition-colors"
+                        >
+                            Volver al Catálogo
+                        </button>
+                    </div>
+                ) : cartItems.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-[50vh] text-center">
                         <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6 text-textDark">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
@@ -163,21 +179,7 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
                                 </div>
 
                                 {/* Checkout States */}
-                                {checkoutDone ? (
-                                    <div className="text-center py-6">
-                                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
-                                        </div>
-                                        <h4 className="font-bold text-lg mb-2">¡Pedido realizado!</h4>
-                                        <p className="text-sm text-textDark leading-relaxed">Te contactaremos por Instagram para coordinar el pago y envío.</p>
-                                        <button
-                                            onClick={() => onNavigate('home')}
-                                            className="btn-slide-hover bg-primary text-white font-semibold px-8 py-3 rounded-full mt-6 transition-colors"
-                                        >
-                                            Volver al Catálogo
-                                        </button>
-                                    </div>
-                                ) : showCheckout ? (
+                                {showCheckout ? (
                                     <form onSubmit={handleCheckoutSubmit} className="flex flex-col gap-4 animate-in fade-in duration-300">
                                         <h4 className="font-semibold text-sm text-primary">Completá tus datos</h4>
 

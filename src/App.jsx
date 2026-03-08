@@ -128,6 +128,7 @@ function App() {
           cartItems={cartItems}
           onUpdateQuantity={handleUpdateQuantity}
           onNavigate={navigate}
+          onClearCart={() => setCartItems([])}
         />
       )}
 

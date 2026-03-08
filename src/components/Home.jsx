@@ -49,7 +49,7 @@ const GuideIcon = ({ size = 20, filled = false }) => (
 );
 
 export default function Home({ userName, onNavigate, cartItemCount, onAddToCart, onOpenAuth, authUser, onLogout }) {
-    const [activeTab, setActiveTab] = useState('All');
+    const [activeTab, setActiveTab] = useState('ALL');
     const [toast, setToast] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -240,24 +240,24 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         <div className="absolute left-0 top-0 bottom-0 w-8 md:w-20 bg-gradient-to-r from-background to-transparent z-10 pointers-events-none" />
                         <div className="absolute right-0 top-0 bottom-0 w-8 md:w-20 bg-gradient-to-l from-background to-transparent z-10 pointers-events-none" />
 
-                        <div className="flex animate-[scroll_40s_linear_infinite] hover:[animation-play-state:paused] gap-4 md:gap-6 px-4 md:px-0 w-max">
+                        <div className="flex animate-[scroll_40s_linear_infinite] gap-4 md:gap-6 px-4 md:px-0 w-max">
                             {/* We output the images 3 times to create a seamless infinite loop */}
                             {[1, 2, 3].map((set) => (
                                 <div key={set} className="flex gap-4 md:gap-6">
-                                    <div className="w-[140px] md:w-[220px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0">
-                                        <img src="https://images.unsplash.com/photo-1515347619252-8d7d92ccce88?q=80&w=600&auto=format&fit=crop" alt="Look 1" className="w-full h-full object-cover" />
+                                    <div className="w-[160px] md:w-[280px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0 flex items-center justify-center">
+                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Look 1</span>
                                     </div>
-                                    <div className="w-[140px] md:w-[220px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0">
-                                        <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=600&auto=format&fit=crop" alt="Look 2" className="w-full h-full object-cover" />
+                                    <div className="w-[160px] md:w-[280px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0 flex items-center justify-center">
+                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Look 2</span>
                                     </div>
-                                    <div className="w-[140px] md:w-[220px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0">
-                                        <img src="https://images.unsplash.com/photo-1550639524-a6f58345a2ca?q=80&w=600&auto=format&fit=crop" alt="Look 3" className="w-full h-full object-cover" />
+                                    <div className="w-[160px] md:w-[280px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0 flex items-center justify-center">
+                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Look 3</span>
                                     </div>
-                                    <div className="w-[140px] md:w-[220px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0">
-                                        <img src="https://images.unsplash.com/photo-1551048601-527fb9cebf36?q=80&w=600&auto=format&fit=crop" alt="Look 4" className="w-full h-full object-cover" />
+                                    <div className="w-[160px] md:w-[280px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0 flex items-center justify-center">
+                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Look 4</span>
                                     </div>
-                                    <div className="w-[140px] md:w-[220px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0">
-                                        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600&auto=format&fit=crop" alt="Look 5" className="w-full h-full object-cover" />
+                                    <div className="w-[160px] md:w-[280px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0 flex items-center justify-center">
+                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Look 5</span>
                                     </div>
                                 </div>
                             ))}
