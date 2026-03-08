@@ -30,9 +30,9 @@ function App() {
 
   const isReturningUser = !!localStorage.getItem('rita_userName');
 
-  // Show discount banner when arriving at home for first time (not registered)
+  // Show discount banner when arriving at home (if not registered)
   useEffect(() => {
-    if (currentScreen === 'home' && !authUser && !localStorage.getItem('rita_discountDismissed')) {
+    if (currentScreen === 'home' && !authUser) {
       setShowDiscountBanner(true);
     }
   }, [currentScreen, authUser]);
@@ -85,12 +85,10 @@ function App() {
 
   const handleDismissDiscount = () => {
     setShowDiscountBanner(false);
-    localStorage.setItem('rita_discountDismissed', 'true');
   };
 
   const handleDiscountRegister = () => {
     setShowDiscountBanner(false);
-    localStorage.setItem('rita_discountDismissed', 'true');
     setShowAuthModal(true);
   };
 

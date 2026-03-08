@@ -36,15 +36,17 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate }) {
         orderDetails += `\nSubtotal: $${subtotal.toFixed(2)}`;
 
         try {
-            const response = await fetch('https://formsubmit.co/ajax/ritastudio33@gmail.com', {
+            const response = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({
+                    access_key: '9f8db71f-bb59-4a4a-8cba-e1ed28de927e',
+                    subject: `Pedido de ${formData.name}`,
+                    from_name: 'Rita Checkout',
                     Nombre: formData.name,
                     Email: formData.email,
                     Instagram: formData.instagram,
                     Pedido: orderDetails,
-                    _subject: `Nuevo pedido de ${formData.name}`,
                 }),
             });
 

@@ -55,7 +55,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [activeNav, setActiveNav] = useState('home'); // 'home' | 'howToBuy'
 
-    const categories = ['All', 'Vestidos', 'Tops', 'Faldas', 'Pantalones', 'Accesorios'];
+    const categories = ['ALL', 'VESTIDOS', 'SHORTS', 'SKORTS', 'TOPS', 'BODIES', 'DENIM', 'BÁSICOS'];
 
     // Toast auto-dismiss
     useEffect(() => {
@@ -77,7 +77,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
     };
 
     const filteredProducts = DUMMY_PRODUCTS.filter(prod => {
-        const matchTab = activeTab === 'All' || prod.category === activeTab;
+        const matchTab = activeTab === 'ALL' || prod.category.toUpperCase() === activeTab.toUpperCase();
         const query = searchQuery.toLowerCase();
         const matchSearch = query === '' ||
             prod.name.toLowerCase().includes(query) ||
@@ -93,16 +93,27 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
             {/* Desktop Sidebar */}
             <aside className="hidden md:flex flex-col w-64 bg-surface border-r border-gray-200 fixed top-0 left-0 h-screen z-30 p-6">
-                <h2 className="text-xl font-bold font-heading mb-10 tracking-tight text-primary">Rita</h2>
+                <h2 className="text-xl font-bold font-heading mb-8 tracking-tight text-primary">Rita</h2>
 
-                <h3 className="text-xs font-semibold text-textDark mb-4 uppercase tracking-wider">Categorías</h3>
-                <ul className="flex flex-col gap-2 mb-auto">
+                {/* How to Buy button */}
+                <button
+                    onClick={() => { setActiveNav('howToBuy'); setActiveTab('ALL'); }}
+                    className={`flex items-center gap-3 w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition-colors mb-6
+                        ${activeNav === 'howToBuy' ? 'bg-primary/10 text-primary' : 'text-textDark hover:bg-gray-200 hover:text-black'}
+                    `}
+                >
+                    <GuideIcon size={18} filled={activeNav === 'howToBuy'} />
+                    ¿Cómo Comprar?
+                </button>
+
+                <h3 className="text-xs font-bold text-textMain mb-4 uppercase tracking-wider">SHOP</h3>
+                <ul className="flex flex-col gap-1 mb-auto overflow-y-auto pr-2 pb-4">
                     {categories.map(tab => (
                         <li key={tab}>
                             <button
                                 onClick={() => { setActiveTab(tab); setActiveNav('home'); }}
-                                className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-colors
-                  ${activeTab === tab && activeNav === 'home' ? 'bg-primary text-white' : 'text-textDark hover:bg-gray-200'}
+                                className={`w-full text-left px-4 py-2.5 rounded-xl text-xs font-medium transition-colors
+                  ${activeTab === tab && activeNav === 'home' ? 'bg-primary text-white' : 'text-textDark hover:bg-gray-200 hover:text-black'}
                 `}
                             >
                                 {tab}
@@ -201,41 +212,76 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* Banner — solo en vista home */}
                 {activeNav === 'home' && (
-                    <div className="px-6 md:px-10 mb-6 md:mb-10">
-                        <div className="bg-gradient-to-r from-primary to-accent rounded-3xl p-6 md:p-10 relative overflow-hidden flex flex-col justify-center min-h-[140px] md:min-h-[200px]">
+                    <div className="px-6 md:px-10 mb-8">
+                        <div className="bg-gradient-to-r from-primary to-accent rounded-3xl p-6 md:p-10 relative overflow-hidden flex flex-col justify-center min-h-[140px] md:min-h-[200px] shadow-sm">
                             <div className="md:w-1/2 relative z-10">
                                 <h3 className="text-white font-semibold text-sm md:text-2xl mb-2 md:mb-4">
                                     Descuento en primera compra! <span className="text-white font-extrabold block md:inline">Tiempo Limitado</span>
                                 </h3>
-                                <p className="text-white/80 text-[10px] md:text-sm mb-4 md:mb-6">
-                                    Explora las nuevas tendencias de noche preparadas para deslumbrar.
+                                <p className="text-white/90 text-xs md:text-sm mb-4 md:mb-6 max-w-sm leading-relaxed">
+                                    Explorá las nuevas tendencias de noche preparadas para deslumbrar.
                                 </p>
-                                <button className="btn-slide-hover bg-black text-white text-xs md:text-sm font-semibold px-4 md:px-6 py-1.5 md:py-3 rounded-full w-max flex items-center gap-1 transition-colors">
+                                <button className="btn-slide-hover bg-black text-white text-xs md:text-sm font-semibold px-5 md:px-6 py-2.5 md:py-3 rounded-full w-max flex items-center gap-2 transition-colors shadow-lg">
                                     Ver Ahora
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6" /></svg>
                                 </button>
                             </div>
-                            <div className="absolute right-0 top-0 bottom-0 w-1/3 md:w-1/2 overflow-hidden flex items-end md:items-center justify-center md:justify-end md:pr-10">
-                                <div className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] bg-black/10 rotate-45 translate-x-10 translate-y-10 md:translate-x-0 md:translate-y-0 rounded-xl md:rounded-3xl blur-[2px]" />
+                            <div className="absolute right-0 top-0 bottom-0 w-1/2 overflow-hidden flex items-end md:items-center justify-end pr-4 md:pr-10">
+                                <div className="w-[140px] h-[140px] md:w-[250px] md:h-[250px] bg-white/10 rotate-45 translate-x-10 translate-y-10 md:translate-x-0 md:translate-y-0 rounded-2xl md:rounded-3xl blur-[1px] backdrop-blur-sm shadow-2xl" />
                             </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Auto-scrolling Image Carousel */}
+                {activeNav === 'home' && (
+                    <div className="mb-10 w-full overflow-hidden relative">
+                        {/* Gradients for fading edges */}
+                        <div className="absolute left-0 top-0 bottom-0 w-8 md:w-20 bg-gradient-to-r from-background to-transparent z-10 pointers-events-none" />
+                        <div className="absolute right-0 top-0 bottom-0 w-8 md:w-20 bg-gradient-to-l from-background to-transparent z-10 pointers-events-none" />
+
+                        <div className="flex animate-[scroll_40s_linear_infinite] hover:[animation-play-state:paused] gap-4 md:gap-6 px-4 md:px-0 w-max">
+                            {/* We output the images 3 times to create a seamless infinite loop */}
+                            {[1, 2, 3].map((set) => (
+                                <div key={set} className="flex gap-4 md:gap-6">
+                                    <div className="w-[140px] md:w-[220px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1515347619252-8d7d92ccce88?q=80&w=600&auto=format&fit=crop" alt="Look 1" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="w-[140px] md:w-[220px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=600&auto=format&fit=crop" alt="Look 2" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="w-[140px] md:w-[220px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1550639524-a6f58345a2ca?q=80&w=600&auto=format&fit=crop" alt="Look 3" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="w-[140px] md:w-[220px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1551048601-527fb9cebf36?q=80&w=600&auto=format&fit=crop" alt="Look 4" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="w-[140px] md:w-[220px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600&auto=format&fit=crop" alt="Look 5" className="w-full h-full object-cover" />
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 )}
 
                 {/* Mobile Filter Tabs — solo en vista home */}
                 {activeNav === 'home' && (
-                    <div className="md:hidden px-6 mb-6 flex flex-wrap justify-center gap-3">
-                        {categories.map(tab => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`px-5 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors
-                ${activeTab === tab ? 'bg-primary text-white' : 'bg-surface text-textDark border border-gray-200'}
+                    <div className="md:hidden px-6 mb-8">
+                        <h3 className="text-[10px] font-bold text-textDark mb-3 uppercase tracking-widest text-center">SHOP</h3>
+                        <div className="flex overflow-x-auto pb-4 gap-2 snap-x hide-scrollbar">
+                            {categories.map(tab => (
+                                <button
+                                    key={tab}
+                                    onClick={() => setActiveTab(tab)}
+                                    className={`snap-center shrink-0 px-5 py-2.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition-colors
+                ${activeTab === tab ? 'bg-primary text-white shadow-md' : 'bg-surface text-textDark border border-gray-100'}
               `}
-                            >
-                                {tab}
-                            </button>
-                        ))}
+                                >
+                                    {tab}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 )}
 
