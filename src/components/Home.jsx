@@ -330,6 +330,11 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                 {/* Product Grid */}
                 {activeNav === 'home' && (
                     <>
+                        <div className="hidden md:flex items-center px-6 md:px-10 mb-6 gap-4">
+                            <h2 className="text-sm font-bold tracking-widest text-textDark uppercase">SHOP</h2>
+                            <div className="flex-1 h-[1px] bg-gray-100"></div>
+                        </div>
+
                         {filteredProducts.length === 0 ? (
                             <div className="px-6 md:px-10 py-12 text-center text-textDark">
                                 <p>No se encontraron prendas para tu búsqueda.</p>
