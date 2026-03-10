@@ -132,7 +132,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         {displayName.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex flex-col text-left flex-1">
-                        <span className="text-xs text-textDark">Hola, {displayName} 👋</span>
+                        <span className="text-xs text-textDark">Hola, {displayName}!</span>
                         {authUser && <span className="text-[10px] text-textDark/60">{authUser.email}</span>}
                     </div>
                     {authUser && (
@@ -231,29 +231,29 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                 {/* Fullscreen Placeholder Carousel */}
                 {activeNav === 'home' && (
                     <div className="w-full h-[calc(100dvh-130px)] md:h-[calc(100vh-160px)] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10">
-                         {/* Placeholder Element */}
-                         <div className="relative z-0 flex flex-col items-center justify-center opacity-30 mb-8 md:mb-12">
-                              <span className="font-heading text-5xl md:text-7xl font-bold tracking-widest uppercase">Rita</span>
-                              <span className="font-data text-[10px] md:text-sm tracking-widest mt-2">NUEVA COLECCIÓN</span>
-                         </div>
-                         
-                         {/* Shop Now Button */}
-                         <div className="relative z-10 scale-90 md:scale-100">
-                             <button 
-                                 onClick={() => {
-                                    if(shopRef.current) {
-                                        const yOffset = -80; 
+                        {/* Placeholder Element */}
+                        <div className="relative z-0 flex flex-col items-center justify-center opacity-30 mb-8 md:mb-12">
+                            <span className="font-heading text-5xl md:text-7xl font-bold tracking-widest uppercase">Rita</span>
+                            <span className="font-data text-[10px] md:text-sm tracking-widest mt-2">NUEVA COLECCIÓN</span>
+                        </div>
+
+                        {/* Shop Now Button */}
+                        <div className="relative z-10 scale-90 md:scale-100">
+                            <button
+                                onClick={() => {
+                                    if (shopRef.current) {
+                                        const yOffset = -80;
                                         const y = shopRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
                                         window.scrollTo({ top: y, behavior: 'smooth' });
                                     }
-                                 }}
-                                 className="btn-slide-hover w-max mx-auto bg-primary text-white font-heading font-semibold px-12 py-4 rounded-full flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg"
-                             >
-                                 Shop Now
-                             </button>
-                         </div>
-                         
-                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                                }}
+                                className="btn-slide-hover w-max mx-auto bg-primary text-white font-heading font-semibold px-12 py-4 rounded-full flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg"
+                            >
+                                Shop Now
+                            </button>
+                        </div>
+
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                     </div>
                 )}
 
@@ -273,7 +273,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                     onClick={() => {
                                         setActiveTab(tab);
                                         if (shopRef.current) {
-                                            const yOffset = -80; 
+                                            const yOffset = -80;
                                             const y = shopRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
                                             window.scrollTo({ top: y, behavior: 'smooth' });
                                         }
