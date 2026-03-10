@@ -252,8 +252,10 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                          </div>
                     </div>
                 )}
-
-                {/* Mobile Filter Tabs — solo en vista home */}
+                {/* SHOP SECTION (Mobile Filters + Product Grid) */}
+                {activeNav === 'home' && (
+                    <div ref={shopRef} className="scroll-mt-32 md:scroll-mt-40">
+                        {/* Mobile Filter Tabs */}
                 {activeNav === 'home' && (
                     <div className="md:hidden px-6 mb-8">
                         <h3 className="text-[10px] font-bold text-textDark mb-3 uppercase tracking-widest text-center">SHOP</h3>
@@ -275,7 +277,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         </div>
                     </div>
                 )}
-
+                
                 {/* How to Buy Section */}
                 {activeNav === 'howToBuy' && (
                     <div className="px-6 md:px-10 py-8 max-w-2xl mx-auto w-full">
@@ -320,7 +322,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* Product Grid */}
                 {activeNav === 'home' && (
-                    <div ref={shopRef} className="pt-4 scroll-mt-32 md:scroll-mt-40">
+                    <div className="pt-4">
                         <div className="hidden md:flex items-center px-6 md:px-10 mb-6 gap-4">
                             <h2 className="text-sm font-bold tracking-widest text-textDark uppercase">SHOP</h2>
                             <div className="flex-1 h-[1px] bg-gray-100"></div>
