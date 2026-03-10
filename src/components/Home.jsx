@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const DUMMY_PRODUCTS = [
     { id: 1, name: "Top Corset Brillos", price: "$56", category: "Tops", color: "Negro" },
@@ -49,11 +49,13 @@ const GuideIcon = ({ size = 20, filled = false }) => (
 );
 
 export default function Home({ userName, onNavigate, cartItemCount, onAddToCart, onOpenAuth, authUser, onLogout }) {
+    const shopRef = useRef(null);
     const [activeTab, setActiveTab] = useState('ALL');
     const [toast, setToast] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [activeNav, setActiveNav] = useState('home'); // 'home' | 'howToBuy'
+    const [showTopBanner, setShowTopBanner] = useState(!authUser);
 
     const categories = ['ALL', 'VESTIDOS', 'SHORTS', 'SKORTS', 'TOPS', 'BODIES', 'DENIM', 'BÁSICOS'];
 
@@ -95,7 +97,6 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
             <aside className="hidden md:flex flex-col w-64 bg-surface border-r border-gray-200 fixed top-0 left-0 h-screen z-30 p-6">
                 <h2 className="text-xl font-bold font-heading mb-8 tracking-tight text-primary">Rita</h2>
 
-                {/* How to Buy button */}
                 <button
                     onClick={() => { setActiveNav('howToBuy'); setActiveTab('ALL'); }}
                     className={`flex items-center gap-3 w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition-colors mb-6
@@ -159,16 +160,16 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                             {displayName.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex flex-col text-left whitespace-nowrap">
-                            <span className="text-sm font-semibold text-textMain flex items-center gap-1">
-                                {activeNav === 'howToBuy' ? '📋 ¿Cómo Comprar?' : `Hola, ${displayName} `}
+                            <span className={`${activeNav === 'howToBuy' ? 'text-lg md:text-xl' : 'text-sm'} font-semibold text-textMain flex items-center gap-1`}>
+                                {activeNav === 'howToBuy' ? '¿Cómo Comprar?' : `Hola, ${displayName} `}
                                 {activeNav !== 'howToBuy' && <span className="text-[10px]">👋</span>}
                             </span>
                         </div>
                     </div>
 
                     <div className={`hidden md:block transition-opacity duration-300 ${isSearchOpen ? 'opacity-0 w-0' : 'opacity-100 flex-1'}`}>
-                        <h1 className="text-2xl font-bold font-heading">
-                            {activeNav === 'howToBuy' ? '📋 ¿Cómo Comprar?' : 'Descubrir'}
+                        <h1 className={`${activeNav === 'howToBuy' ? 'text-3xl md:text-4xl' : 'text-2xl'} font-bold font-heading`}>
+                            {activeNav === 'howToBuy' ? '¿Cómo Comprar?' : 'Descubrir'}
                         </h1>
                     </div>
 
@@ -210,58 +211,45 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                     </div>
                 </header>
 
-                {/* Banner — solo en vista home */}
-                {activeNav === 'home' && (
-                    <div className="px-6 md:px-10 mb-8">
-                        <div className="bg-gradient-to-r from-primary to-accent rounded-3xl p-6 md:p-10 relative overflow-hidden flex flex-col justify-center min-h-[140px] md:min-h-[200px] shadow-sm">
-                            <div className="md:w-1/2 relative z-10">
-                                <h3 className="text-white font-semibold text-sm md:text-2xl mb-2 md:mb-4">
-                                    Descuento en primera compra! <span className="text-white font-extrabold block md:inline">Tiempo Limitado</span>
-                                </h3>
-                                <p className="text-white/90 text-xs md:text-sm mb-4 md:mb-6 max-w-sm leading-relaxed">
-                                    Explorá las nuevas tendencias de noche preparadas para deslumbrar.
-                                </p>
-                                <button className="btn-slide-hover bg-black text-white text-xs md:text-sm font-semibold px-5 md:px-6 py-2.5 md:py-3 rounded-full w-max flex items-center gap-2 transition-colors shadow-lg">
-                                    Ver Ahora
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6" /></svg>
-                                </button>
-                            </div>
-                            <div className="absolute right-0 top-0 bottom-0 w-1/2 overflow-hidden flex items-end md:items-center justify-end pr-4 md:pr-10">
-                                <div className="w-[140px] h-[140px] md:w-[250px] md:h-[250px] bg-white/10 rotate-45 translate-x-10 translate-y-10 md:translate-x-0 md:translate-y-0 rounded-2xl md:rounded-3xl blur-[1px] backdrop-blur-sm shadow-2xl" />
-                            </div>
+                {/* Top Discount Banner */}
+                {activeNav === 'home' && !authUser && showTopBanner && (
+                    <div className="bg-[#1A1A1A] text-white flex flex-col sm:flex-row items-center justify-center py-2 md:py-3 px-6 relative z-10 w-full shrink-0">
+                        <div className="flex flex-col sm:flex-row items-center gap-2 md:gap-4 text-center">
+                            <span className="text-xs md:text-sm flex items-center gap-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" /><line x1="7" y1="7" x2="7.01" y2="7" /></svg>
+                                ¡Tu primer look tiene 10% OFF!
+                            </span>
+                            <button onClick={onOpenAuth} className="bg-primary hover:bg-primary/80 text-white text-[10px] md:text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wider transition-colors mt-1 md:mt-0">
+                                Registrarse
+                            </button>
                         </div>
+                        <button onClick={() => setShowTopBanner(false)} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-2">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
                     </div>
                 )}
 
-                {/* Auto-scrolling Image Carousel */}
+                {/* Fullscreen Placeholder Carousel */}
                 {activeNav === 'home' && (
-                    <div className="mb-10 w-full overflow-hidden relative">
-                        {/* Gradients for fading edges */}
-                        <div className="absolute left-0 top-0 bottom-0 w-8 md:w-20 bg-gradient-to-r from-background to-transparent z-10 pointers-events-none" />
-                        <div className="absolute right-0 top-0 bottom-0 w-8 md:w-20 bg-gradient-to-l from-background to-transparent z-10 pointers-events-none" />
-
-                        <div className="flex animate-[scroll_40s_linear_infinite] gap-4 md:gap-6 px-4 md:px-0 w-max">
-                            {/* We output the images 3 times to create a seamless infinite loop */}
-                            {[1, 2, 3].map((set) => (
-                                <div key={set} className="flex gap-4 md:gap-6">
-                                    <div className="w-[160px] md:w-[280px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0 flex items-center justify-center">
-                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Look 1</span>
-                                    </div>
-                                    <div className="w-[160px] md:w-[280px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0 flex items-center justify-center">
-                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Look 2</span>
-                                    </div>
-                                    <div className="w-[160px] md:w-[280px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0 flex items-center justify-center">
-                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Look 3</span>
-                                    </div>
-                                    <div className="w-[160px] md:w-[280px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0 flex items-center justify-center">
-                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Look 4</span>
-                                    </div>
-                                    <div className="w-[160px] md:w-[280px] aspect-[3/4] rounded-2xl overflow-hidden bg-surface relative flex-shrink-0 flex items-center justify-center">
-                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Look 5</span>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                    <div className="w-full h-[calc(100vh-140px)] md:h-[calc(100vh-160px)] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8">
+                         {/* Placeholder Element */}
+                         <div className="absolute inset-0 flex flex-col items-center justify-center opacity-20">
+                              <span className="font-heading text-4xl md:text-7xl font-bold tracking-widest uppercase">Rita</span>
+                              <span className="font-data text-xs md:text-sm tracking-widest mt-2">NUEVA COLECCIÓN</span>
+                         </div>
+                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                         
+                         {/* Shop Now Button */}
+                         <div className="relative z-10 mt-auto mb-[15dvh] md:mb-[20dvh]">
+                             <button 
+                                 onClick={() => {
+                                    if(shopRef.current) shopRef.current.scrollIntoView({ behavior: 'smooth' });
+                                 }}
+                                 className="border border-black text-black bg-white/20 backdrop-blur-sm hover:bg-black hover:text-white transition-all duration-300 text-xs md:text-sm font-semibold tracking-widest uppercase px-12 py-4"
+                             >
+                                 Shop Now
+                             </button>
+                         </div>
                     </div>
                 )}
 
@@ -269,12 +257,15 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                 {activeNav === 'home' && (
                     <div className="md:hidden px-6 mb-8">
                         <h3 className="text-[10px] font-bold text-textDark mb-3 uppercase tracking-widest text-center">SHOP</h3>
-                        <div className="flex overflow-x-auto pb-4 gap-2 snap-x hide-scrollbar">
+                        <div className="flex flex-wrap justify-center pb-4 gap-2">
                             {categories.map(tab => (
                                 <button
                                     key={tab}
-                                    onClick={() => setActiveTab(tab)}
-                                    className={`snap-center shrink-0 px-5 py-2.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition-colors
+                                    onClick={() => {
+                                        setActiveTab(tab);
+                                        if (shopRef.current) shopRef.current.scrollIntoView({ behavior: 'smooth' });
+                                    }}
+                                    className={`px-5 py-2.5 rounded-full text-[11px] font-semibold transition-colors
                 ${activeTab === tab ? 'bg-primary text-white shadow-md' : 'bg-surface text-textDark border border-gray-100'}
               `}
                                 >
@@ -291,7 +282,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         <div className="flex flex-col gap-6">
                             {/* Step 1 */}
                             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-start">
-                                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm shrink-0">1</div>
+                                <div className="w-10 h-10 rounded-full bg-accent/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">1</div>
                                 <div>
                                     <h4 className="font-semibold text-sm mb-1">Elegí tus prendas</h4>
                                     <p className="text-xs text-textDark leading-relaxed">Explorá el catálogo y encontrá las prendas que más te gusten. Podés buscar por categoría o usar la lupa.</p>
@@ -309,7 +300,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                             {/* Step 3 */}
                             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-start">
-                                <div className="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold text-sm shrink-0">3</div>
+                                <div className="w-10 h-10 rounded-full bg-accent/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">3</div>
                                 <div>
                                     <h4 className="font-semibold text-sm mb-1">Completá el checkout</h4>
                                     <p className="text-xs text-textDark leading-relaxed">Hacé clic en "Realizar Pedido", completá tu nombre, correo e Instagram, y nosotros te contactamos para coordinar el pago y envío.</p>
@@ -329,7 +320,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* Product Grid */}
                 {activeNav === 'home' && (
-                    <>
+                    <div ref={shopRef} className="pt-4 scroll-mt-24">
                         <div className="hidden md:flex items-center px-6 md:px-10 mb-6 gap-4">
                             <h2 className="text-sm font-bold tracking-widest text-textDark uppercase">SHOP</h2>
                             <div className="flex-1 h-[1px] bg-gray-100"></div>
@@ -363,7 +354,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                 ))}
                             </div>
                         )}
-                    </>
+                    </div>
                 )}
             </main>
 

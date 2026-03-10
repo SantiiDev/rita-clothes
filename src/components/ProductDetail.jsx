@@ -75,8 +75,6 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
                 <h3 className="font-semibold text-lg md:text-xl mb-4 text-primary">Descripción:</h3>
                 <p className="text-sm md:text-base text-textDark leading-relaxed mb-12">
                     Prenda exclusiva diseñada para deslumbrar en tus eventos de noche.
-                    Combina cortes modernos con acabados premium. Ya sea para expresar
-                    tu estado de ánimo, promocionar tu estilo personal o simplemente para destacar — Rita te permite dominar la noche con elegancia absoluta.
                 </p>
 
                 {/* Action Bar - Inline on Desktop, Fixed bottom on Mobile */}

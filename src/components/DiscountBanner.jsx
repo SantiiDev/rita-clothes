@@ -24,9 +24,9 @@ export default function DiscountBanner({ isOpen, onRegister, onDismiss }) {
                     </div>
                 </div>
 
-                <h3 className="text-xl font-bold font-heading text-center mb-2">¡10% de descuento!</h3>
+                <h3 className="text-xl font-bold font-heading text-center mb-2">¡Tu primer look tiene 10% OFF!</h3>
                 <p className="text-sm text-textDark text-center mb-8 leading-relaxed">
-                    Registrate para obtener un descuento del <span className="font-bold text-primary">10%</span> en tu primera compra.
+                    Registrate y obtené el descuento para usar en tu primera compra.
                 </p>
 
                 <div className="flex flex-col gap-3">
