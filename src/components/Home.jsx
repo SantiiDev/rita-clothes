@@ -231,16 +231,15 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* Fullscreen Placeholder Carousel */}
                 {activeNav === 'home' && (
-                    <div className="w-full h-[75vh] md:h-[80vh] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8">
+                    <div className="w-full h-[60vh] min-h-[400px] md:h-[70vh] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10">
                          {/* Placeholder Element */}
-                         <div className="absolute inset-0 flex flex-col items-center justify-center -translate-y-12 md:-translate-y-16 opacity-20">
-                              <span className="font-heading text-4xl md:text-7xl font-bold tracking-widest uppercase">Rita</span>
-                              <span className="font-data text-xs md:text-sm tracking-widest mt-2">NUEVA COLECCIÓN</span>
+                         <div className="relative z-0 flex flex-col items-center justify-center opacity-30 mb-8 md:mb-12">
+                              <span className="font-heading text-5xl md:text-7xl font-bold tracking-widest uppercase">Rita</span>
+                              <span className="font-data text-[10px] md:text-sm tracking-widest mt-2">NUEVA COLECCIÓN</span>
                          </div>
-                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                          
                          {/* Shop Now Button */}
-                         <div className="relative z-10 mt-auto mb-[12dvh] md:mb-[15dvh]">
+                         <div className="relative z-10 scale-90 md:scale-100">
                              <button 
                                  onClick={() => {
                                     if(shopRef.current) {
@@ -254,6 +253,8 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                  Shop Now
                              </button>
                          </div>
+                         
+                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                     </div>
                 )}
 
