@@ -231,7 +231,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* Fullscreen Placeholder Carousel */}
                 {activeNav === 'home' && (
-                    <div className="w-full h-[60vh] min-h-[400px] md:h-[70vh] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10">
+                    <div className="w-full h-[calc(100dvh-130px)] md:h-[calc(100vh-160px)] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10">
                          {/* Placeholder Element */}
                          <div className="relative z-0 flex flex-col items-center justify-center opacity-30 mb-8 md:mb-12">
                               <span className="font-heading text-5xl md:text-7xl font-bold tracking-widest uppercase">Rita</span>
