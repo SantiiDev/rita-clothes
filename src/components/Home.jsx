@@ -245,20 +245,20 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                  onClick={() => {
                                     if(shopRef.current) shopRef.current.scrollIntoView({ behavior: 'smooth' });
                                  }}
-                                 className="btn-slide-hover bg-primary text-white text-xs md:text-sm font-semibold tracking-widest uppercase px-12 py-4 rounded-full shadow-lg transition-colors flex items-center justify-center gap-2 mx-auto"
+                                 className="btn-slide-hover w-max mx-auto bg-primary text-white font-heading font-semibold px-12 py-4 rounded-full flex items-center justify-center gap-2 transition-all duration-300"
                              >
                                  Shop Now
                              </button>
                          </div>
                     </div>
                 )}
-                {/* SHOP SECTION (Mobile Filters + Product Grid) */}
+
+                {/* Shop Section (Filters + Grid) */}
                 {activeNav === 'home' && (
-                    <div ref={shopRef} className="scroll-mt-32 md:scroll-mt-40">
+                    <div ref={shopRef} className="scroll-mt-24 pt-4">
                         {/* Mobile Filter Tabs */}
-                {activeNav === 'home' && (
-                    <div className="md:hidden px-6 mb-8">
-                        <h3 className="text-[10px] font-bold text-textDark mb-3 uppercase tracking-widest text-center">SHOP</h3>
+                        <div className="md:hidden px-6 mb-8">
+                            <h3 className="text-[10px] font-bold text-textDark mb-3 uppercase tracking-widest text-center">SHOP</h3>
                         <div className="flex flex-wrap justify-center pb-4 gap-2">
                             {categories.map(tab => (
                                 <button
@@ -277,7 +277,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         </div>
                     </div>
                 )}
-                
+
                 {/* How to Buy Section */}
                 {activeNav === 'howToBuy' && (
                     <div className="px-6 md:px-10 py-8 max-w-2xl mx-auto w-full">
@@ -322,7 +322,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* Product Grid */}
                 {activeNav === 'home' && (
-                    <div className="pt-4">
+                    <div className="pb-10">
                         <div className="hidden md:flex items-center px-6 md:px-10 mb-6 gap-4">
                             <h2 className="text-sm font-bold tracking-widest text-textDark uppercase">SHOP</h2>
                             <div className="flex-1 h-[1px] bg-gray-100"></div>
