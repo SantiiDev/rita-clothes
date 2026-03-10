@@ -25,17 +25,19 @@ function App() {
   // Auth modal
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // Discount banner — show only once per device
+  // Discount banner
   const [showDiscountBanner, setShowDiscountBanner] = useState(false);
+  const [hasShownBannerThisSession, setHasShownBannerThisSession] = useState(false);
 
   const isReturningUser = !!localStorage.getItem('rita_userName');
 
   // Show discount banner when arriving at home (if not registered)
   useEffect(() => {
-    if (currentScreen === 'home' && !authUser) {
+    if (currentScreen === 'home' && !authUser && !hasShownBannerThisSession) {
       setShowDiscountBanner(true);
+      setHasShownBannerThisSession(true);
     }
-  }, [currentScreen, authUser]);
+  }, [currentScreen, authUser, hasShownBannerThisSession]);
 
   // Persistir userName
   useEffect(() => {

@@ -161,8 +161,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         </div>
                         <div className="flex flex-col text-left whitespace-nowrap">
                             <span className={`${activeNav === 'howToBuy' ? 'text-lg md:text-xl' : 'text-sm'} font-semibold text-textMain flex items-center gap-1`}>
-                                {activeNav === 'howToBuy' ? '¿Cómo Comprar?' : `Hola, ${displayName} `}
-                                {activeNav !== 'howToBuy' && <span className="text-[10px]">👋</span>}
+                                {activeNav === 'howToBuy' ? '¿Cómo Comprar?' : `¡Hola, ${displayName}!`}
                             </span>
                         </div>
                     </div>
