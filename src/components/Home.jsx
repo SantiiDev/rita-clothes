@@ -231,21 +231,25 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* Fullscreen Placeholder Carousel */}
                 {activeNav === 'home' && (
-                    <div className="w-full h-[calc(100vh-140px)] md:h-[calc(100vh-160px)] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8">
+                    <div className="w-full h-[75vh] md:h-[80vh] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8">
                          {/* Placeholder Element */}
-                         <div className="absolute inset-0 flex flex-col items-center justify-center opacity-20">
+                         <div className="absolute inset-0 flex flex-col items-center justify-center -translate-y-12 md:-translate-y-16 opacity-20">
                               <span className="font-heading text-4xl md:text-7xl font-bold tracking-widest uppercase">Rita</span>
                               <span className="font-data text-xs md:text-sm tracking-widest mt-2">NUEVA COLECCIÓN</span>
                          </div>
                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                          
                          {/* Shop Now Button */}
-                         <div className="relative z-10 mt-auto mb-[15dvh] md:mb-[20dvh]">
+                         <div className="relative z-10 mt-auto mb-[12dvh] md:mb-[15dvh]">
                              <button 
                                  onClick={() => {
-                                    if(shopRef.current) shopRef.current.scrollIntoView({ behavior: 'smooth' });
+                                    if(shopRef.current) {
+                                        const yOffset = -80; 
+                                        const y = shopRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
+                                        window.scrollTo({ top: y, behavior: 'smooth' });
+                                    }
                                  }}
-                                 className="btn-slide-hover w-max mx-auto bg-primary text-white font-heading font-semibold px-12 py-4 rounded-full flex items-center justify-center gap-2 transition-all duration-300"
+                                 className="btn-slide-hover w-max mx-auto bg-primary text-white font-heading font-semibold px-12 py-4 rounded-full flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg"
                              >
                                  Shop Now
                              </button>
@@ -253,23 +257,30 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                     </div>
                 )}
 
-                {/* Shop Section (Filters + Grid) */}
+                {/* Shop Section Anchor */}
                 {activeNav === 'home' && (
-                    <div ref={shopRef} className="scroll-mt-24 pt-4">
-                        {/* Mobile Filter Tabs */}
-                        <div className="md:hidden px-6 mb-8">
-                            <h3 className="text-[10px] font-bold text-textDark mb-3 uppercase tracking-widest text-center">SHOP</h3>
+                    <div ref={shopRef} className="w-full h-0" />
+                )}
+
+                {/* Mobile Filter Tabs */}
+                {activeNav === 'home' && (
+                    <div className="md:hidden px-6 mb-8 pt-4">
+                        <h3 className="text-[10px] font-bold text-textDark mb-3 uppercase tracking-widest text-center">SHOP</h3>
                         <div className="flex flex-wrap justify-center pb-4 gap-2">
                             {categories.map(tab => (
                                 <button
                                     key={tab}
                                     onClick={() => {
                                         setActiveTab(tab);
-                                        if (shopRef.current) shopRef.current.scrollIntoView({ behavior: 'smooth' });
+                                        if (shopRef.current) {
+                                            const yOffset = -80; 
+                                            const y = shopRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
+                                            window.scrollTo({ top: y, behavior: 'smooth' });
+                                        }
                                     }}
                                     className={`px-5 py-2.5 rounded-full text-[11px] font-semibold transition-colors
-                ${activeTab === tab ? 'bg-primary text-white shadow-md' : 'bg-surface text-textDark border border-gray-100'}
-              `}
+                                        ${activeTab === tab ? 'bg-primary text-white shadow-md' : 'bg-surface text-textDark border border-gray-100'}
+                                    `}
                                 >
                                     {tab}
                                 </button>
