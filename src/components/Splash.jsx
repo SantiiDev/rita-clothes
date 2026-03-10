@@ -53,7 +53,7 @@ export default function Splash({ onNavigate, setUserName, isReturningUser }) {
                             onClick={handleContinue}
                             className="btn-slide-hover w-full md:px-12 bg-primary text-white font-heading font-semibold py-4 rounded-full flex items-center justify-center gap-2 duration-300"
                         >
-                            Descubrí tu próximo look.
+                            Descubrí tu próximo look
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M5 12h14m-7-7 7 7-7 7" />
                             </svg>

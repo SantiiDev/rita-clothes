@@ -112,7 +112,16 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                     {categories.map(tab => (
                         <li key={tab}>
                             <button
-                                onClick={() => { setActiveTab(tab); setActiveNav('home'); }}
+                                onClick={() => {
+                                    setActiveTab(tab);
+                                    setActiveNav('home');
+                                    // Make desktop filters scroll to the grid just like mobile tabs
+                                    if (shopRef.current) {
+                                        const yOffset = -80;
+                                        const y = shopRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
+                                        window.scrollTo({ top: y, behavior: 'smooth' });
+                                    }
+                                }}
                                 className={`w-full text-left px-4 py-2.5 rounded-xl text-xs font-medium transition-colors
                   ${activeTab === tab && activeNav === 'home' ? 'bg-primary text-white' : 'text-textDark hover:bg-gray-200 hover:text-black'}
                 `}
