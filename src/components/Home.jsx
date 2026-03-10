@@ -245,7 +245,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                  onClick={() => {
                                     if(shopRef.current) shopRef.current.scrollIntoView({ behavior: 'smooth' });
                                  }}
-                                 className="border border-black text-black bg-white/20 backdrop-blur-sm hover:bg-black hover:text-white transition-all duration-300 text-xs md:text-sm font-semibold tracking-widest uppercase px-12 py-4"
+                                 className="btn-slide-hover bg-primary text-white text-xs md:text-sm font-semibold tracking-widest uppercase px-12 py-4 rounded-full shadow-lg transition-colors flex items-center justify-center gap-2 mx-auto"
                              >
                                  Shop Now
                              </button>
