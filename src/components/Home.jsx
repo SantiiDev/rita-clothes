@@ -320,7 +320,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* Product Grid */}
                 {activeNav === 'home' && (
-                    <div ref={shopRef} className="pt-4 scroll-mt-24">
+                    <div ref={shopRef} className="pt-4 scroll-mt-32 md:scroll-mt-40">
                         <div className="hidden md:flex items-center px-6 md:px-10 mb-6 gap-4">
                             <h2 className="text-sm font-bold tracking-widest text-textDark uppercase">SHOP</h2>
                             <div className="flex-1 h-[1px] bg-gray-100"></div>
