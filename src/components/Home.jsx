@@ -12,11 +12,11 @@ const DUMMY_PRODUCTS = [
 ];
 
 const carouselImages = [
-    '/prendas/0.jpg',
-    '/prendas/1.jpg',
-    '/prendas/2.jpg',
-    '/prendas/3.jpg',
-    '/prendas/4.jpg'
+    '/images/0.jpg',
+    '/images/1.jpg',
+    '/images/2.jpg',
+    '/images/3.jpg',
+    '/images/4.jpg'
 ];
 
 // Cart icon SVG (shopping bag)
