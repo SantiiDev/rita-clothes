@@ -11,6 +11,14 @@ const DUMMY_PRODUCTS = [
     { id: 8, name: "Body Transparencia", price: "$40", category: "BODIES", color: "Transparente" },
 ];
 
+const carouselImages = [
+    '/prendas/0.jpg',
+    '/prendas/1.jpg',
+    '/prendas/2.jpg',
+    '/prendas/3.jpg',
+    '/prendas/4.jpg'
+];
+
 // Cart icon SVG (shopping bag)
 const CartIcon = ({ size = 16 }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -56,8 +64,26 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [activeNav, setActiveNav] = useState('home'); // 'home' | 'howToBuy'
     const [showTopBanner, setShowTopBanner] = useState(!authUser);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const categories = ['ALL', 'VESTIDOS', 'SHORTS', 'SKORTS', 'TOPS', 'BODIES', 'DENIM', 'BÁSICOS'];
+
+    // Carousel auto-slide
+    useEffect(() => {
+        if (activeNav !== 'home') return;
+        const timer = setInterval(() => {
+            setCurrentImageIndex(prev => (prev + 1) % carouselImages.length);
+        }, 3000);
+        return () => clearInterval(timer);
+    }, [activeNav]);
+
+    const handlePrevImage = () => {
+        setCurrentImageIndex(prev => (prev - 1 + carouselImages.length) % carouselImages.length);
+    };
+
+    const handleNextImage = () => {
+        setCurrentImageIndex(prev => (prev + 1) % carouselImages.length);
+    };
 
     // Toast auto-dismiss
     useEffect(() => {
@@ -237,13 +263,40 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                     </div>
                 )}
 
-                {/* Fullscreen Placeholder Carousel */}
+                {/* Fullscreen Photo Carousel */}
                 {activeNav === 'home' && (
-                    <div className="w-full h-[calc(100dvh-130px)] md:h-[calc(100vh-160px)] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10">
-                        {/* Placeholder Element */}
-                        <div className="relative z-0 flex flex-col items-center justify-center opacity-30 mb-8 md:mb-12">
-                            <span className="font-heading text-5xl md:text-7xl font-bold tracking-widest uppercase">Rita</span>
-                            <span className="font-data text-[10px] md:text-sm tracking-widest mt-2">NUEVA COLECCIÓN</span>
+                    <div className="w-full h-[calc(100dvh-130px)] md:h-[calc(100vh-160px)] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10 group">
+                        
+                        {/* Images */}
+                        {carouselImages.map((src, index) => (
+                            <img
+                                key={src}
+                                src={src}
+                                alt={`Rita Carousel ${index}`}
+                                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
+                            />
+                        ))}
+
+                        <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+
+                        {/* Controls (Desktop/Mobile hover) */}
+                        <button 
+                            onClick={handlePrevImage}
+                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-20"
+                        >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button 
+                            onClick={handleNextImage}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-20"
+                        >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+
+                        {/* Text Overlay */}
+                        <div className="relative z-10 flex flex-col items-center justify-center text-white mb-8 md:mb-12 pointer-events-none">
+                            <span className="font-heading text-5xl md:text-7xl font-bold tracking-widest uppercase drop-shadow-md">Rita</span>
+                            <span className="font-data text-[10px] md:text-sm tracking-widest mt-2 drop-shadow-md">NUEVA COLECCIÓN</span>
                         </div>
 
                         {/* Shop Now Button */}
@@ -261,8 +314,17 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                 Shop Now
                             </button>
                         </div>
-
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                        
+                        {/* Dots */}
+                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                            {carouselImages.map((_, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => setCurrentImageIndex(idx)}
+                                    className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/80'}`}
+                                />
+                            ))}
+                        </div>
                     </div>
                 )}
 
