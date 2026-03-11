@@ -65,9 +65,11 @@ export default function Splash({ onNavigate, setUserName, isReturningUser }) {
             {/* Right Image Area (Middle on Mobile) */}
             <div className="flex-grow md:flex-1 relative order-first md:order-last min-h-[40vh] md:min-h-screen">
                 <div className="absolute inset-0 bg-surface overflow-hidden flex items-center justify-center">
-                    <span className="text-textDark font-data text-xs md:text-sm uppercase tracking-widest rotate-90 md:rotate-0 opacity-40">
-                        Imagen Principal
-                    </span>
+                    <img 
+                        src="/prendas/splash-main.jpg" 
+                        alt="RITA Nueva Colección" 
+                        className="w-full h-full object-cover object-center"
+                    />
                 </div>
 
                 {/* Decorative elements */}

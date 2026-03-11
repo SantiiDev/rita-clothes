@@ -239,14 +239,11 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* Fullscreen Placeholder Carousel */}
                 {activeNav === 'home' && (
-                    <div className="w-full h-[calc(100dvh-130px)] md:h-[calc(100vh-160px)] bg-[url('/images/hero-bg.jpg')] bg-cover bg-center relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10">
-                        {/* Dark Overlay for better text readability */}
-                        <div className="absolute inset-0 bg-black/30 z-0"></div>
-
+                    <div className="w-full h-[calc(100dvh-130px)] md:h-[calc(100vh-160px)] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10">
                         {/* Placeholder Element */}
-                        <div className="relative z-10 flex flex-col items-center justify-center mb-8 md:mb-12 text-white">
-                            <span className="font-heading text-5xl md:text-7xl font-bold tracking-widest uppercase drop-shadow-md">Rita</span>
-                            <span className="font-data text-[10px] md:text-sm tracking-widest mt-2 opacity-90 drop-shadow-sm">NUEVA COLECCIÓN</span>
+                        <div className="relative z-0 flex flex-col items-center justify-center opacity-30 mb-8 md:mb-12">
+                            <span className="font-heading text-5xl md:text-7xl font-bold tracking-widest uppercase">Rita</span>
+                            <span className="font-data text-[10px] md:text-sm tracking-widest mt-2">NUEVA COLECCIÓN</span>
                         </div>
 
                         {/* Shop Now Button */}
