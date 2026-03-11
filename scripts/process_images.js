@@ -116,9 +116,7 @@ async function run() {
         
         await fs.mkdir(path.dirname(targetDataPath), { recursive: true });
         
-        const jsonContent = `// Archivo autogenerado por process_images.js
-export const PRODUCTS = ${JSON.stringify(finalProductsList, null, 2)};
-`;
+        const jsonContent = JSON.stringify(finalProductsList, null, 2);
         await fs.writeFile(targetDataPath, jsonContent);
         console.log(`\n¡Datos escritos exitosamente en ${targetDataPath} con ${finalProductsList.length} modelos unicos!`);
 

@@ -1,10 +1,9 @@
-// Archivo autogenerado por process_images.js
-export const PRODUCTS = [
+[
   {
     "id": 1,
     "name": "BODY REBECCA",
     "category": "BODYS",
-    "price": "$45",
+    "price": "$104",
     "colors": [
       {
         "name": "BLANCO",
@@ -20,7 +19,7 @@ export const PRODUCTS = [
     "id": 2,
     "name": "CONJUNTO HANNA",
     "category": "CONJUNTOS",
-    "price": "$45",
+    "price": "$52",
     "colors": [
       {
         "name": "BORDO",
@@ -36,7 +35,7 @@ export const PRODUCTS = [
     "id": 3,
     "name": "SHORT ANNA",
     "category": "SHORTS",
-    "price": "$104",
+    "price": "$88",
     "colors": [
       {
         "name": "BLACK",
@@ -56,7 +55,7 @@ export const PRODUCTS = [
     "id": 4,
     "name": "SHORT LOLA",
     "category": "SHORTS",
-    "price": "$116",
+    "price": "$98",
     "colors": [
       {
         "name": "Único",
@@ -80,7 +79,7 @@ export const PRODUCTS = [
     "id": 6,
     "name": "SHORT RINA",
     "category": "SHORTS",
-    "price": "$96",
+    "price": "$90",
     "colors": [
       {
         "name": "Único",
@@ -92,7 +91,7 @@ export const PRODUCTS = [
     "id": 7,
     "name": "SHORT SARA",
     "category": "SHORTS",
-    "price": "$105",
+    "price": "$44",
     "colors": [
       {
         "name": "Único",
@@ -104,7 +103,7 @@ export const PRODUCTS = [
     "id": 8,
     "name": "SHORT SELE",
     "category": "SHORTS",
-    "price": "$111",
+    "price": "$87",
     "colors": [
       {
         "name": "BLACK",
@@ -124,7 +123,7 @@ export const PRODUCTS = [
     "id": 9,
     "name": "SHORT SHINE",
     "category": "SHORTS",
-    "price": "$109",
+    "price": "$107",
     "colors": [
       {
         "name": "Único",
@@ -136,7 +135,7 @@ export const PRODUCTS = [
     "id": 10,
     "name": "SHORT TATI",
     "category": "SHORTS",
-    "price": "$74",
+    "price": "$75",
     "colors": [
       {
         "name": "Único",
@@ -148,7 +147,7 @@ export const PRODUCTS = [
     "id": 11,
     "name": "SHORT UMA",
     "category": "SHORTS",
-    "price": "$114",
+    "price": "$75",
     "colors": [
       {
         "name": "Único",
@@ -160,7 +159,7 @@ export const PRODUCTS = [
     "id": 12,
     "name": "SKORT ADA",
     "category": "SKORTS",
-    "price": "$48",
+    "price": "$75",
     "colors": [
       {
         "name": "Único",
@@ -172,7 +171,7 @@ export const PRODUCTS = [
     "id": 13,
     "name": "SKORT ISA",
     "category": "SKORTS",
-    "price": "$44",
+    "price": "$84",
     "colors": [
       {
         "name": "Único",
@@ -184,7 +183,7 @@ export const PRODUCTS = [
     "id": 14,
     "name": "SKORT LIA",
     "category": "SKORTS",
-    "price": "$106",
+    "price": "$72",
     "colors": [
       {
         "name": "Único",
@@ -196,7 +195,7 @@ export const PRODUCTS = [
     "id": 15,
     "name": "SKORT LILI",
     "category": "SKORTS",
-    "price": "$73",
+    "price": "$103",
     "colors": [
       {
         "name": "Único",
@@ -208,7 +207,7 @@ export const PRODUCTS = [
     "id": 16,
     "name": "SKORT LUCY",
     "category": "SKORTS",
-    "price": "$97",
+    "price": "$114",
     "colors": [
       {
         "name": "Único",
@@ -220,7 +219,7 @@ export const PRODUCTS = [
     "id": 17,
     "name": "SKORT MAYA",
     "category": "SKORTS",
-    "price": "$103",
+    "price": "$46",
     "colors": [
       {
         "name": "Único",
@@ -232,7 +231,7 @@ export const PRODUCTS = [
     "id": 18,
     "name": "SKORT MIA",
     "category": "SKORTS",
-    "price": "$41",
+    "price": "$40",
     "colors": [
       {
         "name": "NEGRO",
@@ -248,7 +247,7 @@ export const PRODUCTS = [
     "id": 19,
     "name": "SKORT MILA",
     "category": "SKORTS",
-    "price": "$77",
+    "price": "$87",
     "colors": [
       {
         "name": "Único",
@@ -260,7 +259,7 @@ export const PRODUCTS = [
     "id": 20,
     "name": "SKORT SAMI",
     "category": "SKORTS",
-    "price": "$57",
+    "price": "$65",
     "colors": [
       {
         "name": "Único",
@@ -272,7 +271,7 @@ export const PRODUCTS = [
     "id": 21,
     "name": "SKORT TAMI",
     "category": "SKORTS",
-    "price": "$78",
+    "price": "$109",
     "colors": [
       {
         "name": "Único",
@@ -284,7 +283,7 @@ export const PRODUCTS = [
     "id": 22,
     "name": "SKORT ZARA",
     "category": "SKORTS",
-    "price": "$106",
+    "price": "$115",
     "colors": [
       {
         "name": "Único",
@@ -296,7 +295,7 @@ export const PRODUCTS = [
     "id": 23,
     "name": "TOP ANNA",
     "category": "TOPS",
-    "price": "$100",
+    "price": "$89",
     "colors": [
       {
         "name": "DORSO",
@@ -312,7 +311,7 @@ export const PRODUCTS = [
     "id": 24,
     "name": "TOP ARIA",
     "category": "TOPS",
-    "price": "$86",
+    "price": "$66",
     "colors": [
       {
         "name": "MARRON",
@@ -328,7 +327,7 @@ export const PRODUCTS = [
     "id": 25,
     "name": "TOP CAMILA",
     "category": "TOPS",
-    "price": "$109",
+    "price": "$62",
     "colors": [
       {
         "name": "Único",
@@ -340,7 +339,7 @@ export const PRODUCTS = [
     "id": 26,
     "name": "TOP CLEO",
     "category": "TOPS",
-    "price": "$90",
+    "price": "$111",
     "colors": [
       {
         "name": "Único",
@@ -356,7 +355,7 @@ export const PRODUCTS = [
     "id": 27,
     "name": "TOP CORA",
     "category": "TOPS",
-    "price": "$64",
+    "price": "$65",
     "colors": [
       {
         "name": "Único",
@@ -368,7 +367,7 @@ export const PRODUCTS = [
     "id": 28,
     "name": "TOP EMMA",
     "category": "TOPS",
-    "price": "$46",
+    "price": "$56",
     "colors": [
       {
         "name": "AZUL",
@@ -392,7 +391,7 @@ export const PRODUCTS = [
     "id": 29,
     "name": "TOP KALI",
     "category": "TOPS",
-    "price": "$74",
+    "price": "$119",
     "colors": [
       {
         "name": "BORDO",
@@ -408,7 +407,7 @@ export const PRODUCTS = [
     "id": 30,
     "name": "TOP LIA",
     "category": "TOPS",
-    "price": "$82",
+    "price": "$59",
     "colors": [
       {
         "name": "Único",
@@ -420,7 +419,7 @@ export const PRODUCTS = [
     "id": 31,
     "name": "TOP MAR",
     "category": "TOPS",
-    "price": "$82",
+    "price": "$78",
     "colors": [
       {
         "name": "Único",
@@ -432,7 +431,7 @@ export const PRODUCTS = [
     "id": 32,
     "name": "TOP MARY",
     "category": "TOPS",
-    "price": "$56",
+    "price": "$79",
     "colors": [
       {
         "name": "Único",
@@ -444,7 +443,7 @@ export const PRODUCTS = [
     "id": 33,
     "name": "TOP MERI",
     "category": "TOPS",
-    "price": "$112",
+    "price": "$51",
     "colors": [
       {
         "name": "MARRON",
@@ -460,7 +459,7 @@ export const PRODUCTS = [
     "id": 34,
     "name": "TOP ROSE",
     "category": "TOPS",
-    "price": "$43",
+    "price": "$118",
     "colors": [
       {
         "name": "MARRON",
@@ -476,7 +475,7 @@ export const PRODUCTS = [
     "id": 35,
     "name": "TOP SOPHIA",
     "category": "TOPS",
-    "price": "$106",
+    "price": "$50",
     "colors": [
       {
         "name": "MARRON",
@@ -496,7 +495,7 @@ export const PRODUCTS = [
     "id": 36,
     "name": "TOP TIARA",
     "category": "TOPS",
-    "price": "$60",
+    "price": "$77",
     "colors": [
       {
         "name": "AZUL",
@@ -516,7 +515,7 @@ export const PRODUCTS = [
     "id": 37,
     "name": "TOP ZAMI",
     "category": "TOPS",
-    "price": "$70",
+    "price": "$110",
     "colors": [
       {
         "name": "Único",
@@ -528,7 +527,7 @@ export const PRODUCTS = [
     "id": 38,
     "name": "TOP ZOE",
     "category": "TOPS",
-    "price": "$53",
+    "price": "$89",
     "colors": [
       {
         "name": "BORDO",
@@ -548,7 +547,7 @@ export const PRODUCTS = [
     "id": 39,
     "name": "VESTIDO BETTY",
     "category": "VESTIDOS",
-    "price": "$50",
+    "price": "$72",
     "colors": [
       {
         "name": "Único",
@@ -560,7 +559,7 @@ export const PRODUCTS = [
     "id": 40,
     "name": "VESTIDO CLARA",
     "category": "VESTIDOS",
-    "price": "$92",
+    "price": "$70",
     "colors": [
       {
         "name": "AZUL",
@@ -580,7 +579,7 @@ export const PRODUCTS = [
     "id": 41,
     "name": "VESTIDO CORA",
     "category": "VESTIDOS",
-    "price": "$112",
+    "price": "$110",
     "colors": [
       {
         "name": "Único",
@@ -592,7 +591,7 @@ export const PRODUCTS = [
     "id": 42,
     "name": "VESTIDO ELENA",
     "category": "VESTIDOS",
-    "price": "$88",
+    "price": "$76",
     "colors": [
       {
         "name": "FRUNCE BORDO",
@@ -612,7 +611,7 @@ export const PRODUCTS = [
     "id": 43,
     "name": "VESTIDO EVA",
     "category": "VESTIDOS",
-    "price": "$66",
+    "price": "$82",
     "colors": [
       {
         "name": "SHINE ROJO ESPALDA",
@@ -632,7 +631,7 @@ export const PRODUCTS = [
     "id": 44,
     "name": "VESTIDO MACA",
     "category": "VESTIDOS",
-    "price": "$94",
+    "price": "$87",
     "colors": [
       {
         "name": "NEGRO",
@@ -648,7 +647,7 @@ export const PRODUCTS = [
     "id": 45,
     "name": "VESTIDO MAITE",
     "category": "VESTIDOS",
-    "price": "$56",
+    "price": "$103",
     "colors": [
       {
         "name": "Único",
@@ -660,7 +659,7 @@ export const PRODUCTS = [
     "id": 46,
     "name": "VESTIDO OLIVIA",
     "category": "VESTIDOS",
-    "price": "$118",
+    "price": "$91",
     "colors": [
       {
         "name": "Único",
@@ -672,7 +671,7 @@ export const PRODUCTS = [
     "id": 47,
     "name": "VESTIDO ROMA",
     "category": "VESTIDOS",
-    "price": "$83",
+    "price": "$60",
     "colors": [
       {
         "name": "Único",
@@ -684,7 +683,7 @@ export const PRODUCTS = [
     "id": 48,
     "name": "VESTIDO SUSI",
     "category": "VESTIDOS",
-    "price": "$82",
+    "price": "$52",
     "colors": [
       {
         "name": "Único",
@@ -696,7 +695,7 @@ export const PRODUCTS = [
     "id": 49,
     "name": "VESTIDO ZOE",
     "category": "VESTIDOS",
-    "price": "$114",
+    "price": "$45",
     "colors": [
       {
         "name": " STRASS",
@@ -712,4 +711,4 @@ export const PRODUCTS = [
       }
     ]
   }
-];
+]

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { PRODUCTS } from '../data/products.json';
+import PRODUCTS from '../data/products.json';
 const carouselImages = [
     '/images/0.jpg',
     '/images/1.jpg',
