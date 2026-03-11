@@ -1,0 +1,715 @@
+// Archivo autogenerado por process_images.js
+export const PRODUCTS = [
+  {
+    "id": 1,
+    "name": "BODY REBECCA",
+    "category": "BODYS",
+    "price": "$45",
+    "colors": [
+      {
+        "name": "BLANCO",
+        "image": "/opt-prendas/BODY-REBECCA-BLANCO.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/BODY-REBECCA-NEGRO.jpg"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "CONJUNTO HANNA",
+    "category": "CONJUNTOS",
+    "price": "$45",
+    "colors": [
+      {
+        "name": "BORDO",
+        "image": "/opt-prendas/CONJUNTO-HANNA-BORDO.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/CONJUNTO-HANNA-NEGRO.jpg"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "SHORT ANNA",
+    "category": "SHORTS",
+    "price": "$104",
+    "colors": [
+      {
+        "name": "BLACK",
+        "image": "/opt-prendas/SHORT-ANNA-BLACK.jpg"
+      },
+      {
+        "name": "BLUE",
+        "image": "/opt-prendas/SHORT-ANNA-BLUE.jpg"
+      },
+      {
+        "name": "GREY",
+        "image": "/opt-prendas/SHORT-ANNA-GREY.jpg"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "SHORT LOLA",
+    "category": "SHORTS",
+    "price": "$116",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SHORT-LOLA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "SHORT MOMI",
+    "category": "SHORTS",
+    "price": "$40",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SHORT-MOMI-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "SHORT RINA",
+    "category": "SHORTS",
+    "price": "$96",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SHORT-RINA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "SHORT SARA",
+    "category": "SHORTS",
+    "price": "$105",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SHORT-SARA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "SHORT SELE",
+    "category": "SHORTS",
+    "price": "$111",
+    "colors": [
+      {
+        "name": "BLACK",
+        "image": "/opt-prendas/SHORT-SELE-BLACK.jpg"
+      },
+      {
+        "name": "BLUE",
+        "image": "/opt-prendas/SHORT-SELE-BLUE.jpg"
+      },
+      {
+        "name": "WHITE",
+        "image": "/opt-prendas/SHORT-SELE-WHITE.jpg"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "SHORT SHINE",
+    "category": "SHORTS",
+    "price": "$109",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SHORT-SHINE-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "SHORT TATI",
+    "category": "SHORTS",
+    "price": "$74",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SHORT-TATI-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "SHORT UMA",
+    "category": "SHORTS",
+    "price": "$114",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SHORT-UMA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "SKORT ADA",
+    "category": "SKORTS",
+    "price": "$48",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SKORT-ADA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "SKORT ISA",
+    "category": "SKORTS",
+    "price": "$44",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SKORT-ISA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "SKORT LIA",
+    "category": "SKORTS",
+    "price": "$106",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SKORT-LIA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "SKORT LILI",
+    "category": "SKORTS",
+    "price": "$73",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SKORT-LILI-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "SKORT LUCY",
+    "category": "SKORTS",
+    "price": "$97",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SKORT-LUCY-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "SKORT MAYA",
+    "category": "SKORTS",
+    "price": "$103",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SKORT-MAYA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "SKORT MIA",
+    "category": "SKORTS",
+    "price": "$41",
+    "colors": [
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/SKORT-MIA-NEGRO.jpg"
+      },
+      {
+        "name": "VIOLETA",
+        "image": "/opt-prendas/SKORT-MIA-VIOLETA.jpg"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "SKORT MILA",
+    "category": "SKORTS",
+    "price": "$77",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SKORT-MILA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "SKORT SAMI",
+    "category": "SKORTS",
+    "price": "$57",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SKORT-SAMI-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "SKORT TAMI",
+    "category": "SKORTS",
+    "price": "$78",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SKORT-TAMI-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "SKORT ZARA",
+    "category": "SKORTS",
+    "price": "$106",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/SKORT-ZARA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "name": "TOP ANNA",
+    "category": "TOPS",
+    "price": "$100",
+    "colors": [
+      {
+        "name": "DORSO",
+        "image": "/opt-prendas/TOP-ANNA-DORSO.jpg"
+      },
+      {
+        "name": "FRENTE",
+        "image": "/opt-prendas/TOP-ANNA-FRENTE.jpg"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "name": "TOP ARIA",
+    "category": "TOPS",
+    "price": "$86",
+    "colors": [
+      {
+        "name": "MARRON",
+        "image": "/opt-prendas/TOP-ARIA-MARRON.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/TOP-ARIA-NEGRO.jpg"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "name": "TOP CAMILA",
+    "category": "TOPS",
+    "price": "$109",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/TOP-CAMILA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "name": "TOP CLEO",
+    "category": "TOPS",
+    "price": "$90",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/TOP-CLEO-Único.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/TOP-CLEO-NEGRO.jpg"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "name": "TOP CORA",
+    "category": "TOPS",
+    "price": "$64",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/TOP-CORA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "name": "TOP EMMA",
+    "category": "TOPS",
+    "price": "$46",
+    "colors": [
+      {
+        "name": "AZUL",
+        "image": "/opt-prendas/TOP-EMMA-AZUL.jpg"
+      },
+      {
+        "name": "BORDO",
+        "image": "/opt-prendas/TOP-EMMA-BORDO.jpg"
+      },
+      {
+        "name": "NEGRO ESPALDA",
+        "image": "/opt-prendas/TOP-EMMA-NEGRO_ESPALDA.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/TOP-EMMA-NEGRO.jpg"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "name": "TOP KALI",
+    "category": "TOPS",
+    "price": "$74",
+    "colors": [
+      {
+        "name": "BORDO",
+        "image": "/opt-prendas/TOP-KALI-BORDO.jpg"
+      },
+      {
+        "name": "MARRON",
+        "image": "/opt-prendas/TOP-KALI-MARRON.jpg"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "name": "TOP LIA",
+    "category": "TOPS",
+    "price": "$82",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/TOP-LIA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "name": "TOP MAR",
+    "category": "TOPS",
+    "price": "$82",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/TOP-MAR-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "name": "TOP MARY",
+    "category": "TOPS",
+    "price": "$56",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/TOP-MARY-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "name": "TOP MERI",
+    "category": "TOPS",
+    "price": "$112",
+    "colors": [
+      {
+        "name": "MARRON",
+        "image": "/opt-prendas/TOP-MERI-MARRON.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/TOP-MERI-NEGRO.jpg"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "name": "TOP ROSE",
+    "category": "TOPS",
+    "price": "$43",
+    "colors": [
+      {
+        "name": "MARRON",
+        "image": "/opt-prendas/TOP-ROSE-MARRON.jpg"
+      },
+      {
+        "name": "Único",
+        "image": "/opt-prendas/TOP-ROSE-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "name": "TOP SOPHIA",
+    "category": "TOPS",
+    "price": "$106",
+    "colors": [
+      {
+        "name": "MARRON",
+        "image": "/opt-prendas/TOP-SOPHIA-MARRON.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/TOP-SOPHIA-NEGRO.jpg"
+      },
+      {
+        "name": "Único",
+        "image": "/opt-prendas/TOP-SOPHIA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "name": "TOP TIARA",
+    "category": "TOPS",
+    "price": "$60",
+    "colors": [
+      {
+        "name": "AZUL",
+        "image": "/opt-prendas/TOP-TIARA-AZUL.jpg"
+      },
+      {
+        "name": "BORDO",
+        "image": "/opt-prendas/TOP-TIARA-BORDO.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/TOP-TIARA-NEGRO.jpg"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "name": "TOP ZAMI",
+    "category": "TOPS",
+    "price": "$70",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/TOP-ZAMI-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "name": "TOP ZOE",
+    "category": "TOPS",
+    "price": "$53",
+    "colors": [
+      {
+        "name": "BORDO",
+        "image": "/opt-prendas/TOP-ZOE-BORDO.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/TOP-ZOE-NEGRO.jpg"
+      },
+      {
+        "name": "Único",
+        "image": "/opt-prendas/TOP-ZOE-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "name": "VESTIDO BETTY",
+    "category": "VESTIDOS",
+    "price": "$50",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/VESTIDO-BETTY-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "name": "VESTIDO CLARA",
+    "category": "VESTIDOS",
+    "price": "$92",
+    "colors": [
+      {
+        "name": "AZUL",
+        "image": "/opt-prendas/VESTIDO-CLARA-AZUL.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/VESTIDO-CLARA-NEGRO.jpg"
+      },
+      {
+        "name": "VERDE",
+        "image": "/opt-prendas/VESTIDO-CLARA-VERDE.jpg"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "name": "VESTIDO CORA",
+    "category": "VESTIDOS",
+    "price": "$112",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/VESTIDO-CORA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "name": "VESTIDO ELENA",
+    "category": "VESTIDOS",
+    "price": "$88",
+    "colors": [
+      {
+        "name": "FRUNCE BORDO",
+        "image": "/opt-prendas/VESTIDO-ELENA-FRUNCE_BORDO.jpg"
+      },
+      {
+        "name": "FRUNCE",
+        "image": "/opt-prendas/VESTIDO-ELENA-FRUNCE.jpg"
+      },
+      {
+        "name": "Único",
+        "image": "/opt-prendas/VESTIDO-ELENA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "name": "VESTIDO EVA",
+    "category": "VESTIDOS",
+    "price": "$66",
+    "colors": [
+      {
+        "name": "SHINE ROJO ESPALDA",
+        "image": "/opt-prendas/VESTIDO-EVA-SHINE_ROJO_ESPALDA.jpg"
+      },
+      {
+        "name": "SHINE ROJO",
+        "image": "/opt-prendas/VESTIDO-EVA-SHINE_ROJO.jpg"
+      },
+      {
+        "name": "Único",
+        "image": "/opt-prendas/VESTIDO-EVA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "name": "VESTIDO MACA",
+    "category": "VESTIDOS",
+    "price": "$94",
+    "colors": [
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/VESTIDO-MACA-NEGRO.jpg"
+      },
+      {
+        "name": "Único",
+        "image": "/opt-prendas/VESTIDO-MACA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "name": "VESTIDO MAITE",
+    "category": "VESTIDOS",
+    "price": "$56",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/VESTIDO-MAITE-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "name": "VESTIDO OLIVIA",
+    "category": "VESTIDOS",
+    "price": "$118",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/VESTIDO-OLIVIA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "name": "VESTIDO ROMA",
+    "category": "VESTIDOS",
+    "price": "$83",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/VESTIDO-ROMA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "name": "VESTIDO SUSI",
+    "category": "VESTIDOS",
+    "price": "$82",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/VESTIDO-SUSI-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "name": "VESTIDO ZOE",
+    "category": "VESTIDOS",
+    "price": "$114",
+    "colors": [
+      {
+        "name": " STRASS",
+        "image": "/opt-prendas/VESTIDO-ZOE-_STRASS.jpg"
+      },
+      {
+        "name": "AZUL",
+        "image": "/opt-prendas/VESTIDO-ZOE-AZUL.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/VESTIDO-ZOE-NEGRO.jpg"
+      }
+    ]
+  }
+];

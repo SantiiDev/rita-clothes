@@ -3,11 +3,23 @@ import { useState } from 'react';
 export default function ProductDetail({ product, onNavigate, onAddToCart, cartItemCount }) {
     const [quantity, setQuantity] = useState(1);
     const [addedAnimation, setAddedAnimation] = useState(false);
+    
+    // Check if the product has defined colors, pick the first one by default
+    const hasColors = product?.colors && product.colors.length > 0;
+    const [selectedColorIndex, setSelectedColorIndex] = useState(0);
 
     if (!product) return null;
 
     const handleAdd = () => {
-        onAddToCart(product, quantity);
+        // Build a unique item ID using the selected color if applicable, 
+        // but for now we'll just pass the product and selected color info to cart
+        const productToAdd = hasColors ? {
+            ...product, 
+            id: `${product.id}-${product.colors[selectedColorIndex].name}`, // create variant id
+            name: `${product.name} - ${product.colors[selectedColorIndex].name}`
+        } : product;
+
+        onAddToCart(productToAdd, quantity);
         setAddedAnimation(true);
         setTimeout(() => setAddedAnimation(false), 2000);
     };
@@ -41,9 +53,18 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
             {/* Product Image Area (Left col on Desktop) */}
             <div className="w-full md:w-1/2 lg:w-3/5 px-6 pt-24 md:px-0 md:pt-0 mb-8 md:mb-0 relative md:sticky md:top-0 h-auto md:h-screen flex items-center justify-center bg-surface md:bg-transparent">
                 <div className="bg-surface rounded-3xl md:rounded-none aspect-[4/5] md:aspect-auto md:h-full w-full relative overflow-hidden flex items-center justify-center">
-                    <span className="text-textDark font-data text-xs md:text-xl uppercase opacity-30 tracking-widest rotate-90 md:rotate-0">
-                        Imagen de Catálogo
-                    </span>
+                    {hasColors && product.colors[selectedColorIndex]?.image ? (
+                        <img 
+                            src={product.colors[selectedColorIndex].image} 
+                            alt={`${product.name} - ${product.colors[selectedColorIndex].name}`} 
+                            className="w-full h-full object-cover animate-in fade-in duration-500" 
+                            key={selectedColorIndex} // forces re-render for animation
+                        />
+                    ) : (
+                        <span className="text-textDark font-data text-xs md:text-xl uppercase opacity-30 tracking-widest rotate-90 md:rotate-0">
+                            Imagen de Catálogo
+                        </span>
+                    )}
 
                     {/* Price Tag Overlay */}
                     <div className="absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 md:right-auto flex justify-between items-end">
@@ -67,12 +88,33 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
                     </h1>
                 </div>
 
-                <div className="flex items-center gap-3 mb-8 md:mb-12">
+                <div className="flex items-center gap-3 mb-8">
                     <div className="w-6 h-6 rounded-full bg-black flex items-center justify-center text-[10px] font-bold text-white shadow-md">R</div>
                     <span className="text-sm text-textDark font-medium">Rita Oficial</span>
                 </div>
 
-                <h3 className="font-semibold text-lg md:text-xl mb-4 text-primary">Descripción:</h3>
+                {hasColors && product.colors.length > 1 && (
+                    <div className="mb-8">
+                        <h3 className="font-semibold text-lg md:text-xl mb-3 text-primary">Color:</h3>
+                        <div className="flex flex-wrap gap-2">
+                            {product.colors.map((color, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setSelectedColorIndex(index)}
+                                    className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-300 border
+                                        ${index === selectedColorIndex 
+                                            ? 'bg-black text-white border-black shadow-md scale-105' 
+                                            : 'bg-white text-textDark border-gray-200 hover:border-gray-400'
+                                        }`}
+                                >
+                                    {color.name}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <h3 className="font-semibold text-lg md:text-xl mb-3 text-primary">Descripción:</h3>
                 <p className="text-sm md:text-base text-textDark leading-relaxed mb-12">
                     Prenda exclusiva diseñada para deslumbrar en tus eventos de noche.
                 </p>

@@ -1,16 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-const DUMMY_PRODUCTS = [
-    { id: 1, name: "Top Corset Brillos", price: "$56", category: "TOPS", color: "Negro" },
-    { id: 2, name: "Vestido Lencero Noche", price: "$56", category: "VESTIDOS", color: "Blanco" },
-    { id: 3, name: "Falda Midi Satinada", price: "$45", category: "SKORTS", color: "Plateado" },
-    { id: 4, name: "Top Metálico", price: "$89", category: "TOPS", color: "Plateado" },
-    { id: 5, name: "Pantalón Denim", price: "$65", category: "DENIM", color: "Negro" },
-    { id: 6, name: "Vestido Asimétrico", price: "$110", category: "VESTIDOS", color: "Rojo" },
-    { id: 7, name: "Short Negro", price: "$75", category: "SHORTS", color: "Negro" },
-    { id: 8, name: "Body Transparencia", price: "$40", category: "BODIES", color: "Transparente" },
-];
-
+import { PRODUCTS } from '../data/products.json';
 const carouselImages = [
     '/images/0.jpg',
     '/images/1.jpg',
@@ -104,13 +94,16 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
         if (isSearchOpen) setSearchQuery('');
     };
 
-    const filteredProducts = DUMMY_PRODUCTS.filter(prod => {
+    const filteredProducts = PRODUCTS.filter(prod => {
         const matchTab = activeTab === 'ALL' || prod.category.toUpperCase() === activeTab.toUpperCase();
         const query = searchQuery.toLowerCase();
+        
+        // Search by name, category, or any available color
         const matchSearch = query === '' ||
             prod.name.toLowerCase().includes(query) ||
             prod.category.toLowerCase().includes(query) ||
-            (prod.color && prod.color.toLowerCase().includes(query));
+            prod.colors.some(c => c.name.toLowerCase().includes(query));
+            
         return matchTab && matchSearch;
     });
 
@@ -419,12 +412,22 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                 {filteredProducts.map(prod => (
                                     <div key={prod.id} className="flex flex-col cursor-pointer group" onClick={() => onNavigate('productDetail', prod)}>
                                         <div className="bg-surface rounded-2xl aspect-[3/4] mb-3 relative overflow-hidden flex items-center justify-center transition-transform group-hover:-translate-y-1">
-                                            <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Prenda {prod.id}</span>
+                                            {prod.colors && prod.colors.length > 0 && prod.colors[0].image ? (
+                                                <img src={prod.colors[0].image} alt={prod.name} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Prenda {prod.id}</span>
+                                            )}
                                         </div>
                                         <div className="flex justify-between items-start mb-1">
-                                            <span className="font-semibold text-xs md:text-sm leading-tight">{prod.name}</span>
+                                            <span className="font-semibold text-xs md:text-sm leading-tight flex-1 pr-2">{prod.name}</span>
                                         </div>
-                                        <p className="text-[9px] md:text-xs text-textDark mb-3">Colección de Noche</p>
+                                        {prod.colors && prod.colors.length > 1 ? (
+                                            <p className="text-[9px] md:text-[10px] text-primary mb-3 font-semibold">
+                                                {prod.colors.length} Colores disponibles
+                                            </p>
+                                        ) : (
+                                            <p className="text-[9px] md:text-xs text-textDark mb-3">Colección de Noche</p>
+                                        )}
                                         <div className="flex justify-between items-center mt-auto">
                                             <span className="font-bold text-sm md:text-base">{prod.price}</span>
                                             <button
