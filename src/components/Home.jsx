@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 
 const DUMMY_PRODUCTS = [
-    { id: 1, name: "Top Corset Brillos", price: "$56", category: "Tops", color: "Negro" },
-    { id: 2, name: "Vestido Lencero Noche", price: "$56", category: "Vestidos", color: "Blanco" },
-    { id: 3, name: "Falda Midi Satinada", price: "$45", category: "Faldas", color: "Plateado" },
-    { id: 4, name: "Blazer Metálico", price: "$89", category: "Accesorios", color: "Plateado" },
-    { id: 5, name: "Pantalón Piel", price: "$65", category: "Pantalones", color: "Negro" },
-    { id: 6, name: "Vestido Asimétrico", price: "$110", category: "Vestidos", color: "Rojo" },
-    { id: 7, name: "Mono Plisado", price: "$75", category: "Pantalones", color: "Azul" },
-    { id: 8, name: "Body Transparencia", price: "$40", category: "Tops", color: "Transparente" },
+    { id: 1, name: "Top Corset Brillos", price: "$56", category: "TOPS", color: "Negro" },
+    { id: 2, name: "Vestido Lencero Noche", price: "$56", category: "VESTIDOS", color: "Blanco" },
+    { id: 3, name: "Falda Midi Satinada", price: "$45", category: "SKORTS", color: "Plateado" },
+    { id: 4, name: "Top Metálico", price: "$89", category: "TOPS", color: "Plateado" },
+    { id: 5, name: "Pantalón Denim", price: "$65", category: "DENIM", color: "Negro" },
+    { id: 6, name: "Vestido Asimétrico", price: "$110", category: "VESTIDOS", color: "Rojo" },
+    { id: 7, name: "Short Negro", price: "$75", category: "SHORTS", color: "Negro" },
+    { id: 8, name: "Body Transparencia", price: "$40", category: "BODIES", color: "Transparente" },
 ];
 
 // Cart icon SVG (shopping bag)
