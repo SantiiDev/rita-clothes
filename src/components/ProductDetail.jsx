@@ -8,6 +8,8 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
+    const isOutOfStock = product?.colors?.[selectedColorIndex]?.outOfStock || false;
+
     // Reset photo index when color changes
     useEffect(() => {
         setCurrentPhotoIndex(0);
@@ -141,14 +143,17 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
                             {product.colors.map((color, index) => (
                                 <button
                                     key={index}
-                                    onClick={() => setSelectedColorIndex(index)}
-                                    className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-300 border
-                                        ${index === selectedColorIndex 
+                                    onClick={() => color.outOfStock ? null : setSelectedColorIndex(index)}
+                                    disabled={color.outOfStock}
+                                    className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-300 border flex items-center gap-1.5
+                                        ${color.outOfStock ? 'bg-gray-50 text-gray-400 border-gray-200 cursor-not-allowed opacity-70' : 
+                                         index === selectedColorIndex 
                                             ? 'bg-black text-white border-black shadow-md scale-105' 
-                                            : 'bg-white text-textDark border-gray-200 hover:border-gray-400'
+                                            : 'bg-white text-textDark border-gray-200 hover:border-black'
                                         }`}
                                 >
-                                    {color.name}
+                                    <span className={color.outOfStock ? 'line-through decoration-1' : ''}>{color.name}</span>
+                                    {color.outOfStock && <span className="text-[8px] bg-gray-200/80 text-textDark px-1 py-0.5 rounded-[4px] uppercase tracking-widest font-bold flex items-center gap-0.5"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>Sin Stock</span>}
                                 </button>
                             ))}
                         </div>
@@ -183,11 +188,17 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
 
                     <button
                         onClick={handleAdd}
+                        disabled={isOutOfStock}
                         className={`flex-1 md:flex-auto font-semibold text-lg shadow-xl md:shadow-none rounded-full py-4 md:py-5 md:px-10 flex items-center justify-center gap-3 transition-colors duration-300
-               ${addedAnimation ? 'bg-green-500 text-white' : 'btn-slide-hover bg-accent md:bg-primary text-black md:text-white'}
+               ${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : addedAnimation ? 'bg-green-500 text-white' : 'btn-slide-hover bg-accent md:bg-primary text-black md:text-white'}
              `}
                     >
-                        {addedAnimation ? (
+                        {isOutOfStock ? (
+                            <>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                <span>Agotado</span>
+                            </>
+                        ) : addedAnimation ? (
                             <>
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
                                 <span>Agregado!</span>

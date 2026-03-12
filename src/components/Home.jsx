@@ -444,14 +444,23 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                     </div>
                                 ) : (
                                     <div className="px-6 md:px-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-10">
-                                        {filteredProducts.map(prod => (
+                                        {filteredProducts.map(prod => {
+                                            const isAllOutOfStock = prod.colors && prod.colors.length > 0 && prod.colors.every(c => c.outOfStock);
+                                            return (
                                             <div key={prod.id} className="flex flex-col cursor-pointer group" onClick={() => onNavigate('productDetail', prod)}>
                                                 <div className="bg-surface rounded-2xl aspect-[3/4] mb-3 relative overflow-hidden flex items-center justify-center transition-transform group-hover:-translate-y-1">
+                                                    {isAllOutOfStock && (
+                                                        <div className="absolute top-3 left-3 bg-black/40 backdrop-blur-md text-white text-[9px] px-2.5 py-1 rounded-[4px] uppercase tracking-wider font-bold z-10 transition-opacity flex items-center gap-1.5">
+                                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                                            Sin Stock
+                                                        </div>
+                                                    )}
                                                     {prod.colors && prod.colors.length > 0 && prod.colors[0].image ? (
-                                                        <img src={prod.colors[0].image} alt={prod.name} className="w-full h-full object-cover" />
+                                                        <img src={prod.colors[0].image} alt={prod.name} className={`w-full h-full object-cover transition-opacity duration-300 ${isAllOutOfStock ? 'opacity-50 grayscale-[0.3]' : ''}`} />
                                                     ) : (
                                                         <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Prenda {prod.id}</span>
                                                     )}
+
                                                 </div>
                                                 <div className="flex justify-between items-start mb-1">
                                                     <span className="font-semibold text-xs md:text-sm leading-tight flex-1 pr-2">{prod.name}</span>
@@ -464,16 +473,23 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                                     <p className="text-[9px] md:text-xs text-textDark mb-3">Colección de Noche</p>
                                                 )}
                                                 <div className="flex justify-between items-center mt-auto">
-                                                    <span className="font-bold text-sm md:text-base">{prod.price}</span>
+                                                    <span className={`font-bold text-sm md:text-base ${isAllOutOfStock ? 'text-gray-400 line-through decoration-1 opacity-70' : ''}`}>{prod.price}</span>
                                                     <button
-                                                        onClick={(e) => handleBuyClick(prod, e)}
-                                                        className="btn-slide-hover border border-textMain bg-white text-black hover:bg-accent hover:border-accent hover:text-white text-[10px] md:text-xs px-3 md:px-4 py-1.5 rounded-full font-semibold transition-all duration-300"
+                                                        onClick={(e) => {
+                                                            if (isAllOutOfStock) {
+                                                                e.stopPropagation();
+                                                                return;
+                                                            }
+                                                            handleBuyClick(prod, e);
+                                                        }}
+                                                        disabled={isAllOutOfStock}
+                                                        className={`border ${isAllOutOfStock ? 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed hidden-btn-slide' : 'btn-slide-hover border-textMain bg-white text-black hover:bg-accent hover:border-accent hover:text-white'} text-[10px] md:text-xs px-3 md:px-4 py-1.5 rounded-full font-semibold transition-all duration-300 flex items-center gap-1.5`}
                                                     >
-                                                        Comprar
+                                                        {isAllOutOfStock ? 'Agotado' : 'Comprar'}
                                                     </button>
                                                 </div>
                                             </div>
-                                        ))}
+                                        )})}
                                     </div>
                                 )}
                             </div>
@@ -632,18 +648,25 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                             <p className="text-sm text-textDark mb-3">Colores disponibles:</p>
                             <div className="flex flex-col gap-2 max-h-48 overflow-y-auto pr-2 pb-2">
-                                {colorPickerProduct.colors?.map((c, idx) => (
+                                {colorPickerProduct.colors?.map((c, idx) => {
+                                    const outOfStock = c.outOfStock;
+                                    return (
                                     <button
                                         key={idx}
-                                        onClick={() => handleColorSelect(c)}
-                                        className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-colors border border-gray-200 hover:border-black active:scale-[0.98] flex justify-between items-center group"
+                                        onClick={() => outOfStock ? null : handleColorSelect(c)}
+                                        disabled={outOfStock}
+                                        className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-colors border flex justify-between items-center group
+                                            ${outOfStock ? 'border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed opacity-70' : 'border-gray-200 hover:border-black active:scale-[0.98]'}`}
                                     >
-                                        <span>{c.name}</span>
-                                        <div className="w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center group-hover:bg-black group-hover:border-black transition-colors">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-transparent group-hover:text-white transition-colors"><polyline points="20 6 9 17 4 12" /></svg>
+                                        <div className="flex items-center gap-2">
+                                            <span className={outOfStock ? 'line-through decoration-1 opacity-70' : ''}>{c.name}</span>
+                                            {outOfStock && <span className="text-[9px] bg-gray-200/80 text-textDark px-1.5 py-0.5 rounded-[3px] font-bold uppercase tracking-wider flex items-center gap-1"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>Sin Stock</span>}
+                                        </div>
+                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${outOfStock ? 'border-gray-200' : 'border-gray-300 group-hover:bg-black group-hover:border-black'}`}>
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`transition-colors ${outOfStock ? 'text-transparent' : 'text-transparent group-hover:text-white'}`}><polyline points="20 6 9 17 4 12" /></svg>
                                         </div>
                                     </button>
-                                ))}
+                                )})}
                             </div>
                         </div>
                     </div>

@@ -391,7 +391,8 @@
       },
       {
         "name": "UVA",
-        "image": "/opt-prendas/TOP-EMMA-BORDO.jpg"
+        "image": "/opt-prendas/TOP-EMMA-BORDO.jpg",
+        "outOfStock": true
       },
       {
         "name": "NEGRO",
@@ -451,7 +452,8 @@
     "colors": [
       {
         "name": "Único",
-        "image": "/opt-prendas/TOP-MARY-Único.jpg"
+        "image": "/opt-prendas/TOP-MARY-Único.jpg",
+        "outOfStock": true
       }
     ]
   },
@@ -499,7 +501,8 @@
       },
       {
         "name": "NEGRO",
-        "image": "/opt-prendas/TOP-SOPHIA-NEGRO.jpg"
+        "image": "/opt-prendas/TOP-SOPHIA-NEGRO.jpg",
+        "outOfStock": true
       },
       {
         "name": "UVA",
@@ -599,7 +602,8 @@
     "colors": [
       {
         "name": "Único",
-        "image": "/opt-prendas/VESTIDO-CORA-Único.jpg"
+        "image": "/opt-prendas/VESTIDO-CORA-Único.jpg",
+        "outOfStock": true
       }
     ]
   },
@@ -695,7 +699,8 @@
     "colors": [
       {
         "name": "Único",
-        "image": "/opt-prendas/VESTIDO-OLIVIA-Único.jpg"
+        "image": "/opt-prendas/VESTIDO-OLIVIA-Único.jpg",
+        "outOfStock": true
       }
     ]
   },
