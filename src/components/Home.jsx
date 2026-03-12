@@ -58,16 +58,18 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
     // Save and Restore Scroll position
     useEffect(() => {
-        // Restore scroll position
+        // Restore scroll position when returning, slightly delayed to allow DOM paint
         if (scrollPosition > 0) {
-            window.scrollTo(0, scrollPosition);
+            setTimeout(() => {
+                window.scrollTo({ top: scrollPosition, behavior: 'instant' });
+            }, 50);
         }
+    }, [scrollPosition]);
 
-        // Save scroll position on unmount
-        return () => {
-            setScrollPosition(window.scrollY);
-        };
-    }, []); // Run only on mount and unmount
+    const handleNavigate = (screen, payload) => {
+        setScrollPosition(window.scrollY);
+        onNavigate(screen, payload);
+    };
 
     const categories = ['ALL', 'VESTIDOS', 'SHORTS', 'SKORTS', 'TOPS', 'BODIES', 'DENIM', 'BÁSICOS'];
 
@@ -244,7 +246,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                 {/* Admin button - only visible for admin users */}
                 {isAdminUser && (
                     <button
-                        onClick={() => onNavigate('admin')}
+                        onClick={() => handleNavigate('admin')}
                         className="w-full mt-3 flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-medium bg-black text-white hover:bg-gray-800 transition-colors"
                     >
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
@@ -303,7 +305,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                         {/* Cart Button */}
                         <button
-                            onClick={() => onNavigate('cart')}
+                            onClick={() => handleNavigate('cart')}
                             className={`w-10 h-10 flex items-center justify-center rounded-full bg-surface relative hover:bg-gray-200 transition-colors shrink-0 ${isSearchOpen ? 'hidden md:flex' : 'flex'}`}
                         >
                             <CartIcon size={18} />
@@ -327,7 +329,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                                 onClick={() => {
                                                     setSearchQuery('');
                                                     setIsSearchOpen(false);
-                                                    onNavigate('productDetail', prod);
+                                                    handleNavigate('productDetail', prod);
                                                 }}
                                                 className="flex items-center gap-3 p-2 hover:bg-surface rounded-xl cursor-pointer transition-colors"
                                             >
@@ -482,7 +484,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                         {filteredProducts.map(prod => {
                                             const isAllOutOfStock = prod.colors && prod.colors.length > 0 && prod.colors.every(c => c.outOfStock);
                                             return (
-                                            <div key={prod.id} className="flex flex-col cursor-pointer group" onClick={() => onNavigate('productDetail', prod)}>
+                                            <div key={prod.id} className="flex flex-col cursor-pointer group" onClick={() => handleNavigate('productDetail', prod)}>
                                                 <div className="bg-surface rounded-2xl aspect-[3/4] mb-3 relative overflow-hidden flex items-center justify-center transition-transform group-hover:-translate-y-1">
                                                     {isAllOutOfStock && (
                                                         <div className="absolute top-3 left-3 bg-black/40 backdrop-blur-md text-white text-[9px] px-2.5 py-1 rounded-[4px] uppercase tracking-wider font-bold z-10 transition-opacity flex items-center gap-1.5">
@@ -604,7 +606,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* 3. Cart FAB (center — elevated) */}
                 <div
-                    onClick={() => onNavigate('cart')}
+                    onClick={() => handleNavigate('cart')}
                     className="absolute left-1/2 -translate-x-1/2 w-14 h-14 bg-accent rounded-full flex items-center justify-center text-black shadow-lg border-4 border-background cursor-pointer hover:scale-105 transition-transform"
                     style={{ bottom: 'calc(50% - 4px)' }}
                 >
