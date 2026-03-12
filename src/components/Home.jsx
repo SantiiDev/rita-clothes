@@ -339,7 +339,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                     <div className={`flex w-[200%] shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeNav === 'howToBuy' ? '-translate-x-1/2' : 'translate-x-0'}`}>
                         
                         {/* ------------- HOME TAB ------------- */}
-                        <div className="w-1/2 flex-shrink-0 flex flex-col min-h-full">
+                        <div className={`w-1/2 flex-shrink-0 flex flex-col ${activeNav === 'home' ? 'min-h-full' : 'h-0 overflow-hidden'}`}>
                             {/* Fullscreen Photo Carousel */}
                             <div className="w-full h-[calc(100dvh-130px)] md:h-[calc(100vh-160px)] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10 group">
                         
@@ -358,13 +358,13 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         {/* Controls (Desktop/Mobile hover) */}
                         <button 
                             onClick={handlePrevImage}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-20"
+                            className="hidden md:block absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-20"
                         >
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
                         </button>
                         <button 
                             onClick={handleNextImage}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-20"
+                            className="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-20"
                         >
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </button>
@@ -496,7 +496,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         </div>
 
                         {/* ------------- HOW TO BUY TAB ------------- */}
-                        <div className="w-1/2 flex-shrink-0 flex flex-col min-h-full">
+                        <div className={`w-1/2 flex-shrink-0 flex flex-col ${activeNav === 'howToBuy' ? 'min-h-full' : 'h-0 overflow-hidden'}`}>
                             <div className="px-6 md:px-10 py-8 max-w-2xl mx-auto w-full">
                         <div className="flex flex-col gap-6">
                             {/* Step 1 */}
