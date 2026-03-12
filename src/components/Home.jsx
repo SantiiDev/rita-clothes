@@ -81,7 +81,12 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
     }, [activeNav]);
 
     // Scroll to top when switching sections (like How to buy)
+    const initialMount = useRef(true);
     useEffect(() => {
+        if (initialMount.current) {
+            initialMount.current = false;
+            return;
+        }
         window.scrollTo(0, 0);
     }, [activeNav]);
 
