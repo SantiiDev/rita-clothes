@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from './lib/supabase';
 import Splash from './components/Splash';
 import Home from './components/Home';
 import ProductDetail from './components/ProductDetail';
@@ -7,32 +8,56 @@ import AuthModal from './components/AuthModal';
 import DiscountBanner from './components/DiscountBanner';
 
 function App() {
-  // Inicializar desde localStorage
+  // ── Basic user info (name from splash) ──────────────────────────────────
   const [userName, setUserName] = useState(() => localStorage.getItem('rita_userName') || '');
+
+  // ── Auth state from Supabase ────────────────────────────────────────────
+  const [authUser, setAuthUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true); // wait for session check
+
+  // ── Cart ────────────────────────────────────────────────────────────────
   const [cartItems, setCartItems] = useState(() => {
     try { return JSON.parse(localStorage.getItem('rita_cartItems')) || []; }
     catch { return []; }
   });
-  const [authUser, setAuthUser] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('rita_authUser')) || null; }
-    catch { return null; }
-  });
 
-  // Always start at splash
+  // ── Navigation ──────────────────────────────────────────────────────────
   const [currentScreen, setCurrentScreen] = useState('splash');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [homeScrollPosition, setHomeScrollPosition] = useState(0);
 
-  // Auth modal
+  // ── Modals ──────────────────────────────────────────────────────────────
   const [showAuthModal, setShowAuthModal] = useState(false);
-
-  // Discount banner
   const [showDiscountBanner, setShowDiscountBanner] = useState(false);
   const [hasShownBannerThisSession, setHasShownBannerThisSession] = useState(false);
 
   const isReturningUser = !!localStorage.getItem('rita_userName');
 
-  // Show discount banner when arriving at home (if not registered)
+  // ── Supabase: load initial session + subscribe ──────────────────────────
+  useEffect(() => {
+    // Check existing session on mount
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        const name = session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'Usuario';
+        setAuthUser({ name, email: session.user.email, id: session.user.id });
+      }
+      setAuthLoading(false);
+    });
+
+    // Subscribe to auth changes (login, logout, token refresh)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        const name = session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'Usuario';
+        setAuthUser({ name, email: session.user.email, id: session.user.id });
+      } else {
+        setAuthUser(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // ── Show discount banner when landing on home ───────────────────────────
   useEffect(() => {
     if (currentScreen === 'home' && !authUser && !hasShownBannerThisSession) {
       setShowDiscountBanner(true);
@@ -40,16 +65,16 @@ function App() {
     }
   }, [currentScreen, authUser, hasShownBannerThisSession]);
 
-  // Persistir userName
+  // ── Persist userName & cart ─────────────────────────────────────────────
   useEffect(() => {
     if (userName) localStorage.setItem('rita_userName', userName);
   }, [userName]);
 
-  // Persistir carrito
   useEffect(() => {
     localStorage.setItem('rita_cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
 
+  // ── Handlers ────────────────────────────────────────────────────────────
   const navigate = (screen, product = null) => {
     if (product) setSelectedProduct(product);
     setCurrentScreen(screen);
@@ -81,19 +106,26 @@ function App() {
     if (user.name && !userName) setUserName(user.name);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     setAuthUser(null);
-    localStorage.removeItem('rita_authUser');
-  };
-
-  const handleDismissDiscount = () => {
-    setShowDiscountBanner(false);
   };
 
   const handleDiscountRegister = () => {
     setShowDiscountBanner(false);
     setShowAuthModal(true);
   };
+
+  // ── Wait for Supabase to resolve session before rendering ───────────────
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <svg className="animate-spin text-primary" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+        </svg>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-background text-textMain font-heading selection:bg-black selection:text-white w-full mx-auto">
@@ -148,10 +180,10 @@ function App() {
       <DiscountBanner
         isOpen={showDiscountBanner}
         onRegister={handleDiscountRegister}
-        onDismiss={handleDismissDiscount}
+        onDismiss={() => setShowDiscountBanner(false)}
       />
 
-      {/* Preload App Carousel Images to avoid flicker */}
+      {/* Preload carousel images */}
       <div style={{ display: 'none' }}>
         {['/images/0.jpg','/images/1.jpg','/images/2.jpg','/images/3.jpg','/images/4.jpg'].map(src => (
           <img key={src} src={src} alt="preload" />
