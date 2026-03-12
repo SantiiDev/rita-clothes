@@ -56,6 +56,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
     const [showTopBanner, setShowTopBanner] = useState(!authUser);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [colorPickerProduct, setColorPickerProduct] = useState(null);
+    const [selectedColorForSize, setSelectedColorForSize] = useState(null);
 
     // Save and Restore Scroll position
     useEffect(() => {
@@ -111,6 +112,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
         e.stopPropagation();
         if (prod.colors && prod.colors.length > 0) {
             setColorPickerProduct(prod);
+            setSelectedColorForSize(null);
         } else {
             // No colors — add directly
             onAddToCart({ ...prod, selectedColor: 'Único' });
@@ -120,6 +122,12 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
     const handleColorSelect = (color) => {
         if (!colorPickerProduct) return;
+
+        if (color.sizes && color.sizes.length > 0) {
+            setSelectedColorForSize(color);
+            return;
+        }
+
         const productToAdd = {
             ...colorPickerProduct,
             id: `${colorPickerProduct.id}-${color.name}`,
@@ -130,6 +138,24 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
         onAddToCart(productToAdd, 1);
         setToast({ type: 'cart', name: productToAdd.name });
         setColorPickerProduct(null);
+        setSelectedColorForSize(null);
+    };
+
+    const handleSizeSelect = (size) => {
+        if (!colorPickerProduct || !selectedColorForSize) return;
+
+        const productToAdd = {
+            ...colorPickerProduct,
+            id: `${colorPickerProduct.id}-${selectedColorForSize.name}-${size}`,
+            name: `${colorPickerProduct.name} - ${selectedColorForSize.name} (Talle ${size})`,
+            selectedColor: selectedColorForSize.name,
+            selectedSize: size,
+            cartImage: selectedColorForSize.image || (selectedColorForSize.images && selectedColorForSize.images[0])
+        };
+        onAddToCart(productToAdd, 1);
+        setToast({ type: 'cart', name: productToAdd.name });
+        setColorPickerProduct(null);
+        setSelectedColorForSize(null);
     };
 
     const handleSearchToggle = () => {
@@ -626,8 +652,8 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                     <div className="bg-surface border border-gray-100 rounded-[2rem] w-full max-w-sm relative z-10 overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
                         <div className="p-6 md:p-8">
                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-xl font-bold font-heading text-textMain">Seleccionar Color</h3>
-                                <button onClick={() => setColorPickerProduct(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-textDark">
+                                <h3 className="text-xl font-bold font-heading text-textMain">Seleccionar {selectedColorForSize ? 'Talle' : 'Color'}</h3>
+                                <button onClick={() => { setColorPickerProduct(null); setSelectedColorForSize(null); }} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-textDark">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                 </button>
                             </div>
@@ -646,28 +672,52 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                 </div>
                             </div>
 
-                            <p className="text-sm text-textDark mb-3">Colores disponibles:</p>
-                            <div className="flex flex-col gap-2 max-h-48 overflow-y-auto pr-2 pb-2">
-                                {colorPickerProduct.colors?.map((c, idx) => {
-                                    const outOfStock = c.outOfStock;
-                                    return (
-                                    <button
-                                        key={idx}
-                                        onClick={() => outOfStock ? null : handleColorSelect(c)}
-                                        disabled={outOfStock}
-                                        className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-colors border flex justify-between items-center group
-                                            ${outOfStock ? 'border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed opacity-70' : 'border-gray-200 hover:border-black active:scale-[0.98]'}`}
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <span className={outOfStock ? 'line-through decoration-1 opacity-70' : ''}>{c.name}</span>
-                                            {outOfStock && <span className="text-[9px] bg-gray-200/80 text-textDark px-1.5 py-0.5 rounded-[3px] font-bold uppercase tracking-wider flex items-center gap-1"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>Sin Stock</span>}
-                                        </div>
-                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${outOfStock ? 'border-gray-200' : 'border-gray-300 group-hover:bg-black group-hover:border-black'}`}>
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`transition-colors ${outOfStock ? 'text-transparent' : 'text-transparent group-hover:text-white'}`}><polyline points="20 6 9 17 4 12" /></svg>
-                                        </div>
-                                    </button>
-                                )})}
-                            </div>
+                            {selectedColorForSize ? (
+                                <div className="animate-in slide-in-from-right-4 fade-in duration-300">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <button onClick={() => setSelectedColorForSize(null)} className="text-textDark hover:text-black">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6" /></svg>
+                                        </button>
+                                        <p className="text-sm font-bold text-textMain">Talles para {selectedColorForSize.name}:</p>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {selectedColorForSize.sizes.map((size, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => handleSizeSelect(size)}
+                                                className="w-12 h-12 rounded-full text-sm font-semibold transition-all duration-300 border flex items-center justify-center bg-white text-textDark border-gray-200 hover:border-black hover:bg-black hover:text-white"
+                                            >
+                                                {size}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="animate-in slide-in-from-left-4 fade-in duration-300">
+                                    <p className="text-sm text-textDark mb-3">Colores disponibles:</p>
+                                    <div className="flex flex-col gap-2 max-h-48 overflow-y-auto pr-2 pb-2">
+                                        {colorPickerProduct.colors?.map((c, idx) => {
+                                            const outOfStock = c.outOfStock;
+                                            return (
+                                            <button
+                                                key={idx}
+                                                onClick={() => outOfStock ? null : handleColorSelect(c)}
+                                                disabled={outOfStock}
+                                                className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-colors border flex justify-between items-center group
+                                                    ${outOfStock ? 'border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed opacity-70' : 'border-gray-200 hover:border-black active:scale-[0.98]'}`}
+                                            >
+                                                <div className="flex items-center gap-2">
+                                                    <span className={outOfStock ? 'line-through decoration-1 opacity-70' : ''}>{c.name}</span>
+                                                    {outOfStock && <span className="text-[9px] bg-gray-200/80 text-textDark px-1.5 py-0.5 rounded-[3px] font-bold uppercase tracking-wider flex items-center gap-1"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>Sin Stock</span>}
+                                                </div>
+                                                <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${outOfStock ? 'border-gray-200' : 'border-gray-300 group-hover:bg-black group-hover:border-black'}`}>
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`transition-colors ${outOfStock ? 'text-transparent' : 'text-transparent group-hover:text-white'}`}><polyline points="20 6 9 17 4 12" /></svg>
+                                                </div>
+                                            </button>
+                                        )})}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

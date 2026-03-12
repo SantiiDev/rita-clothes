@@ -55,15 +55,25 @@
     "colors": [
       {
         "name": "BLACK",
-        "image": "/opt-prendas/SHORT-ANNA-BLACK.jpg"
+        "image": "/opt-prendas/SHORT-ANNA-BLACK.jpg",
+        "sizes": [
+          42
+        ]
       },
       {
         "name": "BLUE",
-        "image": "/opt-prendas/SHORT-ANNA-BLUE.jpg"
+        "image": "/opt-prendas/SHORT-ANNA-BLUE.jpg",
+        "sizes": [
+          38
+        ]
       },
       {
         "name": "GREY",
-        "image": "/opt-prendas/SHORT-ANNA-GREY.jpg"
+        "image": "/opt-prendas/SHORT-ANNA-GREY.jpg",
+        "sizes": [
+          38,
+          42
+        ]
       }
     ]
   },
@@ -123,15 +133,29 @@
     "colors": [
       {
         "name": "BLACK",
-        "image": "/opt-prendas/SHORT-SELE-BLACK.jpg"
+        "image": "/opt-prendas/SHORT-SELE-BLACK.jpg",
+        "sizes": [
+          38,
+          40,
+          42
+        ]
       },
       {
         "name": "BLUE",
-        "image": "/opt-prendas/SHORT-SELE-BLUE.jpg"
+        "image": "/opt-prendas/SHORT-SELE-BLUE.jpg",
+        "sizes": [
+          40,
+          42
+        ]
       },
       {
         "name": "WHITE",
-        "image": "/opt-prendas/SHORT-SELE-WHITE.jpg"
+        "image": "/opt-prendas/SHORT-SELE-WHITE.jpg",
+        "sizes": [
+          38,
+          40,
+          42
+        ]
       }
     ]
   },

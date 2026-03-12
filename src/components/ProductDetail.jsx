@@ -9,10 +9,14 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
     const isOutOfStock = product?.colors?.[selectedColorIndex]?.outOfStock || false;
+    const sizes = product?.colors?.[selectedColorIndex]?.sizes || [];
+    const hasSizes = sizes.length > 0;
+    const [selectedSize, setSelectedSize] = useState('');
 
-    // Reset photo index when color changes
+    // Reset photo index and size when color changes
     useEffect(() => {
         setCurrentPhotoIndex(0);
+        setSelectedSize('');
     }, [selectedColorIndex]);
 
     // Scroll al inicio al montar
@@ -22,14 +26,17 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
 
     if (!product) return null;
 
+    const canAdd = !isOutOfStock && (!hasSizes || selectedSize !== '');
+
     const handleAdd = () => {
         // Build a unique item ID using the selected color if applicable, 
         // but for now we'll just pass the product and selected color info to cart
         const productToAdd = hasColors ? {
             ...product, 
-            id: `${product.id}-${product.colors[selectedColorIndex].name}`, // create variant id
-            name: `${product.name} - ${product.colors[selectedColorIndex].name}`,
-            cartImage: product.colors[selectedColorIndex].image
+            id: `${product.id}-${product.colors[selectedColorIndex].name}${hasSizes ? `-${selectedSize}` : ''}`, // create variant id
+            name: `${product.name} - ${product.colors[selectedColorIndex].name}${hasSizes ? ` (Talle ${selectedSize})` : ''}`,
+            cartImage: product.colors[selectedColorIndex].image,
+            selectedSize: hasSizes ? selectedSize : null
         } : product;
 
         onAddToCart(productToAdd, quantity);
@@ -160,6 +167,27 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
                     </div>
                 )}
 
+                {hasSizes && (
+                    <div className="mb-8">
+                        <h3 className="font-semibold text-lg md:text-xl mb-3 text-primary">Talle:</h3>
+                        <div className="flex flex-wrap gap-2">
+                            {sizes.map((size, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setSelectedSize(size)}
+                                    className={`w-12 h-12 rounded-full text-sm font-semibold transition-all duration-300 border flex items-center justify-center
+                                        ${size === selectedSize 
+                                            ? 'bg-black text-white border-black shadow-md scale-105' 
+                                            : 'bg-white text-textDark border-gray-200 hover:border-black'
+                                        }`}
+                                >
+                                    {size}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 <h3 className="font-semibold text-lg md:text-xl mb-3 text-primary">Descripción:</h3>
                 <p className="text-sm md:text-base text-textDark leading-relaxed mb-12">
                     Prenda exclusiva diseñada para deslumbrar en tus eventos de noche.
@@ -188,15 +216,19 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
 
                     <button
                         onClick={handleAdd}
-                        disabled={isOutOfStock}
+                        disabled={!canAdd}
                         className={`flex-1 md:flex-auto font-semibold text-lg shadow-xl md:shadow-none rounded-full py-4 md:py-5 md:px-10 flex items-center justify-center gap-3 transition-colors duration-300
-               ${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : addedAnimation ? 'bg-green-500 text-white' : 'btn-slide-hover bg-accent md:bg-primary text-black md:text-white'}
+               ${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : (!canAdd ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : addedAnimation ? 'bg-green-500 text-white' : 'btn-slide-hover bg-accent md:bg-primary text-black md:text-white')}
              `}
                     >
                         {isOutOfStock ? (
                             <>
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                 <span>Agotado</span>
+                            </>
+                        ) : !canAdd ? (
+                            <>
+                                <span>Elegir Talle</span>
                             </>
                         ) : addedAnimation ? (
                             <>
