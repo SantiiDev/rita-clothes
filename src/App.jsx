@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
+import { fetchProducts, isAdmin } from './lib/supabaseProducts';
 import Splash from './components/Splash';
 import Home from './components/Home';
 import ProductDetail from './components/ProductDetail';
 import Cart from './components/Cart';
 import AuthModal from './components/AuthModal';
 import DiscountBanner from './components/DiscountBanner';
+import AdminLogin from './components/admin/AdminLogin';
+import AdminDashboard from './components/admin/AdminDashboard';
 
 function App() {
   // ── Basic user info (name from splash) ──────────────────────────────────
@@ -14,6 +17,10 @@ function App() {
   // ── Auth state from Supabase ────────────────────────────────────────────
   const [authUser, setAuthUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true); // wait for session check
+
+  // ── Products (loaded from Supabase) ─────────────────────────────────────
+  const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(true);
 
   // ── Cart ────────────────────────────────────────────────────────────────
   const [cartItems, setCartItems] = useState(() => {
@@ -32,6 +39,21 @@ function App() {
   const [hasShownBannerThisSession, setHasShownBannerThisSession] = useState(false);
 
   const isReturningUser = !!localStorage.getItem('rita_userName');
+
+  // ── Load products from Supabase ─────────────────────────────────────────
+  const loadProducts = async () => {
+    setProductsLoading(true);
+    try {
+      const data = await fetchProducts();
+      setProducts(data);
+    } catch {
+      // Fallback: if Supabase table doesn't exist yet, products will be empty
+      setProducts([]);
+    }
+    setProductsLoading(false);
+  };
+
+  useEffect(() => { loadProducts(); }, []);
 
   // ── Supabase: load initial session + subscribe ──────────────────────────
   useEffect(() => {
@@ -109,11 +131,25 @@ function App() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setAuthUser(null);
+    // If in admin, go back to home
+    if (currentScreen === 'admin' || currentScreen === 'admin-login') {
+      setCurrentScreen('home');
+    }
   };
 
   const handleDiscountRegister = () => {
     setShowDiscountBanner(false);
     setShowAuthModal(true);
+  };
+
+  const handleAdminLogin = (user) => {
+    setAuthUser(user);
+    setCurrentScreen('admin');
+  };
+
+  const handleGoToStore = () => {
+    loadProducts(); // refresh products after admin changes
+    setCurrentScreen('home');
   };
 
   // ── Wait for Supabase to resolve session before rendering ───────────────
@@ -124,6 +160,24 @@ function App() {
           <path d="M21 12a9 9 0 1 1-6.219-8.56" />
         </svg>
       </div>
+    );
+  }
+
+  // ── Admin screens ──────────────────────────────────────────────────────
+  if (currentScreen === 'admin-login') {
+    return <AdminLogin onLoginSuccess={handleAdminLogin} />;
+  }
+
+  if (currentScreen === 'admin') {
+    if (!authUser || !isAdmin(authUser)) {
+      return <AdminLogin onLoginSuccess={handleAdminLogin} />;
+    }
+    return (
+      <AdminDashboard
+        adminUser={authUser}
+        onLogout={handleLogout}
+        onGoToStore={handleGoToStore}
+      />
     );
   }
 
@@ -148,6 +202,9 @@ function App() {
           onLogout={handleLogout}
           scrollPosition={homeScrollPosition}
           setScrollPosition={setHomeScrollPosition}
+          products={products}
+          productsLoading={productsLoading}
+          isAdminUser={isAdmin(authUser)}
         />
       )}
 

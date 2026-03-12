@@ -1,6 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-
-import PRODUCTS from '../data/products.json';
 const carouselImages = [
     '/images/0.jpg',
     '/images/1.jpg',
@@ -46,7 +44,7 @@ const GuideIcon = ({ size = 20, filled = false }) => (
     </svg>
 );
 
-export default function Home({ userName, onNavigate, cartItemCount, onAddToCart, onOpenAuth, authUser, onLogout, scrollPosition, setScrollPosition }) {
+export default function Home({ userName, onNavigate, cartItemCount, onAddToCart, onOpenAuth, authUser, onLogout, scrollPosition, setScrollPosition, products: PRODUCTS = [], productsLoading, isAdminUser }) {
     const shopRef = useRef(null);
     const [activeTab, setActiveTab] = useState('ALL');
     const [toast, setToast] = useState(null);
@@ -242,6 +240,17 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         </button>
                     )}
                 </div>
+
+                {/* Admin button - only visible for admin users */}
+                {isAdminUser && (
+                    <button
+                        onClick={() => onNavigate('admin')}
+                        className="w-full mt-3 flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-medium bg-black text-white hover:bg-gray-800 transition-colors"
+                    >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                        Panel Admin
+                    </button>
+                )}
             </aside>
 
             {/* Main Content Area */}
