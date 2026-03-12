@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "BODY REBECCA",
-    "category": "BODYS",
+    "category": "BODIES",
     "price": "$15900",
     "colors": [
       {
@@ -330,7 +330,7 @@
     "price": "$15900",
     "colors": [
       {
-        "name": "MARRON",
+        "name": "CHOCO",
         "image": "/opt-prendas/TOP-ARIA-MARRON.jpg"
       },
       {
@@ -342,7 +342,7 @@
   {
     "id": 25,
     "name": "TOP CAMILA",
-    "category": "TOPS",
+    "category": "BÁSICOS",
     "price": "$13900",
     "colors": [
       {
@@ -415,7 +415,7 @@
         "image": "/opt-prendas/TOP-KALI-BORDO.jpg"
       },
       {
-        "name": "MARRON",
+        "name": "CHOCO",
         "image": "/opt-prendas/TOP-KALI-MARRON.jpg"
       }
     ]
@@ -464,7 +464,7 @@
     "price": "$15900",
     "colors": [
       {
-        "name": "MARRON",
+        "name": "CHOCO",
         "image": "/opt-prendas/TOP-MERI-MARRON.jpg"
       },
       {
@@ -480,11 +480,11 @@
     "price": "$14900",
     "colors": [
       {
-        "name": "MARRON",
+        "name": "CHOCO",
         "image": "/opt-prendas/TOP-ROSE-MARRON.jpg"
       },
       {
-        "name": "Único",
+        "name": "BLANCO",
         "image": "/opt-prendas/TOP-ROSE-Único.jpg"
       }
     ]
@@ -496,7 +496,7 @@
     "price": "$16900",
     "colors": [
       {
-        "name": "MARRON",
+        "name": "CHOCO",
         "image": "/opt-prendas/TOP-SOPHIA-MARRON.jpg"
       },
       {
