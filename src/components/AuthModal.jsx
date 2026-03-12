@@ -327,8 +327,8 @@ export default function AuthModal({ isOpen, onClose, onAuth }) {
                         <img src="/favicon.jpg" alt="Rita" className="w-10 h-10 rounded-full object-cover mx-auto mb-3" />
                         <h2 className="text-xl font-bold font-heading text-primary">Rita</h2>
                         <p className="text-xs text-textDark/60 mt-1">
-                            {mode === 'login' && 'Bienvenida de vuelta ✨'}
-                            {mode === 'register' && 'Creá tu cuenta y obtené 10% OFF 🎀'}
+                            {mode === 'login' && 'Bienvenida de vuelta'}
+                            {mode === 'register' && 'Creá tu cuenta y obtené 10% OFF'}
                             {mode === 'forgot' && 'Recuperá tu acceso'}
                         </p>
                     </div>
