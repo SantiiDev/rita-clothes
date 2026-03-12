@@ -3,7 +3,7 @@
     "id": 1,
     "name": "BODY REBECCA",
     "category": "BODYS",
-    "price": "$104",
+    "price": "$15900",
     "colors": [
       {
         "name": "BLANCO",
@@ -16,13 +16,29 @@
     ]
   },
   {
-    "id": 2,
-    "name": "CONJUNTO HANNA",
-    "category": "CONJUNTOS",
-    "price": "$52",
+    "id": 2.1,
+    "name": "TOP HANNA",
+    "category": "TOPS",
+    "price": "$15900",
     "colors": [
       {
-        "name": "BORDO",
+        "name": "UVA",
+        "image": "/opt-prendas/CONJUNTO-HANNA-BORDO.jpg"
+      },
+      {
+        "name": "NEGRO",
+        "image": "/opt-prendas/CONJUNTO-HANNA-NEGRO.jpg"
+      }
+    ]
+  },
+  {
+    "id": 2.2,
+    "name": "SKORT HANNA",
+    "category": "SKORTS",
+    "price": "$16900",
+    "colors": [
+      {
+        "name": "UVA",
         "image": "/opt-prendas/CONJUNTO-HANNA-BORDO.jpg"
       },
       {
@@ -34,8 +50,8 @@
   {
     "id": 3,
     "name": "SHORT ANNA",
-    "category": "SHORTS",
-    "price": "$88",
+    "category": "DENIM",
+    "price": "$22900",
     "colors": [
       {
         "name": "BLACK",
@@ -55,7 +71,7 @@
     "id": 4,
     "name": "SHORT LOLA",
     "category": "SHORTS",
-    "price": "$98",
+    "price": "$14900",
     "colors": [
       {
         "name": "Único",
@@ -67,7 +83,7 @@
     "id": 5,
     "name": "SHORT MOMI",
     "category": "SHORTS",
-    "price": "$40",
+    "price": "$17900",
     "colors": [
       {
         "name": "Único",
@@ -79,7 +95,7 @@
     "id": 6,
     "name": "SHORT RINA",
     "category": "SHORTS",
-    "price": "$90",
+    "price": "$12900",
     "colors": [
       {
         "name": "Único",
@@ -91,7 +107,7 @@
     "id": 7,
     "name": "SHORT SARA",
     "category": "SHORTS",
-    "price": "$44",
+    "price": "$11900",
     "colors": [
       {
         "name": "Único",
@@ -102,8 +118,8 @@
   {
     "id": 8,
     "name": "SHORT SELE",
-    "category": "SHORTS",
-    "price": "$87",
+    "category": "DENIM",
+    "price": "$22900",
     "colors": [
       {
         "name": "BLACK",
@@ -123,7 +139,7 @@
     "id": 9,
     "name": "SHORT SHINE",
     "category": "SHORTS",
-    "price": "$107",
+    "price": "$11900",
     "colors": [
       {
         "name": "Único",
@@ -135,7 +151,7 @@
     "id": 10,
     "name": "SHORT TATI",
     "category": "SHORTS",
-    "price": "$75",
+    "price": "$17900",
     "colors": [
       {
         "name": "Único",
@@ -147,7 +163,7 @@
     "id": 11,
     "name": "SHORT UMA",
     "category": "SHORTS",
-    "price": "$75",
+    "price": "$17900",
     "colors": [
       {
         "name": "Único",
@@ -159,7 +175,7 @@
     "id": 12,
     "name": "SKORT ADA",
     "category": "SKORTS",
-    "price": "$75",
+    "price": "$11900",
     "colors": [
       {
         "name": "Único",
@@ -171,7 +187,7 @@
     "id": 13,
     "name": "SKORT ISA",
     "category": "SKORTS",
-    "price": "$84",
+    "price": "$17900",
     "colors": [
       {
         "name": "Único",
@@ -183,7 +199,7 @@
     "id": 14,
     "name": "SKORT LIA",
     "category": "SKORTS",
-    "price": "$72",
+    "price": "$17900",
     "colors": [
       {
         "name": "Único",
@@ -195,7 +211,7 @@
     "id": 15,
     "name": "SKORT LILI",
     "category": "SKORTS",
-    "price": "$103",
+    "price": "$17900",
     "colors": [
       {
         "name": "Único",
@@ -207,7 +223,7 @@
     "id": 16,
     "name": "SKORT LUCY",
     "category": "SKORTS",
-    "price": "$114",
+    "price": "$14900",
     "colors": [
       {
         "name": "Único",
@@ -219,7 +235,7 @@
     "id": 17,
     "name": "SKORT MAYA",
     "category": "SKORTS",
-    "price": "$46",
+    "price": "$14900",
     "colors": [
       {
         "name": "Único",
@@ -231,7 +247,7 @@
     "id": 18,
     "name": "SKORT MIA",
     "category": "SKORTS",
-    "price": "$40",
+    "price": "$14900",
     "colors": [
       {
         "name": "NEGRO",
@@ -247,7 +263,7 @@
     "id": 19,
     "name": "SKORT MILA",
     "category": "SKORTS",
-    "price": "$87",
+    "price": "$19900",
     "colors": [
       {
         "name": "Único",
@@ -259,7 +275,7 @@
     "id": 20,
     "name": "SKORT SAMI",
     "category": "SKORTS",
-    "price": "$65",
+    "price": "$16900",
     "colors": [
       {
         "name": "Único",
@@ -271,7 +287,7 @@
     "id": 21,
     "name": "SKORT TAMI",
     "category": "SKORTS",
-    "price": "$109",
+    "price": "$17900",
     "colors": [
       {
         "name": "Único",
@@ -283,7 +299,7 @@
     "id": 22,
     "name": "SKORT ZARA",
     "category": "SKORTS",
-    "price": "$115",
+    "price": "$11900",
     "colors": [
       {
         "name": "Único",
@@ -295,7 +311,7 @@
     "id": 23,
     "name": "TOP ANNA",
     "category": "TOPS",
-    "price": "$89",
+    "price": "$12900",
     "colors": [
       {
         "name": "NEGRO",
@@ -311,7 +327,7 @@
     "id": 24,
     "name": "TOP ARIA",
     "category": "TOPS",
-    "price": "$66",
+    "price": "$15900",
     "colors": [
       {
         "name": "MARRON",
@@ -327,7 +343,7 @@
     "id": 25,
     "name": "TOP CAMILA",
     "category": "TOPS",
-    "price": "$62",
+    "price": "$13900",
     "colors": [
       {
         "name": "Único",
@@ -339,7 +355,7 @@
     "id": 26,
     "name": "TOP CLEO",
     "category": "TOPS",
-    "price": "$111",
+    "price": "$11900",
     "colors": [
       {
         "name": "Único",
@@ -355,7 +371,7 @@
     "id": 27,
     "name": "TOP CORA",
     "category": "TOPS",
-    "price": "$65",
+    "price": "$14900",
     "colors": [
       {
         "name": "Único",
@@ -367,14 +383,14 @@
     "id": 28,
     "name": "TOP EMMA",
     "category": "TOPS",
-    "price": "$56",
+    "price": "$12900",
     "colors": [
       {
         "name": "AZUL",
         "image": "/opt-prendas/TOP-EMMA-AZUL.jpg"
       },
       {
-        "name": "BORDO",
+        "name": "UVA",
         "image": "/opt-prendas/TOP-EMMA-BORDO.jpg"
       },
       {
@@ -391,10 +407,10 @@
     "id": 29,
     "name": "TOP KALI",
     "category": "TOPS",
-    "price": "$119",
+    "price": "$14900",
     "colors": [
       {
-        "name": "BORDO",
+        "name": "UVA",
         "image": "/opt-prendas/TOP-KALI-BORDO.jpg"
       },
       {
@@ -407,7 +423,7 @@
     "id": 30,
     "name": "TOP LIA",
     "category": "TOPS",
-    "price": "$59",
+    "price": "$11900",
     "colors": [
       {
         "name": "Único",
@@ -419,7 +435,7 @@
     "id": 31,
     "name": "TOP MAR",
     "category": "TOPS",
-    "price": "$78",
+    "price": "$14900",
     "colors": [
       {
         "name": "Único",
@@ -431,7 +447,7 @@
     "id": 32,
     "name": "TOP MARY",
     "category": "TOPS",
-    "price": "$79",
+    "price": "$14900",
     "colors": [
       {
         "name": "Único",
@@ -443,7 +459,7 @@
     "id": 33,
     "name": "TOP MERI",
     "category": "TOPS",
-    "price": "$51",
+    "price": "$15900",
     "colors": [
       {
         "name": "MARRON",
@@ -459,7 +475,7 @@
     "id": 34,
     "name": "TOP ROSE",
     "category": "TOPS",
-    "price": "$118",
+    "price": "$14900",
     "colors": [
       {
         "name": "MARRON",
@@ -475,7 +491,7 @@
     "id": 35,
     "name": "TOP SOPHIA",
     "category": "TOPS",
-    "price": "$50",
+    "price": "$16900",
     "colors": [
       {
         "name": "MARRON",
@@ -486,7 +502,7 @@
         "image": "/opt-prendas/TOP-SOPHIA-NEGRO.jpg"
       },
       {
-        "name": "BORDO",
+        "name": "UVA",
         "image": "/opt-prendas/TOP-SOPHIA-Único.jpg"
       }
     ]
@@ -495,14 +511,14 @@
     "id": 36,
     "name": "TOP TIARA",
     "category": "TOPS",
-    "price": "$77",
+    "price": "$12900",
     "colors": [
       {
         "name": "AZUL",
         "image": "/opt-prendas/TOP-TIARA-AZUL.jpg"
       },
       {
-        "name": "BORDO",
+        "name": "UVA",
         "image": "/opt-prendas/TOP-TIARA-BORDO.jpg"
       },
       {
@@ -515,7 +531,7 @@
     "id": 37,
     "name": "TOP ZAMI",
     "category": "TOPS",
-    "price": "$110",
+    "price": "$11900",
     "colors": [
       {
         "name": "Único",
@@ -527,10 +543,10 @@
     "id": 38,
     "name": "TOP ZOE",
     "category": "TOPS",
-    "price": "$89",
+    "price": "$12900",
     "colors": [
       {
-        "name": "BORDO",
+        "name": "UVA",
         "image": "/opt-prendas/TOP-ZOE-BORDO.jpg"
       },
       {
@@ -547,7 +563,7 @@
     "id": 39,
     "name": "VESTIDO BETTY",
     "category": "VESTIDOS",
-    "price": "$72",
+    "price": "$21900",
     "colors": [
       {
         "name": "Único",
@@ -559,7 +575,7 @@
     "id": 40,
     "name": "VESTIDO CLARA",
     "category": "VESTIDOS",
-    "price": "$70",
+    "price": "$23900",
     "colors": [
       {
         "name": "AZUL",
@@ -579,7 +595,7 @@
     "id": 41,
     "name": "VESTIDO CORA",
     "category": "VESTIDOS",
-    "price": "$110",
+    "price": "$27900",
     "colors": [
       {
         "name": "Único",
@@ -591,14 +607,14 @@
     "id": 42,
     "name": "VESTIDO HELENA FRUNCE",
     "category": "VESTIDOS",
-    "price": "$76",
+    "price": "$23900",
     "colors": [
       {
         "name": "NEGRO",
         "image": "/opt-prendas/VESTIDO-ELENA-FRUNCE.jpg"
       },
       {
-        "name": "BORDO",
+        "name": "UVA",
         "image": "/opt-prendas/VESTIDO-ELENA-FRUNCE_BORDO.jpg"
       }
     ]
@@ -607,7 +623,7 @@
     "id": 42.1,
     "name": "VESTIDO HELENA",
     "category": "VESTIDOS",
-    "price": "$76",
+    "price": "$23900",
     "colors": [
       {
         "name": "Único",
@@ -619,7 +635,19 @@
     "id": 43,
     "name": "VESTIDO EVA",
     "category": "VESTIDOS",
-    "price": "$82",
+    "price": "$23900",
+    "colors": [
+      {
+        "name": "Único",
+        "image": "/opt-prendas/VESTIDO-EVA-Único.jpg"
+      }
+    ]
+  },
+  {
+    "id": 43.1,
+    "name": "VESTIDO EVA SHINE",
+    "category": "VESTIDOS",
+    "price": "$25900",
     "colors": [
       {
         "name": "SHINE ROJO",
@@ -628,10 +656,6 @@
           "/opt-prendas/VESTIDO-EVA-SHINE_ROJO_ESPALDA.jpg"
         ],
         "image": "/opt-prendas/VESTIDO-EVA-SHINE_ROJO.jpg"
-      },
-      {
-        "name": "Único",
-        "image": "/opt-prendas/VESTIDO-EVA-Único.jpg"
       }
     ]
   },
@@ -639,14 +663,14 @@
     "id": 44,
     "name": "VESTIDO MACA",
     "category": "VESTIDOS",
-    "price": "$87",
+    "price": "$23900",
     "colors": [
       {
         "name": "NEGRO",
         "image": "/opt-prendas/VESTIDO-MACA-NEGRO.jpg"
       },
       {
-        "name": "BORDO",
+        "name": "UVA",
         "image": "/opt-prendas/VESTIDO-MACA-Único.jpg"
       }
     ]
@@ -655,7 +679,7 @@
     "id": 45,
     "name": "VESTIDO MAITE",
     "category": "VESTIDOS",
-    "price": "$103",
+    "price": "$21900",
     "colors": [
       {
         "name": "Único",
@@ -667,7 +691,7 @@
     "id": 46,
     "name": "VESTIDO OLIVIA",
     "category": "VESTIDOS",
-    "price": "$91",
+    "price": "$25900",
     "colors": [
       {
         "name": "Único",
@@ -679,7 +703,7 @@
     "id": 47,
     "name": "VESTIDO ROMA",
     "category": "VESTIDOS",
-    "price": "$60",
+    "price": "$21900",
     "colors": [
       {
         "name": "Único",
@@ -691,7 +715,7 @@
     "id": 48,
     "name": "VESTIDO SUSI",
     "category": "VESTIDOS",
-    "price": "$52",
+    "price": "$23900",
     "colors": [
       {
         "name": "Único",
@@ -703,7 +727,7 @@
     "id": 49,
     "name": "VESTIDO ZOE STRASS",
     "category": "VESTIDOS",
-    "price": "$45",
+    "price": "$25900",
     "colors": [
       {
         "name": "Único",
@@ -715,7 +739,7 @@
     "id": 50,
     "name": "VESTIDO ZOE",
     "category": "VESTIDOS",
-    "price": "$45",
+    "price": "$23900",
     "colors": [
       {
         "name": "AZUL",
