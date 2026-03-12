@@ -311,7 +311,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
 
                 {/* Main scrollable area */}
                 <div className="flex-1 relative overflow-x-hidden flex w-full">
-                    <div className={`flex w-[200%] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeNav === 'howToBuy' ? '-translate-x-1/2' : 'translate-x-0'}`}>
+                    <div className={`flex w-[200%] shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeNav === 'howToBuy' ? '-translate-x-1/2' : 'translate-x-0'}`}>
                         
                         {/* ------------- HOME TAB ------------- */}
                         <div className="w-1/2 flex-shrink-0 flex flex-col min-h-full">
