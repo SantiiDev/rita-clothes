@@ -67,6 +67,11 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
         return () => clearInterval(timer);
     }, [activeNav]);
 
+    // Scroll to top when switching sections (like How to buy)
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [activeNav]);
+
     const handlePrevImage = () => {
         setCurrentImageIndex(prev => (prev - 1 + carouselImages.length) % carouselImages.length);
     };
@@ -200,7 +205,7 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         </h1>
                     </div>
 
-                    <div className={`flex items-center gap-3 ml-auto transition-all duration-300 ${isSearchOpen ? 'w-full md:w-auto' : 'w-auto'}`}>
+                    <div className={`relative flex items-center gap-3 ml-auto transition-all duration-300 ${isSearchOpen ? 'w-full md:w-auto' : 'w-auto'}`}>
                         {/* Search Input */}
                         <div className={`overflow-hidden transition-all duration-300 flex items-center bg-surface border border-gray-200 rounded-full ${isSearchOpen ? 'w-full md:w-64 px-4 py-2' : 'w-0 border-transparent opacity-0'}`}>
                             <input
@@ -235,6 +240,41 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                                 </span>
                             )}
                         </button>
+
+                        {/* Live Search Dropdown */}
+                        {isSearchOpen && searchQuery.trim() !== '' && (
+                            <div className="absolute top-14 right-0 w-full md:w-80 bg-white shadow-2xl rounded-2xl border border-gray-100 z-[100] max-h-[60vh] overflow-y-auto px-2 py-2">
+                                {filteredProducts.length === 0 ? (
+                                    <div className="p-4 text-center text-sm text-textDark">No se encontraron resultados</div>
+                                ) : (
+                                    <div className="flex flex-col gap-1">
+                                        {filteredProducts.map(prod => (
+                                            <div
+                                                key={prod.id}
+                                                onClick={() => {
+                                                    setSearchQuery('');
+                                                    setIsSearchOpen(false);
+                                                    onNavigate('productDetail', prod);
+                                                }}
+                                                className="flex items-center gap-3 p-2 hover:bg-surface rounded-xl cursor-pointer transition-colors"
+                                            >
+                                                <div className="w-12 h-12 rounded-lg bg-surface overflow-hidden shrink-0">
+                                                    {prod.colors && prod.colors.length > 0 && prod.colors[0].image ? (
+                                                        <img src={prod.colors[0].image} alt={prod.name} className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        <div className="w-full h-full flex items-center justify-center text-[8px] text-textDark uppercase">Sin img</div>
+                                                    )}
+                                                </div>
+                                                <div className="flex flex-col flex-1 min-w-0">
+                                                    <span className="text-sm font-semibold text-textMain truncate">{prod.name}</span>
+                                                    <span className="text-xs text-textDark">{prod.price}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </header>
 

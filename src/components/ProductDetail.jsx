@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 export default function ProductDetail({ product, onNavigate, onAddToCart, cartItemCount }) {
     const [quantity, setQuantity] = useState(1);
     const [addedAnimation, setAddedAnimation] = useState(false);
@@ -7,6 +6,17 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
     // Check if the product has defined colors, pick the first one by default
     const hasColors = product?.colors && product.colors.length > 0;
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+
+    // Reset photo index when color changes
+    useEffect(() => {
+        setCurrentPhotoIndex(0);
+    }, [selectedColorIndex]);
+
+    // Scroll al inicio al montar
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     if (!product) return null;
 
@@ -16,7 +26,8 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
         const productToAdd = hasColors ? {
             ...product, 
             id: `${product.id}-${product.colors[selectedColorIndex].name}`, // create variant id
-            name: `${product.name} - ${product.colors[selectedColorIndex].name}`
+            name: `${product.name} - ${product.colors[selectedColorIndex].name}`,
+            cartImage: product.colors[selectedColorIndex].image
         } : product;
 
         onAddToCart(productToAdd, quantity);
@@ -52,14 +63,44 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
 
             {/* Product Image Area (Left col on Desktop) */}
             <div className="w-full md:w-1/2 lg:w-3/5 px-6 pt-24 md:px-0 md:pt-0 mb-8 md:mb-0 relative md:sticky md:top-0 h-auto md:h-screen flex items-center justify-center bg-surface md:bg-transparent">
-                <div className="bg-surface rounded-3xl md:rounded-none aspect-[4/5] md:aspect-auto md:h-full w-full relative overflow-hidden flex items-center justify-center">
-                    {hasColors && product.colors[selectedColorIndex]?.image ? (
-                        <img 
-                            src={product.colors[selectedColorIndex].image} 
-                            alt={`${product.name} - ${product.colors[selectedColorIndex].name}`} 
-                            className="w-full h-full object-cover animate-in fade-in duration-500" 
-                            key={selectedColorIndex} // forces re-render for animation
-                        />
+                <div className="bg-surface rounded-3xl md:rounded-none aspect-[4/5] md:aspect-auto md:h-full w-full relative overflow-hidden flex items-center justify-center group">
+                    {hasColors && (product.colors[selectedColorIndex]?.images || product.colors[selectedColorIndex]?.image) ? (
+                        <>
+                            <img 
+                                src={product.colors[selectedColorIndex].images ? product.colors[selectedColorIndex].images[currentPhotoIndex] : product.colors[selectedColorIndex].image} 
+                                alt={`${product.name} - ${product.colors[selectedColorIndex].name}`} 
+                                className="w-full h-full object-cover animate-in fade-in duration-500" 
+                                key={`${selectedColorIndex}-${currentPhotoIndex}`} // forces re-render for animation
+                            />
+                            {product.colors[selectedColorIndex].images && product.colors[selectedColorIndex].images.length > 1 && (
+                                <>
+                                    {/* Carousel Controls */}
+                                    <button 
+                                        onClick={(e) => { e.stopPropagation(); setCurrentPhotoIndex(prev => (prev - 1 + product.colors[selectedColorIndex].images.length) % product.colors[selectedColorIndex].images.length); }}
+                                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/40 hover:bg-white/70 backdrop-blur-md text-black p-2 rounded-full opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity z-20"
+                                    >
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                                    </button>
+                                    <button 
+                                        onClick={(e) => { e.stopPropagation(); setCurrentPhotoIndex(prev => (prev + 1) % product.colors[selectedColorIndex].images.length); }}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/40 hover:bg-white/70 backdrop-blur-md text-black p-2 rounded-full opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity z-20"
+                                    >
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                    </button>
+                                    
+                                    {/* Dots */}
+                                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-black/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                                        {product.colors[selectedColorIndex].images.map((_, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => setCurrentPhotoIndex(idx)}
+                                                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === currentPhotoIndex ? 'bg-white w-4' : 'bg-white/60 hover:bg-white'}`}
+                                            />
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+                        </>
                     ) : (
                         <span className="text-textDark font-data text-xs md:text-xl uppercase opacity-30 tracking-widest rotate-90 md:rotate-0">
                             Imagen de Catálogo

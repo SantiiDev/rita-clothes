@@ -298,11 +298,11 @@
     "price": "$89",
     "colors": [
       {
-        "name": "DORSO",
-        "image": "/opt-prendas/TOP-ANNA-DORSO.jpg"
-      },
-      {
-        "name": "FRENTE",
+        "name": "NEGRO",
+        "images": [
+          "/opt-prendas/TOP-ANNA-FRENTE.jpg",
+          "/opt-prendas/TOP-ANNA-DORSO.jpg"
+        ],
         "image": "/opt-prendas/TOP-ANNA-FRENTE.jpg"
       }
     ]
@@ -378,11 +378,11 @@
         "image": "/opt-prendas/TOP-EMMA-BORDO.jpg"
       },
       {
-        "name": "NEGRO ESPALDA",
-        "image": "/opt-prendas/TOP-EMMA-NEGRO_ESPALDA.jpg"
-      },
-      {
         "name": "NEGRO",
+        "images": [
+          "/opt-prendas/TOP-EMMA-NEGRO.jpg",
+          "/opt-prendas/TOP-EMMA-NEGRO_ESPALDA.jpg"
+        ],
         "image": "/opt-prendas/TOP-EMMA-NEGRO.jpg"
       }
     ]
@@ -486,7 +486,7 @@
         "image": "/opt-prendas/TOP-SOPHIA-NEGRO.jpg"
       },
       {
-        "name": "Único",
+        "name": "BORDO",
         "image": "/opt-prendas/TOP-SOPHIA-Único.jpg"
       }
     ]
@@ -538,7 +538,7 @@
         "image": "/opt-prendas/TOP-ZOE-NEGRO.jpg"
       },
       {
-        "name": "Único",
+        "name": "AZUL",
         "image": "/opt-prendas/TOP-ZOE-Único.jpg"
       }
     ]
@@ -589,18 +589,26 @@
   },
   {
     "id": 42,
-    "name": "VESTIDO ELENA",
+    "name": "VESTIDO HELENA FRUNCE",
     "category": "VESTIDOS",
     "price": "$76",
     "colors": [
       {
-        "name": "FRUNCE BORDO",
-        "image": "/opt-prendas/VESTIDO-ELENA-FRUNCE_BORDO.jpg"
-      },
-      {
-        "name": "FRUNCE",
+        "name": "NEGRO",
         "image": "/opt-prendas/VESTIDO-ELENA-FRUNCE.jpg"
       },
+      {
+        "name": "BORDO",
+        "image": "/opt-prendas/VESTIDO-ELENA-FRUNCE_BORDO.jpg"
+      }
+    ]
+  },
+  {
+    "id": 42.1,
+    "name": "VESTIDO HELENA",
+    "category": "VESTIDOS",
+    "price": "$76",
+    "colors": [
       {
         "name": "Único",
         "image": "/opt-prendas/VESTIDO-ELENA-Único.jpg"
@@ -614,11 +622,11 @@
     "price": "$82",
     "colors": [
       {
-        "name": "SHINE ROJO ESPALDA",
-        "image": "/opt-prendas/VESTIDO-EVA-SHINE_ROJO_ESPALDA.jpg"
-      },
-      {
         "name": "SHINE ROJO",
+        "images": [
+          "/opt-prendas/VESTIDO-EVA-SHINE_ROJO.jpg",
+          "/opt-prendas/VESTIDO-EVA-SHINE_ROJO_ESPALDA.jpg"
+        ],
         "image": "/opt-prendas/VESTIDO-EVA-SHINE_ROJO.jpg"
       },
       {
@@ -638,7 +646,7 @@
         "image": "/opt-prendas/VESTIDO-MACA-NEGRO.jpg"
       },
       {
-        "name": "Único",
+        "name": "BORDO",
         "image": "/opt-prendas/VESTIDO-MACA-Único.jpg"
       }
     ]
@@ -693,14 +701,22 @@
   },
   {
     "id": 49,
-    "name": "VESTIDO ZOE",
+    "name": "VESTIDO ZOE STRASS",
     "category": "VESTIDOS",
     "price": "$45",
     "colors": [
       {
-        "name": " STRASS",
+        "name": "Único",
         "image": "/opt-prendas/VESTIDO-ZOE-_STRASS.jpg"
-      },
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "name": "VESTIDO ZOE",
+    "category": "VESTIDOS",
+    "price": "$45",
+    "colors": [
       {
         "name": "AZUL",
         "image": "/opt-prendas/VESTIDO-ZOE-AZUL.jpg"
