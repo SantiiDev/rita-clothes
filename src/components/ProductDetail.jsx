@@ -188,10 +188,6 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
                     </div>
                 )}
 
-                <h3 className="font-semibold text-lg md:text-xl mb-3 text-primary">Descripción:</h3>
-                <p className="text-sm md:text-base text-textDark leading-relaxed mb-12">
-                    Prenda exclusiva diseñada para deslumbrar en tus eventos de noche.
-                </p>
 
                 {/* Action Bar - Inline on Desktop, Fixed bottom on Mobile */}
                 <div className="fixed md:static bottom-0 left-0 right-0 max-w-md md:max-w-none mx-auto w-full md:w-auto bg-background md:bg-transparent p-6 md:p-0 border-t md:border-t-0 border-gray-100 flex md:flex-row gap-4 items-center z-50 md:mt-auto">
