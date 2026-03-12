@@ -123,16 +123,24 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate, onClearC
                         <div className="flex-1 flex flex-col gap-4 md:gap-6">
                             {cartItems.map((item) => (
                                 <div key={item.id} className="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border border-gray-50 flex gap-4 md:gap-6 items-center">
-                                    <div className="w-20 h-24 md:w-28 md:h-32 bg-surface rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center relative">
-                                        {(item.cartImage || (item.colors && item.colors.length > 0 && item.colors[0].image)) ? (
-                                            <img src={item.cartImage || item.colors[0].image} alt={item.name} className="w-full h-full object-cover" />
-                                        ) : (
-                                            <span className="text-textDark font-data text-[8px] md:text-[10px] uppercase opacity-40 rotate-90 absolute">Prenda {item.id}</span>
-                                        )}
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="flex justify-between items-start mb-1">
-                                            <h3 className="font-semibold text-sm md:text-base pr-4 leading-tight">{item.name}</h3>
+                                        <div 
+                                            className="w-20 h-24 md:w-28 md:h-32 bg-surface rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center relative cursor-pointer"
+                                            onClick={() => onNavigate('productDetail', item)}
+                                        >
+                                            {(item.cartImage || (item.colors && item.colors.length > 0 && item.colors[0].image)) ? (
+                                                <img src={item.cartImage || item.colors[0].image} alt={item.name} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <span className="text-textDark font-data text-[8px] md:text-[10px] uppercase opacity-40 rotate-90 absolute">Prenda {item.id}</span>
+                                            )}
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="flex justify-between items-start mb-1">
+                                                <h3 
+                                                    className="font-semibold text-sm md:text-base pr-4 leading-tight cursor-pointer hover:text-primary transition-colors"
+                                                    onClick={() => onNavigate('productDetail', item)}
+                                                >
+                                                    {item.name}
+                                                </h3>
                                             <button
                                                 onClick={() => onUpdateQuantity(item.id, 0)}
                                                 className="text-textDark hover:text-red-500 transition-colors p-1"

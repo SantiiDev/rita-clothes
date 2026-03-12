@@ -21,6 +21,7 @@ function App() {
   // Always start at splash
   const [currentScreen, setCurrentScreen] = useState('splash');
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [homeScrollPosition, setHomeScrollPosition] = useState(0);
 
   // Auth modal
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -113,6 +114,8 @@ function App() {
           onOpenAuth={() => setShowAuthModal(true)}
           authUser={authUser}
           onLogout={handleLogout}
+          scrollPosition={homeScrollPosition}
+          setScrollPosition={setHomeScrollPosition}
         />
       )}
 

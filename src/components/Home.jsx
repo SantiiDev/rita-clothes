@@ -46,7 +46,7 @@ const GuideIcon = ({ size = 20, filled = false }) => (
     </svg>
 );
 
-export default function Home({ userName, onNavigate, cartItemCount, onAddToCart, onOpenAuth, authUser, onLogout }) {
+export default function Home({ userName, onNavigate, cartItemCount, onAddToCart, onOpenAuth, authUser, onLogout, scrollPosition, setScrollPosition }) {
     const shopRef = useRef(null);
     const [activeTab, setActiveTab] = useState('ALL');
     const [toast, setToast] = useState(null);
@@ -55,6 +55,19 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
     const [activeNav, setActiveNav] = useState('home'); // 'home' | 'howToBuy'
     const [showTopBanner, setShowTopBanner] = useState(!authUser);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    // Save and Restore Scroll position
+    useEffect(() => {
+        // Restore scroll position
+        if (scrollPosition > 0) {
+            window.scrollTo(0, scrollPosition);
+        }
+
+        // Save scroll position on unmount
+        return () => {
+            setScrollPosition(window.scrollY);
+        };
+    }, []); // Run only on mount and unmount
 
     const categories = ['ALL', 'VESTIDOS', 'SHORTS', 'SKORTS', 'TOPS', 'BODIES', 'DENIM', 'BÁSICOS'];
 
@@ -183,9 +196,9 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
             {/* Main Content Area */}
             <main className="flex-1 flex flex-col relative w-full md:ml-64">
                 {/* Top Header */}
-                <header className="flex items-center p-6 md:px-10 h-24 relative overflow-hidden">
+                <header className="flex items-center p-6 md:px-10 h-24 relative z-40">
                     {/* Mobile: user avatar */}
-                    <div className={`flex md:hidden items-center gap-3 transition-opacity duration-300 ${isSearchOpen ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100 flex-1'}`}>
+                    <div className={`flex md:hidden items-center gap-3 transition-opacity duration-300 ${isSearchOpen ? 'opacity-0 w-0 pointer-events-none' : 'opacity-100 flex-1'}`}>
                         <div
                             className="w-10 h-10 rounded-full bg-surface overflow-hidden border border-gray-200 flex items-center justify-center text-xs text-textDark shrink-0 cursor-pointer"
                             onClick={onOpenAuth}
@@ -296,9 +309,14 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                     </div>
                 )}
 
-                {/* Fullscreen Photo Carousel */}
-                {activeNav === 'home' && (
-                    <div className="w-full h-[calc(100dvh-130px)] md:h-[calc(100vh-160px)] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10 group">
+                {/* Main scrollable area */}
+                <div className="flex-1 relative overflow-x-hidden flex w-full">
+                    <div className={`flex w-[200%] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeNav === 'howToBuy' ? '-translate-x-1/2' : 'translate-x-0'}`}>
+                        
+                        {/* ------------- HOME TAB ------------- */}
+                        <div className="w-1/2 flex-shrink-0 flex flex-col min-h-full">
+                            {/* Fullscreen Photo Carousel */}
+                            <div className="w-full h-[calc(100dvh-130px)] md:h-[calc(100vh-160px)] bg-[#E8E8E8] relative flex flex-col items-center justify-center overflow-hidden mb-8 pb-10 group">
                         
                         {/* Images */}
                         {carouselImages.map((src, index) => (
@@ -359,16 +377,12 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                             ))}
                         </div>
                     </div>
-                )}
 
-                {/* Shop Section Anchor */}
-                {activeNav === 'home' && (
-                    <div ref={shopRef} className="w-full h-0" />
-                )}
+                            {/* Shop Section Anchor */}
+                            <div ref={shopRef} className="w-full h-0" />
 
-                {/* Mobile Filter Tabs */}
-                {activeNav === 'home' && (
-                    <div className="md:hidden px-6 mb-8 pt-4">
+                            {/* Mobile Filter Tabs */}
+                            <div className="md:hidden px-6 mb-8 pt-4">
                         <h3 className="text-[10px] font-bold text-textDark mb-3 uppercase tracking-widest text-center">SHOP</h3>
                         <div className="flex flex-wrap justify-center pb-4 gap-2">
                             {categories.map(tab => (
@@ -391,11 +405,58 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                             ))}
                         </div>
                     </div>
-                )}
 
-                {/* How to Buy Section */}
-                {activeNav === 'howToBuy' && (
-                    <div className="px-6 md:px-10 py-8 max-w-2xl mx-auto w-full">
+                    {/* Product Grid */}
+                    <div className="pb-10 flex-1">
+                                <div className="hidden md:flex items-center px-6 md:px-10 mb-6 gap-4">
+                                    <h2 className="text-sm font-bold tracking-widest text-textDark uppercase">SHOP</h2>
+                                    <div className="flex-1 h-[1px] bg-gray-100"></div>
+                                </div>
+
+                                {filteredProducts.length === 0 ? (
+                                    <div className="px-6 md:px-10 py-12 text-center text-textDark">
+                                        <p>No se encontraron prendas para tu búsqueda.</p>
+                                    </div>
+                                ) : (
+                                    <div className="px-6 md:px-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-10">
+                                        {filteredProducts.map(prod => (
+                                            <div key={prod.id} className="flex flex-col cursor-pointer group" onClick={() => onNavigate('productDetail', prod)}>
+                                                <div className="bg-surface rounded-2xl aspect-[3/4] mb-3 relative overflow-hidden flex items-center justify-center transition-transform group-hover:-translate-y-1">
+                                                    {prod.colors && prod.colors.length > 0 && prod.colors[0].image ? (
+                                                        <img src={prod.colors[0].image} alt={prod.name} className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Prenda {prod.id}</span>
+                                                    )}
+                                                </div>
+                                                <div className="flex justify-between items-start mb-1">
+                                                    <span className="font-semibold text-xs md:text-sm leading-tight flex-1 pr-2">{prod.name}</span>
+                                                </div>
+                                                {prod.colors && prod.colors.length > 1 ? (
+                                                    <p className="text-[9px] md:text-[10px] text-primary mb-3 font-semibold">
+                                                        {prod.colors.length} Colores disponibles
+                                                    </p>
+                                                ) : (
+                                                    <p className="text-[9px] md:text-xs text-textDark mb-3">Colección de Noche</p>
+                                                )}
+                                                <div className="flex justify-between items-center mt-auto">
+                                                    <span className="font-bold text-sm md:text-base">{prod.price}</span>
+                                                    <button
+                                                        onClick={(e) => handleAddToCart(prod, e)}
+                                                        className="btn-slide-hover border border-textMain bg-white text-black hover:bg-accent hover:border-accent hover:text-white text-[10px] md:text-xs px-3 md:px-4 py-1.5 rounded-full font-semibold transition-all duration-300"
+                                                    >
+                                                        Agregar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* ------------- HOW TO BUY TAB ------------- */}
+                        <div className="w-1/2 flex-shrink-0 flex flex-col min-h-full">
+                            <div className="px-6 md:px-10 py-8 max-w-2xl mx-auto w-full">
                         <div className="flex flex-col gap-6">
                             {/* Step 1 */}
                             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-start">
@@ -425,64 +486,17 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                             </div>
                         </div>
 
-                        <button
-                            onClick={() => setActiveNav('home')}
-                            className="btn-slide-hover bg-primary text-white font-semibold px-8 py-3 rounded-full mt-8 mx-auto flex items-center gap-2 transition-colors"
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6" /></svg>
-                            Volver al Catálogo
-                        </button>
-                    </div>
-                )}
-
-                {/* Product Grid */}
-                {activeNav === 'home' && (
-                    <div className="pb-10">
-                        <div className="hidden md:flex items-center px-6 md:px-10 mb-6 gap-4">
-                            <h2 className="text-sm font-bold tracking-widest text-textDark uppercase">SHOP</h2>
-                            <div className="flex-1 h-[1px] bg-gray-100"></div>
+                                <button
+                                    onClick={() => setActiveNav('home')}
+                                    className="btn-slide-hover bg-primary text-white font-semibold px-8 py-3 rounded-full mt-8 mx-auto flex items-center gap-2 transition-colors"
+                                >
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6" /></svg>
+                                    Volver al Catálogo
+                                </button>
+                            </div>
                         </div>
-
-                        {filteredProducts.length === 0 ? (
-                            <div className="px-6 md:px-10 py-12 text-center text-textDark">
-                                <p>No se encontraron prendas para tu búsqueda.</p>
-                            </div>
-                        ) : (
-                            <div className="px-6 md:px-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 pb-10">
-                                {filteredProducts.map(prod => (
-                                    <div key={prod.id} className="flex flex-col cursor-pointer group" onClick={() => onNavigate('productDetail', prod)}>
-                                        <div className="bg-surface rounded-2xl aspect-[3/4] mb-3 relative overflow-hidden flex items-center justify-center transition-transform group-hover:-translate-y-1">
-                                            {prod.colors && prod.colors.length > 0 && prod.colors[0].image ? (
-                                                <img src={prod.colors[0].image} alt={prod.name} className="w-full h-full object-cover" />
-                                            ) : (
-                                                <span className="text-textDark font-data text-[10px] uppercase rotate-90 opacity-30">Prenda {prod.id}</span>
-                                            )}
-                                        </div>
-                                        <div className="flex justify-between items-start mb-1">
-                                            <span className="font-semibold text-xs md:text-sm leading-tight flex-1 pr-2">{prod.name}</span>
-                                        </div>
-                                        {prod.colors && prod.colors.length > 1 ? (
-                                            <p className="text-[9px] md:text-[10px] text-primary mb-3 font-semibold">
-                                                {prod.colors.length} Colores disponibles
-                                            </p>
-                                        ) : (
-                                            <p className="text-[9px] md:text-xs text-textDark mb-3">Colección de Noche</p>
-                                        )}
-                                        <div className="flex justify-between items-center mt-auto">
-                                            <span className="font-bold text-sm md:text-base">{prod.price}</span>
-                                            <button
-                                                onClick={(e) => handleAddToCart(prod, e)}
-                                                className="btn-slide-hover bg-accent md:bg-primary text-black md:text-white text-[10px] md:text-xs px-3 md:px-4 py-1.5 rounded-full font-medium transition-colors"
-                                            >
-                                                Agregar
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
                     </div>
-                )}
+                </div>
             </main>
 
             {/* ── Floating Bottom Nav (Mobile Only) — 5 icons ── */}
