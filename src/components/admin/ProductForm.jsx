@@ -73,6 +73,14 @@ export default function ProductForm({ product, onSave, onCancel, categories }) {
 
     const handleImageUpload = async (index, file) => {
         if (!file) return;
+
+        // Validate file size (max 5MB)
+        const MAX_SIZE_MB = 5;
+        if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+            setError(`La imagen es muy grande (máx. ${MAX_SIZE_MB}MB). Comprimí la imagen e intentá de nuevo.`);
+            return;
+        }
+
         setUploadingColor(index);
         try {
             const url = await uploadProductImage(file);

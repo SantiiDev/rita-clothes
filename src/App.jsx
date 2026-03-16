@@ -57,11 +57,11 @@ function App() {
 
   // ── Supabase: load initial session + subscribe ──────────────────────────
   useEffect(() => {
-    // Check existing session on mount
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        const name = session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'Usuario';
-        setAuthUser({ name, email: session.user.email, id: session.user.id });
+    // Validate session server-side on mount (getUser verifies JWT with Supabase)
+    supabase.auth.getUser().then(({ data: { user }, error }) => {
+      if (user && !error) {
+        const name = user.user_metadata?.name || user.email?.split('@')[0] || 'Usuario';
+        setAuthUser({ name, email: user.email, id: user.id });
       }
       setAuthLoading(false);
     });

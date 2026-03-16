@@ -4,6 +4,7 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate, onClearC
     const [showCheckout, setShowCheckout] = useState(false);
     const [checkoutDone, setCheckoutDone] = useState(false);
     const [sending, setSending] = useState(false);
+    const [lastSubmitTime, setLastSubmitTime] = useState(0);
     const [formData, setFormData] = useState({ name: '', email: '', instagram: '' });
     const [formErrors, setFormErrors] = useState({});
 
@@ -26,6 +27,12 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate, onClearC
         e.preventDefault();
         if (!validateForm()) return;
 
+        // Throttle: prevent rapid re-submissions (30s cooldown)
+        if (Date.now() - lastSubmitTime < 30000) {
+            setFormErrors({ name: 'Esperá 30 segundos antes de enviar otro pedido.' });
+            return;
+        }
+
         setSending(true);
 
         // Build order details
@@ -40,7 +47,7 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate, onClearC
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({
-                    access_key: '9f8db71f-bb59-4a4a-8cba-e1ed28de927e',
+                    access_key: import.meta.env.VITE_WEB3FORMS_KEY,
                     subject: `Pedido de ${formData.name}`,
                     from_name: 'Rita Checkout',
                     Nombre: formData.name,
@@ -52,6 +59,7 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate, onClearC
 
             if (response.ok) {
                 setCheckoutDone(true);
+                setLastSubmitTime(Date.now());
                 onClearCart();
             }
         } catch {

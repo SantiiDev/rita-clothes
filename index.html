@@ -2,16 +2,132 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Rita - Moda de Noche y Fiesta</title>
+
+    <!-- ── Primary SEO ──────────────────────────────────────────────── -->
+    <title>Rita Clothes — Vestidos y Moda de Noche & Fiesta | Argentina</title>
+    <meta name="description" content="Descubrí la nueva colección de Rita: vestidos, tops, shorts y skorts pensados para noches inolvidables. Envíos a todo Argentina. ¡Tu primer look tiene 10% OFF!" />
+    <meta name="keywords" content="rita clothes, ropa de fiesta, vestidos de noche, moda femenina, vestidos Argentina, tops fiesta, shorts mujer, skorts, ropa de salida, moda nocturna, tienda online ropa, rita moda" />
+    <meta name="author" content="Rita Clothes" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- ── Canonical URL (reemplazá con tu dominio real) ─────────── -->
+    <link rel="canonical" href="https://ritaclothess.com/" />
+
+    <!-- ── Open Graph (Facebook, WhatsApp, Instagram) ───────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content="Rita Clothes" />
+    <meta property="og:title" content="Rita Clothes — Vestidos y Moda de Noche & Fiesta" />
+    <meta property="og:description" content="Prendas pensadas para noches inolvidables. Vestidos, tops, shorts y más. Envíos a todo Argentina. 10% OFF en tu primera compra." />
+    <meta property="og:image" content="https://ritaclothess.com/images/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://ritaclothess.com/" />
+
+    <!-- ── Twitter Cards ────────────────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rita Clothes — Moda de Noche & Fiesta" />
+    <meta name="twitter:description" content="Descubrí la nueva colección de Rita. Vestidos, tops, shorts y skorts para noches inolvidables." />
+    <meta name="twitter:image" content="https://ritaclothess.com/images/og-cover.jpg" />
+
+    <!-- ── Favicon & Icons ──────────────────────────────────────── -->
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+    <link rel="apple-touch-icon" href="/favicon.jpg" />
+    <meta name="theme-color" content="#1A1A1A" />
+
+    <!-- ── Web App Manifest ────────────────────────────────────── -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- ── Fonts ─────────────────────────────────────────────────── -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+    <!-- ── Structured Data: Organization ─────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Rita Clothes",
+      "url": "https://ritaclothess.com",
+      "logo": "https://ritaclothess.com/favicon.jpg",
+      "description": "Moda femenina de noche y fiesta. Vestidos, tops, shorts, skorts y más.",
+      "sameAs": [
+        "https://www.instagram.com/ritaclothess_/"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": "https://www.instagram.com/ritaclothess_/",
+        "availableLanguage": "Spanish"
+      }
+    }
+    </script>
+
+    <!-- ── Structured Data: WebSite (enables Google Sitelinks Search) ── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Rita Clothes",
+      "url": "https://ritaclothess.com",
+      "description": "Tienda online de moda femenina para la noche. Vestidos, tops, shorts, skorts y bodies.",
+      "inLanguage": "es",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://ritaclothess.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- ── Structured Data: Product Collection ──────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Colección Rita Clothes — Moda de Noche",
+      "description": "Explorá vestidos, tops, shorts, skorts, bodies y denim de la nueva colección Rita.",
+      "url": "https://ritaclothess.com",
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Vestidos", "url": "https://ritaclothess.com/#vestidos" },
+          { "@type": "ListItem", "position": 2, "name": "Tops", "url": "https://ritaclothess.com/#tops" },
+          { "@type": "ListItem", "position": 3, "name": "Shorts", "url": "https://ritaclothess.com/#shorts" },
+          { "@type": "ListItem", "position": 4, "name": "Skorts", "url": "https://ritaclothess.com/#skorts" },
+          { "@type": "ListItem", "position": 5, "name": "Bodies", "url": "https://ritaclothess.com/#bodies" },
+          { "@type": "ListItem", "position": 6, "name": "Denim", "url": "https://ritaclothess.com/#denim" }
+        ]
+      }
+    }
+    </script>
   </head>
   <body class="bg-background text-textMain selection:bg-accent selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- ── Noscript: contenido visible para crawlers (React SPA) ─── -->
+    <noscript>
+      <div style="max-width:800px;margin:40px auto;padding:20px;font-family:system-ui,sans-serif;color:#333">
+        <h1>Rita Clothes — Moda de Noche y Fiesta</h1>
+        <p>Bienvenida a Rita, tu tienda online de moda femenina para noches inolvidables. Descubrí vestidos, tops, shorts, skorts, bodies y denim.</p>
+        <h2>Categorías</h2>
+        <ul>
+          <li><strong>Vestidos</strong> — Vestido Helena, Vestido Maca, Vestido Clara, Vestido Olivia, Vestido Zoe y más.</li>
+          <li><strong>Tops</strong> — Top Anna, Top Emma, Top Sophia, Top Aria, Top Camila y más.</li>
+          <li><strong>Shorts</strong> — Short Lola, Short Momi, Short Rina, Short Sara y más.</li>
+          <li><strong>Skorts</strong> — Skort Ada, Skort Isa, Skort Lia, Skort Maya y más.</li>
+          <li><strong>Bodies</strong> — Body Rebecca.</li>
+          <li><strong>Denim</strong> — Short Anna, Short Sele.</li>
+        </ul>
+        <p>¡Tu primer look tiene 10% OFF! Registrate para obtener el descuento.</p>
+        <p>Seguinos en Instagram: <a href="https://www.instagram.com/ritaclothess_/">@ritaclothess_</a></p>
+      </div>
+    </noscript>
+
+    <!-- ── Noise overlay ─────────────────────────────────────────── -->
     <svg class="noise-overlay" xmlns="http://www.w3.org/2000/svg">
       <filter id="noiseFilter">
         <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch"/>
@@ -20,3 +136,4 @@
     </svg>
   </body>
 </html>
+

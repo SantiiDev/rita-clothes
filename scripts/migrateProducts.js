@@ -1,42 +1,54 @@
 /**
- * Migration script: products.json → Supabase products table
- * 
- * Usage: node scripts/migrateProducts.js
- * 
- * Prerequisites:
- * 1. Run the supabase-setup.sql in Supabase SQL Editor first
- * 2. The admin user (ritastudio33@gmail.com) must exist in Supabase Auth
+ * Migration script: products.json → Supabase products table (using native fetch)
+ *
+ * Required env vars (set in .env.local or export them):
+ *   VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, ADMIN_EMAIL, ADMIN_PASSWORD
  */
 
-import { createClient } from '@supabase/supabase-js';
 import { readFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const SUPABASE_URL = 'https://hubhkzrqfscoxsuukkqd.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1YmhrenJxZnNjb3hzdXVra3FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4MTU1ODYsImV4cCI6MjA4ODM5MTU4Nn0.b5J7VYNg9Rxnoo1KysfifoJkapNNgwXSuGgUuCLXe_M';
+// Read credentials from environment — never hardcode secrets
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY || !ADMIN_EMAIL || !ADMIN_PASSWORD) {
+  console.error('❌ Missing required environment variables.');
+  console.error('   Set: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, ADMIN_EMAIL, ADMIN_PASSWORD');
+  process.exit(1);
+}
 
 async function migrate() {
   console.log('🔐 Logging in as admin...');
-  const { error: authErr } = await supabase.auth.signInWithPassword({
-    email: 'ritastudio33@gmail.com',
-    password: 'Tania2014',
+  
+  // 1. Auth via REST API
+  const authRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email: ADMIN_EMAIL,
+      password: ADMIN_PASSWORD
+    })
   });
-
-  if (authErr) {
-    console.error('❌ Auth failed. Register the admin user first:', authErr.message);
-    console.log('\n📝 Go to your Supabase Auth dashboard and create the user:');
-    console.log('   Email: ritastudio33@gmail.com');
-    console.log('   Password: Tania2014');
+  
+  const authData = await authRes.json();
+  if (!authRes.ok) {
+    console.error('❌ Auth failed. Register the admin user first:', authData.error_description || authData.msg);
     process.exit(1);
   }
-
+  
+  const token = authData.access_token;
   console.log('✅ Auth ok');
 
+  // 2. Load JSON
   const jsonPath = resolve(__dirname, '../src/data/products.json');
   const products = JSON.parse(readFileSync(jsonPath, 'utf8'));
 
@@ -45,6 +57,7 @@ async function migrate() {
   let success = 0;
   let failed = 0;
 
+  // 3. Insert each product via REST API
   for (let i = 0; i < products.length; i++) {
     const p = products[i];
     const row = {
@@ -55,10 +68,20 @@ async function migrate() {
       sort_order: i,
     };
 
-    const { error } = await supabase.from('products').insert(row);
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/products`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(row)
+    });
 
-    if (error) {
-      console.error(`  ❌ [${i + 1}/${products.length}] ${p.name}: ${error.message}`);
+    if (!res.ok) {
+      const err = await res.text();
+      console.error(`  ❌ [${i + 1}/${products.length}] ${p.name}: ${err}`);
       failed++;
     } else {
       console.log(`  ✅ [${i + 1}/${products.length}] ${p.name}`);
@@ -67,7 +90,6 @@ async function migrate() {
   }
 
   console.log(`\n🏁 Migration done: ${success} ok, ${failed} failed`);
-  process.exit(0);
 }
 
-migrate();
+migrate().catch(console.error);

@@ -1,0 +1,9 @@
+# Rita Clothes — robots.txt
+# https://ritaclothess.com/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# Sitemap
+Sitemap: https://ritaclothess.com/sitemap.xml
