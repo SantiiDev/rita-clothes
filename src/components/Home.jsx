@@ -51,7 +51,6 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [activeNav, setActiveNav] = useState('home'); // 'home' | 'howToBuy'
-    const [showTopBanner, setShowTopBanner] = useState(!authUser);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [colorPickerProduct, setColorPickerProduct] = useState(null);
     const [selectedColorForSize, setSelectedColorForSize] = useState(null);
@@ -361,24 +360,6 @@ export default function Home({ userName, onNavigate, cartItemCount, onAddToCart,
                         )}
                     </div>
                 </header>
-
-                {/* Top Discount Banner */}
-                {activeNav === 'home' && !authUser && showTopBanner && (
-                    <div className="bg-[#1A1A1A] text-white flex flex-col sm:flex-row items-center justify-center py-2 md:py-3 px-6 relative z-10 w-full shrink-0">
-                        <div className="flex flex-col sm:flex-row items-center gap-2 md:gap-4 text-center">
-                            <span className="text-xs md:text-sm flex items-center gap-2">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" /><line x1="7" y1="7" x2="7.01" y2="7" /></svg>
-                                ¡Tu primer look tiene 10% OFF!
-                            </span>
-                            <button onClick={onOpenAuth} className="bg-primary hover:bg-primary/80 text-white text-[10px] md:text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wider transition-colors mt-1 md:mt-0">
-                                Registrarse
-                            </button>
-                        </div>
-                        <button onClick={() => setShowTopBanner(false)} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-2">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                        </button>
-                    </div>
-                )}
 
                 {/* Main scrollable area */}
                 <div className="flex-1 relative overflow-x-hidden flex w-full">

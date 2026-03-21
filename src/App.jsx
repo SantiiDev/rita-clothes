@@ -6,7 +6,6 @@ import Home from './components/Home';
 import ProductDetail from './components/ProductDetail';
 import Cart from './components/Cart';
 import AuthModal from './components/AuthModal';
-import DiscountBanner from './components/DiscountBanner';
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
 
@@ -35,8 +34,6 @@ function App() {
 
   // ── Modals ──────────────────────────────────────────────────────────────
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [showDiscountBanner, setShowDiscountBanner] = useState(false);
-  const [hasShownBannerThisSession, setHasShownBannerThisSession] = useState(false);
 
   const isReturningUser = !!localStorage.getItem('rita_userName');
 
@@ -78,14 +75,6 @@ function App() {
 
     return () => subscription.unsubscribe();
   }, []);
-
-  // ── Show discount banner when landing on home ───────────────────────────
-  useEffect(() => {
-    if (currentScreen === 'home' && !authUser && !hasShownBannerThisSession) {
-      setShowDiscountBanner(true);
-      setHasShownBannerThisSession(true);
-    }
-  }, [currentScreen, authUser, hasShownBannerThisSession]);
 
   // ── Persist userName & cart ─────────────────────────────────────────────
   useEffect(() => {
@@ -141,11 +130,6 @@ function App() {
     if (currentScreen === 'admin' || currentScreen === 'admin-login') {
       setCurrentScreen('home');
     }
-  };
-
-  const handleDiscountRegister = () => {
-    setShowDiscountBanner(false);
-    setShowAuthModal(true);
   };
 
   const handleAdminLogin = (user) => {
@@ -237,13 +221,6 @@ function App() {
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
         onAuth={handleAuth}
-      />
-
-      {/* Discount Banner */}
-      <DiscountBanner
-        isOpen={showDiscountBanner}
-        onRegister={handleDiscountRegister}
-        onDismiss={() => setShowDiscountBanner(false)}
       />
 
       {/* Preload carousel images */}
