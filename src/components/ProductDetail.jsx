@@ -150,6 +150,14 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
                 <div className="flex items-center gap-3 mb-8">
                     <div className="w-6 h-6 rounded-full bg-black flex items-center justify-center text-[10px] font-bold text-white shadow-md">R</div>
                     <span className="text-sm text-textDark font-medium">Rita Oficial</span>
+                    {stockLimit !== Infinity && stockLimit > 0 && (
+                        <>
+                            <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                            <span className="text-sm text-primary font-medium bg-primary/5 px-2 py-0.5 rounded-full">
+                                Queda {stockLimit} disponible{stockLimit !== 1 ? 's' : ''}
+                            </span>
+                        </>
+                    )}
                 </div>
 
                 {hasColors && product.colors.length > 1 && (
