@@ -12,6 +12,10 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
     const sizes = product?.colors?.[selectedColorIndex]?.sizes || [];
     const hasSizes = sizes.length > 0;
     const [selectedSize, setSelectedSize] = useState('');
+    const [stockError, setStockError] = useState(false);
+
+    // Stock limit: product.quantity from DB (undefined = no limit)
+    const stockLimit = product?.quantity ?? Infinity;
 
     // Reset photo index and size when color changes
     useEffect(() => {
@@ -29,11 +33,16 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
     const canAdd = !isOutOfStock && (!hasSizes || selectedSize !== '');
 
     const handleAdd = () => {
-        // Build a unique item ID using the selected color if applicable, 
-        // but for now we'll just pass the product and selected color info to cart
+        // Check if quantity exceeds available stock
+        if (stockLimit !== Infinity && quantity > stockLimit) {
+            setStockError(true);
+            setTimeout(() => setStockError(false), 2500);
+            return;
+        }
+
         const productToAdd = hasColors ? {
             ...product, 
-            id: `${product.id}-${product.colors[selectedColorIndex].name}${hasSizes ? `-${selectedSize}` : ''}`, // create variant id
+            id: `${product.id}-${product.colors[selectedColorIndex].name}${hasSizes ? `-${selectedSize}` : ''}`,
             name: `${product.name} - ${product.colors[selectedColorIndex].name}${hasSizes ? ` (Talle ${selectedSize})` : ''}`,
             cartImage: product.colors[selectedColorIndex].image,
             selectedSize: hasSizes ? selectedSize : null
@@ -203,8 +212,9 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
                         <span className="font-heading font-semibold text-lg md:text-xl w-8 text-center">{quantity}</span>
 
                         <button
-                            onClick={() => setQuantity(quantity + 1)}
-                            className="text-white hover:text-white/60 transition-colors"
+                            onClick={() => setQuantity(Math.min(quantity + 1, stockLimit))}
+                            disabled={stockLimit !== Infinity && quantity >= stockLimit}
+                            className="text-white hover:text-white/60 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
                         </button>
@@ -214,7 +224,7 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
                         onClick={handleAdd}
                         disabled={!canAdd}
                         className={`flex-1 md:flex-auto font-semibold text-lg shadow-xl md:shadow-none rounded-full py-4 md:py-5 md:px-10 flex items-center justify-center gap-3 transition-colors duration-300
-               ${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : (!canAdd ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : addedAnimation ? 'bg-green-500 text-white' : 'btn-slide-hover bg-accent md:bg-primary text-black md:text-white')}
+               ${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : (!canAdd ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : stockError ? 'bg-red-500 text-white' : addedAnimation ? 'bg-green-500 text-white' : 'btn-slide-hover bg-accent md:bg-primary text-black md:text-white')}
              `}
                     >
                         {isOutOfStock ? (
@@ -225,6 +235,11 @@ export default function ProductDetail({ product, onNavigate, onAddToCart, cartIt
                         ) : !canAdd ? (
                             <>
                                 <span>Elegir Talle</span>
+                            </>
+                        ) : stockError ? (
+                            <>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                <span>Sin stock suficiente</span>
                             </>
                         ) : addedAnimation ? (
                             <>
