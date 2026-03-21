@@ -103,23 +103,29 @@ function App() {
   };
 
   const handleAddToCart = (product, quantity = 1) => {
+    // The stock limit for this product (falls back to Infinity if not set)
+    const stockLimit = product.quantity ?? Infinity;
     setCartItems(prev => {
       const existing = prev.find(item => item.id === product.id);
       if (existing) {
+        const newQty = Math.min(existing.quantity + quantity, stockLimit);
         return prev.map(item =>
-          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
+          item.id === product.id ? { ...item, quantity: newQty } : item
         );
       }
-      return [...prev, { ...product, quantity }];
+      const initialQty = Math.min(quantity, stockLimit);
+      return [...prev, { ...product, quantity: initialQty, stockQuantity: stockLimit }];
     });
   };
 
   const handleUpdateQuantity = (productId, newQuantity) => {
     setCartItems(prev => {
       if (newQuantity <= 0) return prev.filter(item => item.id !== productId);
-      return prev.map(item =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item
-      );
+      return prev.map(item => {
+        if (item.id !== productId) return item;
+        const limit = item.stockQuantity ?? Infinity;
+        return { ...item, quantity: Math.min(newQuantity, limit) };
+      });
     });
   };
 

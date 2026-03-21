@@ -157,20 +157,28 @@ export default function Cart({ cartItems, onUpdateQuantity, onNavigate, onClearC
                                             </button>
                                         </div>
                                         <p className="text-xs md:text-sm text-textDark mb-3 md:mb-4">{item.price}</p>
-                                        <div className="flex items-center gap-3 bg-surface w-fit px-3 py-1.5 md:px-4 md:py-2 rounded-lg">
-                                            <button
-                                                onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                                                className="text-textDark hover:text-black transition-colors"
-                                            >
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14" /></svg>
-                                            </button>
-                                            <span className="font-bold text-sm min-w-[1.5rem] text-center">{item.quantity}</span>
-                                            <button
-                                                onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                                                className="text-textDark hover:text-black transition-colors"
-                                            >
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14" /><path d="M5 12h14" /></svg>
-                                            </button>
+                                        <div className="flex flex-col gap-1">
+                                            <div className="flex items-center gap-3 bg-surface w-fit px-3 py-1.5 md:px-4 md:py-2 rounded-lg">
+                                                <button
+                                                    onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                                                    className="text-textDark hover:text-black transition-colors"
+                                                >
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14" /></svg>
+                                                </button>
+                                                <span className="font-bold text-sm min-w-[1.5rem] text-center">{item.quantity}</span>
+                                                <button
+                                                    onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                                                    disabled={item.stockQuantity !== undefined && item.quantity >= item.stockQuantity}
+                                                    className="text-textDark hover:text-black transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                                                >
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14" /><path d="M5 12h14" /></svg>
+                                                </button>
+                                            </div>
+                                            {item.stockQuantity !== undefined && item.quantity >= item.stockQuantity && (
+                                                <span className="text-[9px] text-amber-600 font-semibold uppercase tracking-wide pl-1">
+                                                    Stock máximo
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
