@@ -287,10 +287,11 @@ export default function AdminDashboard({ adminUser, onLogout, onGoToStore }) {
                     ) : (
                         <div className="bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden">
                             {/* Desktop table header */}
-                            <div className="hidden md:grid grid-cols-[1fr_120px_100px_140px_100px] gap-4 px-6 py-3 border-b border-white/5 text-xs text-white/30 uppercase tracking-wider font-medium">
+                            <div className="hidden md:grid grid-cols-[1fr_120px_100px_90px_140px_100px] gap-4 px-6 py-3 border-b border-white/5 text-xs text-white/30 uppercase tracking-wider font-medium">
                                 <span>Producto</span>
                                 <span>Categoría</span>
                                 <span>Precio</span>
+                                <span>Cantidad</span>
                                 <span>Stock</span>
                                 <span className="text-right">Acciones</span>
                             </div>
@@ -301,7 +302,7 @@ export default function AdminDashboard({ adminUser, onLogout, onGoToStore }) {
                                 const someOutOfStock = product.colors?.some(c => c.outOfStock) && !allOutOfStock;
                                 return (
                                     <div key={product.id} className="border-b border-white/5 last:border-b-0 hover:bg-white/[0.02] transition-colors">
-                                        <div className="grid grid-cols-1 md:grid-cols-[1fr_120px_100px_140px_100px] gap-2 md:gap-4 px-4 md:px-6 py-4 items-center">
+                                        <div className="grid grid-cols-1 md:grid-cols-[1fr_120px_100px_90px_140px_100px] gap-2 md:gap-4 px-4 md:px-6 py-4 items-center">
                                             {/* Product info */}
                                             <div className="flex items-center gap-3 md:gap-4">
                                                 <div className="w-12 h-14 md:w-14 md:h-16 rounded-xl bg-white/5 overflow-hidden shrink-0">
@@ -325,6 +326,19 @@ export default function AdminDashboard({ adminUser, onLogout, onGoToStore }) {
 
                                             {/* Price */}
                                             <span className="hidden md:block text-sm font-medium">{product.price}</span>
+
+                                            {/* Quantity */}
+                                            <span className="hidden md:block">
+                                                <span className={`text-xs font-semibold px-2.5 py-1 rounded-md ${
+                                                    product.quantity === 0
+                                                        ? 'bg-red-500/10 text-red-300'
+                                                        : product.quantity === 1
+                                                        ? 'bg-amber-500/10 text-amber-300'
+                                                        : 'bg-blue-500/10 text-blue-300'
+                                                }`}>
+                                                    {product.quantity ?? '—'}
+                                                </span>
+                                            </span>
 
                                             {/* Stock status */}
                                             <div className="hidden md:flex items-center gap-2">

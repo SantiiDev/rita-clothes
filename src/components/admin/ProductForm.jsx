@@ -9,6 +9,7 @@ export default function ProductForm({ product, onSave, onCancel, categories }) {
         name: product?.name || '',
         category: product?.category || categories[0],
         price: product?.price || '',
+        quantity: product?.quantity !== undefined ? product.quantity : 1,
         colors: product?.colors?.map(c => ({ ...c })) || [{ name: '', image: '', outOfStock: false, sizes: [] }],
     });
 
@@ -106,6 +107,7 @@ export default function ProductForm({ product, onSave, onCancel, categories }) {
                 name: form.name.trim().toUpperCase(),
                 category: form.category,
                 price: form.price.trim().startsWith('$') ? form.price.trim() : `$${form.price.trim()}`,
+                quantity: form.quantity,
                 colors: form.colors.map(c => ({
                     name: c.name.trim().toUpperCase(),
                     image: c.image || '',
@@ -161,8 +163,8 @@ export default function ProductForm({ product, onSave, onCancel, categories }) {
                         />
                     </div>
 
-                    {/* Category + Price row */}
-                    <div className="grid grid-cols-2 gap-4">
+                    {/* Category + Price + Quantity row */}
+                    <div className="grid grid-cols-3 gap-4">
                         <div>
                             <label className="text-xs text-white/40 font-medium mb-1.5 block uppercase tracking-wider">Categoría</label>
                             <select
@@ -182,6 +184,16 @@ export default function ProductForm({ product, onSave, onCancel, categories }) {
                                 value={form.price}
                                 onChange={(e) => updateField('price', e.target.value)}
                                 placeholder="$15900"
+                                className="w-full bg-white/5 border border-white/10 text-white text-sm px-4 py-3.5 rounded-xl outline-none focus:border-white/30 transition-colors placeholder:text-white/20"
+                            />
+                        </div>
+                        <div>
+                            <label className="text-xs text-white/40 font-medium mb-1.5 block uppercase tracking-wider">Cantidad (Stock)</label>
+                            <input
+                                type="number"
+                                min="0"
+                                value={form.quantity}
+                                onChange={(e) => updateField('quantity', Math.max(0, parseInt(e.target.value) || 0))}
                                 className="w-full bg-white/5 border border-white/10 text-white text-sm px-4 py-3.5 rounded-xl outline-none focus:border-white/30 transition-colors placeholder:text-white/20"
                             />
                         </div>

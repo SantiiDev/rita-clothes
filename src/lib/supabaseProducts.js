@@ -27,6 +27,7 @@ export const createProduct = async (product) => {
       name: product.name,
       category: product.category,
       price: product.price,
+      quantity: product.quantity ?? 1,
       colors: product.colors || [],
       sort_order: product.sort_order || 0,
     })
