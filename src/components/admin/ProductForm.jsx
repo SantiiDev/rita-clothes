@@ -10,7 +10,7 @@ export default function ProductForm({ product, onSave, onCancel, categories }) {
         category: product?.category || categories[0],
         price: product?.price || '',
         quantity: product?.quantity !== undefined ? product.quantity : 1,
-        colors: product?.colors?.map(c => ({ ...c })) || [{ name: '', image: '', outOfStock: false, sizes: [] }],
+        colors: product?.colors?.map(c => ({ ...c, images: c.images || (c.image ? [c.image] : []) })) || [{ name: '', images: [], outOfStock: false, sizes: [] }],
     });
 
     const [saving, setSaving] = useState(false);
@@ -35,7 +35,7 @@ export default function ProductForm({ product, onSave, onCancel, categories }) {
     const addColor = () => {
         setForm(prev => ({
             ...prev,
-            colors: [...prev.colors, { name: '', image: '', outOfStock: false, sizes: [] }],
+            colors: [...prev.colors, { name: '', images: [], outOfStock: false, sizes: [] }],
         }));
     };
 
@@ -85,11 +85,25 @@ export default function ProductForm({ product, onSave, onCancel, categories }) {
         setUploadingColor(index);
         try {
             const url = await uploadProductImage(file);
-            updateColor(index, 'image', url);
+            setForm(prev => {
+                const colors = [...prev.colors];
+                colors[index] = { ...colors[index], images: [...(colors[index].images || []), url] };
+                return { ...prev, colors };
+            });
         } catch (err) {
             setError('Error al subir imagen: ' + err.message);
         }
         setUploadingColor(null);
+    };
+
+    const removeImage = (colorIndex, imgIndex) => {
+        setForm(prev => {
+            const colors = [...prev.colors];
+            const newImages = [...(colors[colorIndex].images || [])];
+            newImages.splice(imgIndex, 1);
+            colors[colorIndex] = { ...colors[colorIndex], images: newImages };
+            return { ...prev, colors };
+        });
     };
 
     const handleSubmit = async () => {
@@ -110,8 +124,8 @@ export default function ProductForm({ product, onSave, onCancel, categories }) {
                 quantity: form.quantity,
                 colors: form.colors.map(c => ({
                     name: c.name.trim().toUpperCase(),
-                    image: c.image || '',
-                    ...(c.images ? { images: c.images } : {}),
+                    image: (c.images && c.images.length > 0) ? c.images[0] : '',
+                    images: c.images || [],
                     outOfStock: c.outOfStock || false,
                     ...(c.sizes && c.sizes.length > 0 ? { sizes: c.sizes } : {}),
                 })),
@@ -217,25 +231,32 @@ export default function ProductForm({ product, onSave, onCancel, categories }) {
                                 <div key={ci} className="bg-white/[0.03] border border-white/5 rounded-xl p-4">
                                     <div className="flex gap-3 items-start">
                                         {/* Image preview / upload */}
-                                        <div
-                                            onClick={() => { fileInputRef.current?.setAttribute('data-index', ci); fileInputRef.current?.click(); }}
-                                            className="w-16 h-20 rounded-lg bg-white/5 border border-white/10 overflow-hidden shrink-0 cursor-pointer hover:border-white/20 transition-colors flex items-center justify-center relative group"
-                                        >
-                                            {uploadingColor === ci ? (
-                                                <svg className="animate-spin text-white/40" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>
-                                            ) : color.image ? (
-                                                <>
-                                                    <img src={color.image} alt={color.name} className="w-full h-full object-cover" />
-                                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" x2="12" y1="3" y2="15" /></svg>
-                                                    </div>
-                                                </>
-                                            ) : (
-                                                <div className="flex flex-col items-center gap-1 text-white/20">
-                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" x2="12" y1="3" y2="15" /></svg>
-                                                    <span className="text-[8px]">Subir</span>
+                                        <div className="flex gap-2 overflow-x-auto pb-1 shrink-0 max-w-[200px]">
+                                            {(color.images || []).map((img, imgIdx) => (
+                                                <div key={imgIdx} className="w-16 h-20 rounded-lg bg-white/5 border border-white/10 overflow-hidden shrink-0 relative group">
+                                                    <img src={img} alt={`Img ${imgIdx}`} className="w-full h-full object-cover" />
+                                                    <button 
+                                                        onClick={(e) => { e.stopPropagation(); removeImage(ci, imgIdx); }}
+                                                        className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    >
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                                    </button>
                                                 </div>
-                                            )}
+                                            ))}
+
+                                            <div
+                                                onClick={() => { fileInputRef.current?.setAttribute('data-index', ci); fileInputRef.current?.click(); }}
+                                                className="w-16 h-20 rounded-lg bg-white/5 border border-white/10 overflow-hidden shrink-0 cursor-pointer hover:border-white/20 transition-colors flex items-center justify-center relative group"
+                                            >
+                                                {uploadingColor === ci ? (
+                                                    <svg className="animate-spin text-white/40" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>
+                                                ) : (
+                                                    <div className="flex flex-col items-center gap-1 text-white/20 group-hover:text-white transition-colors">
+                                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14" /></svg>
+                                                        <span className="text-[8px]">Ag. Img</span>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
 
                                         <div className="flex-1 min-w-0">
